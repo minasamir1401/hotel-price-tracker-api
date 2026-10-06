@@ -1,0 +1,3 @@
+import {executeHotelComparison} from './scrapers/index.js';
+const params={hotelInput:'https://www.almosafer.com/ar/hotel/details/atg/فندق-مكة-العزيزية-1371514',checkIn:'2026-10-15',checkOut:'2026-10-16',adults:2,rooms:1,children:0,sources:['almosafer'],refresh:true};
+try {const result=await executeHotelComparison(params);console.log(JSON.stringify({success:result.success,rooms:result.data.length,hotel:result.summary?.hotelName,prices:result.data.slice(0,2).map(r=>({name:r.roomName,price:r.dailyRates[0].roomOnlyPrice})),warnings:result.warnings}));}catch(e){console.log(e.message);process.exitCode=1;}

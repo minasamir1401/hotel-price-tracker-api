@@ -1,0 +1,2113 @@
+{
+  "pollingStatus": "COMPLETED_SUCCESSFULLY",
+  "numberOfGroups": 5,
+  "numberOfPackages": 10,
+  "hotelId": 1287944,
+  "hotelCountryCode": "SA",
+  "posCountryCode": "US",
+  "currencyCode": "USD",
+  "numberOfNights": 1,
+  "filters": [
+    {
+      "key": "breakfast_included",
+      "label": {
+        "en": "Breakfast included",
+        "ar": "شاملة الإفطار"
+      }
+    }
+  ],
+  "packagesGroups": [
+    {
+      "title": {
+        "en": "Standard Triple Room",
+        "ar": "غرفة ستاندرد من ثلاثية"
+      },
+      "templates": {
+        "83145489": {
+          "id": 83145489,
+          "roomSize": 26,
+          "descriptionAr": null,
+          "descriptionEn": null,
+          "hotelSummaryId": 1287944,
+          "templateTitle": "Triple Room",
+          "templateNameForCode": "Triple Room",
+          "templateHashCode": "ef398499",
+          "templateCode": "---:STD:ROM:---:---:---:---:TR3",
+          "facilityCategories": [
+            {
+              "id": 25,
+              "facilities": [
+                {
+                  "id": 128,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 129,
+                  "facilityTagResponseId": 5
+                },
+                {
+                  "id": 134,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 136,
+                  "facilityTagResponseId": 3
+                },
+                {
+                  "id": 137,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 27,
+              "facilities": [
+                {
+                  "id": 147,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 26,
+              "facilities": [
+                {
+                  "id": 150,
+                  "facilityTagResponseId": 3
+                },
+                {
+                  "id": 153,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 156,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 161,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 164,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 30,
+              "facilities": [
+                {
+                  "id": 184,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 187,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 189,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 24,
+              "facilities": [
+                {
+                  "id": 190,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 31,
+              "facilities": [
+                {
+                  "id": 191,
+                  "facilityTagResponseId": 3
+                },
+                {
+                  "id": 192,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 193,
+                  "facilityTagResponseId": 1
+                }
+              ]
+            }
+          ],
+          "imageCategories": [
+            {
+              "id": 244,
+              "images": [
+                {
+                  "id": 44378737,
+                  "imageCategoryId": 244,
+                  "rank": 1,
+                  "url": "http://hotelcms-contents-live.almosafer.com/1c086139-092b-4849-9622-523c8ad86e0e.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                },
+                {
+                  "id": 44378738,
+                  "imageCategoryId": 244,
+                  "rank": 6,
+                  "url": "http://hotelcms-contents-live.almosafer.com/683819f2-39af-4d3f-9dc4-f6910e65d834.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 243,
+              "images": [
+                {
+                  "id": 44378733,
+                  "imageCategoryId": 243,
+                  "rank": 2,
+                  "url": "http://hotelcms-contents-live.almosafer.com/aed4eb76-3923-441b-a16e-99e3153d5f62.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                },
+                {
+                  "id": 44378736,
+                  "imageCategoryId": 243,
+                  "rank": 3,
+                  "url": "http://hotelcms-contents-live.almosafer.com/b317e87e-a517-4ced-9187-6153c4b0d80f.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 30,
+              "images": [
+                {
+                  "id": 44378734,
+                  "imageCategoryId": 30,
+                  "rank": 4,
+                  "url": "http://hotelcms-contents-live.almosafer.com/ed1203ca-b86a-44b4-b897-8f4d99162b9f.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 252,
+              "images": [
+                {
+                  "id": 44378739,
+                  "imageCategoryId": 252,
+                  "rank": 5,
+                  "url": "http://hotelcms-contents-live.almosafer.com/f07f2ff0-a22b-4562-9063-0b8ad92686f3.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "images": [
+                {
+                  "id": 44378735,
+                  "imageCategoryId": 6,
+                  "rank": 7,
+                  "url": "http://hotelcms-contents-live.almosafer.com/0685b44c-b539-4b43-bcf6-518ce8ee7c8d.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            }
+          ],
+          "roomBedGroups": [
+            {
+              "id": 527627,
+              "bedGroup": "3 Twin Beds"
+            }
+          ]
+        }
+      },
+      "guests": {
+        "adults": 3,
+        "children": 0
+      },
+      "numberOfRooms": 1,
+      "packages": [
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": null,
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "USD",
+                  "finalPrice": 250.08
+                },
+                "dateFrom": "2026-10-03",
+                "dateTo": "9999-12-31"
+              }
+            ],
+            "hasFreeCancellation": false
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "c6e174b2-a3b5-4f66-95c0-28bb56e4f5c7",
+          "packageRateInfo": {
+            "total": 250.08,
+            "firstTotal": 250.08,
+            "packageNightlyRates": [
+              {
+                "rate": 250.08
+              }
+            ],
+            "currency": "USD",
+            "taxesAndFees": []
+          },
+          "refundability": "Non-Refundable",
+          "dynamicRefundability": "Non-Refundable",
+          "contractId": 10193,
+          "vendorSupplierId": 100024,
+          "packagesVatResponse": {
+            "total": 250.08,
+            "subTotal": 217.46,
+            "vat": {
+              "outputVat": 32.62,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 3,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "",
+                "view": "",
+                "room": "Triple",
+                "hashCode": "772d6b51-5cf8-5a2b-8f75-69cbc17e9330",
+                "roomCode": "---:STD:ROM:TR3:---:---:---:---",
+                "matchingCode": "---:STD:ROM:TR3:---:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:TR3:---:---:---:---",
+                "original": "Triple Room",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "ثلاثية",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "RO",
+              "roomId": "598f0b60-8ce6-4b02-97cb-13deb620ce9a",
+              "originalRoomName": "Triple Room",
+              "roomName": {
+                "en": "Standard Triple Room",
+                "ar": "غرفة ستاندرد من ثلاثية"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 83145489
+            }
+          ],
+          "bookable": true,
+          "tags": null
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": null,
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "USD",
+                  "finalPrice": 295.82
+                },
+                "dateFrom": "2026-10-03",
+                "dateTo": "9999-12-31"
+              }
+            ],
+            "hasFreeCancellation": false
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "1502fbc5-b400-429a-b841-80b33e590b53",
+          "packageRateInfo": {
+            "total": 295.81,
+            "firstTotal": 295.81,
+            "packageNightlyRates": [
+              {
+                "rate": 295.81
+              }
+            ],
+            "currency": "USD",
+            "taxesAndFees": []
+          },
+          "refundability": "Non-Refundable",
+          "dynamicRefundability": "Non-Refundable",
+          "contractId": 10193,
+          "vendorSupplierId": 100024,
+          "packagesVatResponse": {
+            "total": 295.81,
+            "subTotal": 257.23,
+            "vat": {
+              "outputVat": 38.58,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 3,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "",
+                "view": "",
+                "room": "Triple",
+                "hashCode": "772d6b51-5cf8-5a2b-8f75-69cbc17e9330",
+                "roomCode": "---:STD:ROM:TR3:---:---:---:---",
+                "matchingCode": "---:STD:ROM:TR3:---:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:TR3:---:---:---:---",
+                "original": "Triple Room",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "ثلاثية",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "BB",
+              "roomId": "65a3f089-f3f5-498a-b548-e166eb844c90",
+              "originalRoomName": "Triple Room",
+              "roomName": {
+                "en": "Standard Triple Room",
+                "ar": "غرفة ستاندرد من ثلاثية"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 83145489
+            }
+          ],
+          "bookable": true,
+          "tags": null
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Standard Quadruple Room",
+        "ar": "غرفة ستاندرد من رباعية"
+      },
+      "templates": {
+        "83145490": {
+          "id": 83145490,
+          "roomSize": 31,
+          "descriptionAr": null,
+          "descriptionEn": null,
+          "hotelSummaryId": 1287944,
+          "templateTitle": "Quadruple Room",
+          "templateNameForCode": "Quadruple Room",
+          "templateHashCode": "fecc25f1",
+          "templateCode": "---:STD:ROM:---:---:---:---:QR4",
+          "facilityCategories": [
+            {
+              "id": 25,
+              "facilities": [
+                {
+                  "id": 128,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 129,
+                  "facilityTagResponseId": 5
+                },
+                {
+                  "id": 134,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 136,
+                  "facilityTagResponseId": 3
+                },
+                {
+                  "id": 137,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 27,
+              "facilities": [
+                {
+                  "id": 147,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 26,
+              "facilities": [
+                {
+                  "id": 150,
+                  "facilityTagResponseId": 3
+                },
+                {
+                  "id": 153,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 156,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 161,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 164,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 30,
+              "facilities": [
+                {
+                  "id": 184,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 187,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 189,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 24,
+              "facilities": [
+                {
+                  "id": 190,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 31,
+              "facilities": [
+                {
+                  "id": 192,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 193,
+                  "facilityTagResponseId": 1
+                }
+              ]
+            }
+          ],
+          "imageCategories": [
+            {
+              "id": 243,
+              "images": [
+                {
+                  "id": 44378914,
+                  "imageCategoryId": 243,
+                  "rank": 1,
+                  "url": "http://hotelcms-contents-live.almosafer.com/6e1d260c-b27d-4e1d-83dc-24a0d9604c52.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 30,
+              "images": [
+                {
+                  "id": 44378913,
+                  "imageCategoryId": 30,
+                  "rank": 2,
+                  "url": "http://hotelcms-contents-live.almosafer.com/ed1203ca-b86a-44b4-b897-8f4d99162b9f.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 252,
+              "images": [
+                {
+                  "id": 44378912,
+                  "imageCategoryId": 252,
+                  "rank": 3,
+                  "url": "http://hotelcms-contents-live.almosafer.com/f07f2ff0-a22b-4562-9063-0b8ad92686f3.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 244,
+              "images": [
+                {
+                  "id": 44378911,
+                  "imageCategoryId": 244,
+                  "rank": 4,
+                  "url": "http://hotelcms-contents-live.almosafer.com/0f72142e-64d6-4ab2-b8f7-fbbfd706a125.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "images": [
+                {
+                  "id": 44378915,
+                  "imageCategoryId": 6,
+                  "rank": 5,
+                  "url": "http://hotelcms-contents-live.almosafer.com/0685b44c-b539-4b43-bcf6-518ce8ee7c8d.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            }
+          ],
+          "roomBedGroups": []
+        }
+      },
+      "guests": {
+        "adults": 3,
+        "children": 0
+      },
+      "numberOfRooms": 1,
+      "packages": [
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": null,
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "USD",
+                  "finalPrice": 345.59
+                },
+                "dateFrom": "2026-10-03",
+                "dateTo": "9999-12-31"
+              }
+            ],
+            "hasFreeCancellation": false
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "a26903e8-3f1d-4fa6-8ceb-7ab86c972cd7",
+          "packageRateInfo": {
+            "total": 345.59,
+            "firstTotal": 345.59,
+            "packageNightlyRates": [
+              {
+                "rate": 345.59
+              }
+            ],
+            "currency": "USD",
+            "taxesAndFees": []
+          },
+          "refundability": "Non-Refundable",
+          "dynamicRefundability": "Non-Refundable",
+          "contractId": 10193,
+          "vendorSupplierId": 100024,
+          "packagesVatResponse": {
+            "total": 345.59,
+            "subTotal": 300.51,
+            "vat": {
+              "outputVat": 45.08,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 3,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "",
+                "view": "",
+                "room": "Quadruple",
+                "hashCode": "f02b4dbb-1279-56a6-ab66-422c09717689",
+                "roomCode": "---:STD:ROM:X27:---:---:---:---",
+                "matchingCode": "---:STD:ROM:X27:---:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:X27:---:---:---:---",
+                "original": "Quadruple Room",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "رباعية",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "RO",
+              "roomId": "3408daa9-c575-4799-a6a2-56e0c9d0f5cc",
+              "originalRoomName": "Quadruple Room",
+              "roomName": {
+                "en": "Standard Quadruple Room",
+                "ar": "غرفة ستاندرد من رباعية"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 83145490
+            }
+          ],
+          "bookable": true,
+          "tags": null
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": null,
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "USD",
+                  "finalPrice": 406.17
+                },
+                "dateFrom": "2026-10-03",
+                "dateTo": "9999-12-31"
+              }
+            ],
+            "hasFreeCancellation": false
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "846b9844-e6a4-415c-9dad-cbc945ad6fa2",
+          "packageRateInfo": {
+            "total": 406.17,
+            "firstTotal": 406.17,
+            "packageNightlyRates": [
+              {
+                "rate": 406.17
+              }
+            ],
+            "currency": "USD",
+            "taxesAndFees": []
+          },
+          "refundability": "Non-Refundable",
+          "dynamicRefundability": "Non-Refundable",
+          "contractId": 10193,
+          "vendorSupplierId": 100024,
+          "packagesVatResponse": {
+            "total": 406.17,
+            "subTotal": 353.19,
+            "vat": {
+              "outputVat": 52.98,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 3,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "",
+                "view": "",
+                "room": "Quadruple",
+                "hashCode": "f02b4dbb-1279-56a6-ab66-422c09717689",
+                "roomCode": "---:STD:ROM:X27:---:---:---:---",
+                "matchingCode": "---:STD:ROM:X27:---:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:X27:---:---:---:---",
+                "original": "Quadruple Room",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "رباعية",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "BB",
+              "roomId": "74bee7a0-7325-4812-8fa3-52e3e7ef7d99",
+              "originalRoomName": "Quadruple Room",
+              "roomName": {
+                "en": "Standard Quadruple Room",
+                "ar": "غرفة ستاندرد من رباعية"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 83145490
+            }
+          ],
+          "bookable": true,
+          "tags": null
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2x Standard",
+        "ar": "2x ستاندرد"
+      },
+      "templates": {
+        "83145489": {
+          "id": 83145489,
+          "roomSize": 26,
+          "descriptionAr": null,
+          "descriptionEn": null,
+          "hotelSummaryId": 1287944,
+          "templateTitle": "Triple Room",
+          "templateNameForCode": "Triple Room",
+          "templateHashCode": "ef398499",
+          "templateCode": "---:STD:ROM:---:---:---:---:TR3",
+          "facilityCategories": [
+            {
+              "id": 25,
+              "facilities": [
+                {
+                  "id": 128,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 129,
+                  "facilityTagResponseId": 5
+                },
+                {
+                  "id": 134,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 136,
+                  "facilityTagResponseId": 3
+                },
+                {
+                  "id": 137,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 27,
+              "facilities": [
+                {
+                  "id": 147,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 26,
+              "facilities": [
+                {
+                  "id": 150,
+                  "facilityTagResponseId": 3
+                },
+                {
+                  "id": 153,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 156,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 161,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 164,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 30,
+              "facilities": [
+                {
+                  "id": 184,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 187,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 189,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 24,
+              "facilities": [
+                {
+                  "id": 190,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 31,
+              "facilities": [
+                {
+                  "id": 191,
+                  "facilityTagResponseId": 3
+                },
+                {
+                  "id": 192,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 193,
+                  "facilityTagResponseId": 1
+                }
+              ]
+            }
+          ],
+          "imageCategories": [
+            {
+              "id": 244,
+              "images": [
+                {
+                  "id": 44378737,
+                  "imageCategoryId": 244,
+                  "rank": 1,
+                  "url": "http://hotelcms-contents-live.almosafer.com/1c086139-092b-4849-9622-523c8ad86e0e.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                },
+                {
+                  "id": 44378738,
+                  "imageCategoryId": 244,
+                  "rank": 6,
+                  "url": "http://hotelcms-contents-live.almosafer.com/683819f2-39af-4d3f-9dc4-f6910e65d834.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 243,
+              "images": [
+                {
+                  "id": 44378733,
+                  "imageCategoryId": 243,
+                  "rank": 2,
+                  "url": "http://hotelcms-contents-live.almosafer.com/aed4eb76-3923-441b-a16e-99e3153d5f62.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                },
+                {
+                  "id": 44378736,
+                  "imageCategoryId": 243,
+                  "rank": 3,
+                  "url": "http://hotelcms-contents-live.almosafer.com/b317e87e-a517-4ced-9187-6153c4b0d80f.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 30,
+              "images": [
+                {
+                  "id": 44378734,
+                  "imageCategoryId": 30,
+                  "rank": 4,
+                  "url": "http://hotelcms-contents-live.almosafer.com/ed1203ca-b86a-44b4-b897-8f4d99162b9f.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 252,
+              "images": [
+                {
+                  "id": 44378739,
+                  "imageCategoryId": 252,
+                  "rank": 5,
+                  "url": "http://hotelcms-contents-live.almosafer.com/f07f2ff0-a22b-4562-9063-0b8ad92686f3.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "images": [
+                {
+                  "id": 44378735,
+                  "imageCategoryId": 6,
+                  "rank": 7,
+                  "url": "http://hotelcms-contents-live.almosafer.com/0685b44c-b539-4b43-bcf6-518ce8ee7c8d.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            }
+          ],
+          "roomBedGroups": [
+            {
+              "id": 527627,
+              "bedGroup": "3 Twin Beds"
+            }
+          ]
+        }
+      },
+      "guests": {
+        "adults": 3,
+        "children": 0
+      },
+      "numberOfRooms": 2,
+      "packages": [
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": null,
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "USD",
+                  "finalPrice": 500.16
+                },
+                "dateFrom": "2026-10-03",
+                "dateTo": "9999-12-31"
+              }
+            ],
+            "hasFreeCancellation": false
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "b096d32d-71f1-4cfb-a4ff-8fad1d827577",
+          "packageRateInfo": {
+            "total": 500.16,
+            "firstTotal": 500.16,
+            "packageNightlyRates": [
+              {
+                "rate": 500.16
+              }
+            ],
+            "currency": "USD",
+            "taxesAndFees": []
+          },
+          "refundability": "Non-Refundable",
+          "dynamicRefundability": "Non-Refundable",
+          "contractId": 10193,
+          "vendorSupplierId": 100024,
+          "packagesVatResponse": {
+            "total": 500.16,
+            "subTotal": 434.92,
+            "vat": {
+              "outputVat": 65.24,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 1,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "",
+                "view": "",
+                "room": "Triple",
+                "hashCode": "772d6b51-5cf8-5a2b-8f75-69cbc17e9330",
+                "roomCode": "---:STD:ROM:TR3:---:---:---:---",
+                "matchingCode": "---:STD:ROM:TR3:---:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:TR3:---:---:---:---",
+                "original": "Triple Room",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "ثلاثية",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "RO",
+              "roomId": "57cbca0d-f88e-4fbc-b824-abbd40bd9bf7",
+              "originalRoomName": "Triple Room",
+              "roomName": {
+                "en": "Standard Triple Room",
+                "ar": "غرفة ستاندرد من ثلاثية"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 83145489
+            },
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "",
+                "view": "",
+                "room": "Triple",
+                "hashCode": "772d6b51-5cf8-5a2b-8f75-69cbc17e9330",
+                "roomCode": "---:STD:ROM:TR3:---:---:---:---",
+                "matchingCode": "---:STD:ROM:TR3:---:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:TR3:---:---:---:---",
+                "original": "Triple Room",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "ثلاثية",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "RO",
+              "roomId": "3abf5126-f928-45c6-b183-8e0349a313bb",
+              "originalRoomName": "Triple Room",
+              "roomName": {
+                "en": "Standard Triple Room",
+                "ar": "غرفة ستاندرد من ثلاثية"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 83145489
+            }
+          ],
+          "bookable": true,
+          "tags": null,
+          "relatedPackages": [
+            {
+              "type": "breakfast_upselling",
+              "id": "8d5b6022-e61d-4a7f-a907-829498fc192c",
+              "amount": 91.47,
+              "amountPerNight": 91.47,
+              "available": true
+            }
+          ]
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": null,
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "USD",
+                  "finalPrice": 591.63
+                },
+                "dateFrom": "2026-10-03",
+                "dateTo": "9999-12-31"
+              }
+            ],
+            "hasFreeCancellation": false
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "8d5b6022-e61d-4a7f-a907-829498fc192c",
+          "packageRateInfo": {
+            "total": 591.63,
+            "firstTotal": 591.63,
+            "packageNightlyRates": [
+              {
+                "rate": 591.63
+              }
+            ],
+            "currency": "USD",
+            "taxesAndFees": []
+          },
+          "refundability": "Non-Refundable",
+          "dynamicRefundability": "Non-Refundable",
+          "contractId": 10193,
+          "vendorSupplierId": 100024,
+          "packagesVatResponse": {
+            "total": 591.63,
+            "subTotal": 514.46,
+            "vat": {
+              "outputVat": 77.17,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 1,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "",
+                "view": "",
+                "room": "Triple",
+                "hashCode": "772d6b51-5cf8-5a2b-8f75-69cbc17e9330",
+                "roomCode": "---:STD:ROM:TR3:---:---:---:---",
+                "matchingCode": "---:STD:ROM:TR3:---:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:TR3:---:---:---:---",
+                "original": "Triple Room",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "ثلاثية",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "BB",
+              "roomId": "599f24b1-9f26-4446-994a-474a92acd4c1",
+              "originalRoomName": "Triple Room",
+              "roomName": {
+                "en": "Standard Triple Room",
+                "ar": "غرفة ستاندرد من ثلاثية"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 83145489
+            },
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "",
+                "view": "",
+                "room": "Triple",
+                "hashCode": "772d6b51-5cf8-5a2b-8f75-69cbc17e9330",
+                "roomCode": "---:STD:ROM:TR3:---:---:---:---",
+                "matchingCode": "---:STD:ROM:TR3:---:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:TR3:---:---:---:---",
+                "original": "Triple Room",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "ثلاثية",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "BB",
+              "roomId": "9b12e89b-561b-49a3-ae4c-6e2aca7b1133",
+              "originalRoomName": "Triple Room",
+              "roomName": {
+                "en": "Standard Triple Room",
+                "ar": "غرفة ستاندرد من ثلاثية"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 83145489
+            }
+          ],
+          "bookable": true,
+          "tags": null
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2x Standard",
+        "ar": "2x ستاندرد"
+      },
+      "templates": {
+        "83652688": {
+          "id": 83652688,
+          "roomSize": null,
+          "descriptionAr": null,
+          "descriptionEn": null,
+          "hotelSummaryId": 1287944,
+          "templateTitle": "Standard Room",
+          "templateNameForCode": "Standard Room",
+          "templateHashCode": "f81a928e",
+          "templateCode": "f81a928e",
+          "facilityCategories": [
+            {
+              "id": 25,
+              "facilities": [
+                {
+                  "id": 131,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 30,
+              "facilities": [
+                {
+                  "id": 183,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 24,
+              "facilities": [
+                {
+                  "id": 190,
+                  "facilityTagResponseId": null
+                }
+              ]
+            }
+          ],
+          "imageCategories": [
+            {
+              "id": 242,
+              "images": [
+                {
+                  "id": 58896700,
+                  "imageCategoryId": 242,
+                  "rank": 10,
+                  "url": "http://hotelcms-contents-live.almosafer.com/038be39a-ec73-4b87-989a-a7b3aa855327.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            }
+          ],
+          "roomBedGroups": []
+        }
+      },
+      "guests": {
+        "adults": 3,
+        "children": 0
+      },
+      "numberOfRooms": 2,
+      "packages": [
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": null,
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "USD",
+                  "finalPrice": 534.29
+                },
+                "dateFrom": "2026-10-03",
+                "dateTo": "9999-12-31"
+              }
+            ],
+            "hasFreeCancellation": false
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "696d578c-4c4d-4f18-ad90-92b9a27233a1",
+          "packageRateInfo": {
+            "total": 534.29,
+            "firstTotal": 534.29,
+            "packageNightlyRates": [
+              {
+                "rate": 534.29
+              }
+            ],
+            "currency": "USD",
+            "taxesAndFees": []
+          },
+          "refundability": "Non-Refundable",
+          "dynamicRefundability": "Non-Refundable",
+          "contractId": 10193,
+          "vendorSupplierId": 100024,
+          "packagesVatResponse": {
+            "total": 534.29,
+            "subTotal": 464.6,
+            "vat": {
+              "outputVat": 69.69,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 1,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "",
+                "view": "",
+                "room": "",
+                "hashCode": "aad06904-1b54-5b49-a951-e22a42b99774",
+                "roomCode": "---:STD:ROM:---:---:---:4KU:---",
+                "matchingCode": "---:STD:ROM:---:---:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:---:---:---:---:---",
+                "original": "Double Room",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "RO",
+              "roomId": "5900048d-144c-40e2-a63a-dc944c1b5b2b",
+              "originalRoomName": "Double Room",
+              "roomName": {
+                "en": "Standard Room",
+                "ar": "غرفة ستاندرد"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 83652688
+            },
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "",
+                "view": "",
+                "room": "",
+                "hashCode": "aad06904-1b54-5b49-a951-e22a42b99774",
+                "roomCode": "---:STD:ROM:---:---:---:4KU:---",
+                "matchingCode": "---:STD:ROM:---:---:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:---:---:---:---:---",
+                "original": "Double Room",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "RO",
+              "roomId": "3106cb9d-065c-4705-8ef7-192e13284bad",
+              "originalRoomName": "Double Room",
+              "roomName": {
+                "en": "Standard Room",
+                "ar": "غرفة ستاندرد"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 83652688
+            }
+          ],
+          "bookable": true,
+          "tags": null,
+          "relatedPackages": [
+            {
+              "type": "breakfast_upselling",
+              "id": "dc72129b-0749-4000-9616-afb8b62a3f83",
+              "amount": 67.87,
+              "amountPerNight": 67.87,
+              "available": true
+            }
+          ]
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": null,
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "USD",
+                  "finalPrice": 602.16
+                },
+                "dateFrom": "2026-10-03",
+                "dateTo": "9999-12-31"
+              }
+            ],
+            "hasFreeCancellation": false
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "dc72129b-0749-4000-9616-afb8b62a3f83",
+          "packageRateInfo": {
+            "total": 602.16,
+            "firstTotal": 602.16,
+            "packageNightlyRates": [
+              {
+                "rate": 602.16
+              }
+            ],
+            "currency": "USD",
+            "taxesAndFees": []
+          },
+          "refundability": "Non-Refundable",
+          "dynamicRefundability": "Non-Refundable",
+          "contractId": 10193,
+          "vendorSupplierId": 100024,
+          "packagesVatResponse": {
+            "total": 602.16,
+            "subTotal": 523.62,
+            "vat": {
+              "outputVat": 78.54,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 1,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "",
+                "view": "",
+                "room": "",
+                "hashCode": "aad06904-1b54-5b49-a951-e22a42b99774",
+                "roomCode": "---:STD:ROM:---:---:---:4KU:---",
+                "matchingCode": "---:STD:ROM:---:---:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:---:---:---:---:---",
+                "original": "Double Room",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "BB",
+              "roomId": "c765e3f1-f91f-48c4-80d2-37f580f5f634",
+              "originalRoomName": "Double Room",
+              "roomName": {
+                "en": "Standard Room",
+                "ar": "غرفة ستاندرد"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 83652688
+            },
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "",
+                "view": "",
+                "room": "",
+                "hashCode": "aad06904-1b54-5b49-a951-e22a42b99774",
+                "roomCode": "---:STD:ROM:---:---:---:4KU:---",
+                "matchingCode": "---:STD:ROM:---:---:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:---:---:---:---:---",
+                "original": "Double Room",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "BB",
+              "roomId": "7662fa37-58dd-44ae-b404-b71d06bfedcb",
+              "originalRoomName": "Double Room",
+              "roomName": {
+                "en": "Standard Room",
+                "ar": "غرفة ستاندرد"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 83652688
+            }
+          ],
+          "bookable": true,
+          "tags": null
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2x Standard",
+        "ar": "2x ستاندرد"
+      },
+      "templates": {
+        "83145490": {
+          "id": 83145490,
+          "roomSize": 31,
+          "descriptionAr": null,
+          "descriptionEn": null,
+          "hotelSummaryId": 1287944,
+          "templateTitle": "Quadruple Room",
+          "templateNameForCode": "Quadruple Room",
+          "templateHashCode": "fecc25f1",
+          "templateCode": "---:STD:ROM:---:---:---:---:QR4",
+          "facilityCategories": [
+            {
+              "id": 25,
+              "facilities": [
+                {
+                  "id": 128,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 129,
+                  "facilityTagResponseId": 5
+                },
+                {
+                  "id": 134,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 136,
+                  "facilityTagResponseId": 3
+                },
+                {
+                  "id": 137,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 27,
+              "facilities": [
+                {
+                  "id": 147,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 26,
+              "facilities": [
+                {
+                  "id": 150,
+                  "facilityTagResponseId": 3
+                },
+                {
+                  "id": 153,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 156,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 161,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 164,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 30,
+              "facilities": [
+                {
+                  "id": 184,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 187,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 189,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 24,
+              "facilities": [
+                {
+                  "id": 190,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 31,
+              "facilities": [
+                {
+                  "id": 192,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 193,
+                  "facilityTagResponseId": 1
+                }
+              ]
+            }
+          ],
+          "imageCategories": [
+            {
+              "id": 243,
+              "images": [
+                {
+                  "id": 44378914,
+                  "imageCategoryId": 243,
+                  "rank": 1,
+                  "url": "http://hotelcms-contents-live.almosafer.com/6e1d260c-b27d-4e1d-83dc-24a0d9604c52.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 30,
+              "images": [
+                {
+                  "id": 44378913,
+                  "imageCategoryId": 30,
+                  "rank": 2,
+                  "url": "http://hotelcms-contents-live.almosafer.com/ed1203ca-b86a-44b4-b897-8f4d99162b9f.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 252,
+              "images": [
+                {
+                  "id": 44378912,
+                  "imageCategoryId": 252,
+                  "rank": 3,
+                  "url": "http://hotelcms-contents-live.almosafer.com/f07f2ff0-a22b-4562-9063-0b8ad92686f3.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 244,
+              "images": [
+                {
+                  "id": 44378911,
+                  "imageCategoryId": 244,
+                  "rank": 4,
+                  "url": "http://hotelcms-contents-live.almosafer.com/0f72142e-64d6-4ab2-b8f7-fbbfd706a125.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "images": [
+                {
+                  "id": 44378915,
+                  "imageCategoryId": 6,
+                  "rank": 5,
+                  "url": "http://hotelcms-contents-live.almosafer.com/0685b44c-b539-4b43-bcf6-518ce8ee7c8d.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            }
+          ],
+          "roomBedGroups": []
+        }
+      },
+      "guests": {
+        "adults": 3,
+        "children": 0
+      },
+      "numberOfRooms": 2,
+      "packages": [
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": null,
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "USD",
+                  "finalPrice": 691.17
+                },
+                "dateFrom": "2026-10-03",
+                "dateTo": "9999-12-31"
+              }
+            ],
+            "hasFreeCancellation": false
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "b057d306-fc7c-464a-a527-5c50a0002911",
+          "packageRateInfo": {
+            "total": 691.17,
+            "firstTotal": 691.17,
+            "packageNightlyRates": [
+              {
+                "rate": 691.17
+              }
+            ],
+            "currency": "USD",
+            "taxesAndFees": []
+          },
+          "refundability": "Non-Refundable",
+          "dynamicRefundability": "Non-Refundable",
+          "contractId": 10193,
+          "vendorSupplierId": 100024,
+          "packagesVatResponse": {
+            "total": 691.17,
+            "subTotal": 601.02,
+            "vat": {
+              "outputVat": 90.15,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 1,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "",
+                "view": "",
+                "room": "Quadruple",
+                "hashCode": "f02b4dbb-1279-56a6-ab66-422c09717689",
+                "roomCode": "---:STD:ROM:X27:---:---:---:---",
+                "matchingCode": "---:STD:ROM:X27:---:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:X27:---:---:---:---",
+                "original": "Quadruple Room",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "رباعية",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "RO",
+              "roomId": "ebd71316-22ad-48f0-92c4-91264afe14c1",
+              "originalRoomName": "Quadruple Room",
+              "roomName": {
+                "en": "Standard Quadruple Room",
+                "ar": "غرفة ستاندرد من رباعية"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 83145490
+            },
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "",
+                "view": "",
+                "room": "Quadruple",
+                "hashCode": "f02b4dbb-1279-56a6-ab66-422c09717689",
+                "roomCode": "---:STD:ROM:X27:---:---:---:---",
+                "matchingCode": "---:STD:ROM:X27:---:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:X27:---:---:---:---",
+                "original": "Quadruple Room",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "رباعية",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "RO",
+              "roomId": "5a90ebfb-c612-47fb-a19e-342b2f70bab8",
+              "originalRoomName": "Quadruple Room",
+              "roomName": {
+                "en": "Standard Quadruple Room",
+                "ar": "غرفة ستاندرد من رباعية"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 83145490
+            }
+          ],
+          "bookable": true,
+          "tags": null,
+          "relatedPackages": [
+            {
+              "type": "breakfast_upselling",
+              "id": "dc5a7a75-4d55-4c63-a8f7-ebf317d1aec5",
+              "amount": 121.17,
+              "amountPerNight": 121.17,
+              "available": true
+            }
+          ]
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": null,
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "USD",
+                  "finalPrice": 812.34
+                },
+                "dateFrom": "2026-10-03",
+                "dateTo": "9999-12-31"
+              }
+            ],
+            "hasFreeCancellation": false
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "dc5a7a75-4d55-4c63-a8f7-ebf317d1aec5",
+          "packageRateInfo": {
+            "total": 812.34,
+            "firstTotal": 812.34,
+            "packageNightlyRates": [
+              {
+                "rate": 812.34
+              }
+            ],
+            "currency": "USD",
+            "taxesAndFees": []
+          },
+          "refundability": "Non-Refundable",
+          "dynamicRefundability": "Non-Refundable",
+          "contractId": 10193,
+          "vendorSupplierId": 100024,
+          "packagesVatResponse": {
+            "total": 812.34,
+            "subTotal": 706.38,
+            "vat": {
+              "outputVat": 105.96,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 1,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "",
+                "view": "",
+                "room": "Quadruple",
+                "hashCode": "f02b4dbb-1279-56a6-ab66-422c09717689",
+                "roomCode": "---:STD:ROM:X27:---:---:---:---",
+                "matchingCode": "---:STD:ROM:X27:---:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:X27:---:---:---:---",
+                "original": "Quadruple Room",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "رباعية",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "BB",
+              "roomId": "36e4fb74-36b5-4cec-bd2f-b9e8aab08fd0",
+              "originalRoomName": "Quadruple Room",
+              "roomName": {
+                "en": "Standard Quadruple Room",
+                "ar": "غرفة ستاندرد من رباعية"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 83145490
+            },
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "",
+                "view": "",
+                "room": "Quadruple",
+                "hashCode": "f02b4dbb-1279-56a6-ab66-422c09717689",
+                "roomCode": "---:STD:ROM:X27:---:---:---:---",
+                "matchingCode": "---:STD:ROM:X27:---:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:X27:---:---:---:---",
+                "original": "Quadruple Room",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "رباعية",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "BB",
+              "roomId": "008f8672-9e01-4c5b-98a8-843f4bf1e144",
+              "originalRoomName": "Quadruple Room",
+              "roomName": {
+                "en": "Standard Quadruple Room",
+                "ar": "غرفة ستاندرد من رباعية"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 83145490
+            }
+          ],
+          "bookable": true,
+          "tags": null
+        }
+      ]
+    }
+  ],
+  "additionalData": null,
+  "searchResult": {
+    "discountPercentage": 0,
+    "showDiscount": false
+  },
+  "config": {
+    "appliedPrice": null
+  },
+  "sessionCreatedAt": "2026-10-04 11:35:47",
+  "sessionExpiredAt": "2026-10-04 11:57:47",
+  "delayInMillis": 0,
+  "hasRewards": false,
+  "pId": "c7f7cf2d-f296-48d5-938b-5988af0e8b77_@@@_9df892f1-7ee6-42dc-bc5b-19486479a35b",
+  "sId": "01a106b2-dd6e-7e72-81b8-c424a6fb0009_@@@_01a106b2-dd6f-79e3-9851-2bb59d1b3f60"
+}

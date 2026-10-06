@@ -1,0 +1,858 @@
+{
+  "status": 200,
+  "errors": null,
+  "data": {
+    "almHotelCode": 1660326,
+    "almHotelProfileKey": "mecca-m-hotel-al-dana-makkah-millennium-1660326",
+    "hotelBasicData": {
+      "name": "فندق إم الدانة مكة من ميلينيوم",
+      "slogan": "في الروضة بمدينة مكة",
+      "style": {
+        "name": "إقامة فاخرة",
+        "icon": null
+      },
+      "starRating": 4,
+      "propertyType": "فندق",
+      "countryCode": "SA",
+      "countryName": "المملكة العربية السعودية",
+      "cityName": "مكة المكرمة",
+      "address": "طريق الأمير ماجد بن عبد العزيز",
+      "chainName": "Millennium",
+      "chain": "MU",
+      "descriptions": [
+        {
+          "line": 1,
+          "title": "الموقع",
+          "paragraph": "لدى الإقامة في فندق إم الدانة مكة من ميلينيوم في مكة (الروضة)، ستكون على بُعد 10 دقائق بالسيارة من الكعبة والمسجد الحرام.  الإقامة في هذا الفندق تضعك على بُعد ٧ كم من أبراج الساعة و٠٫٨ كم من مسجد الشيخ عبد العزيز بن باز."
+        },
+        {
+          "line": 2,
+          "title": "تناول الطعام",
+          "paragraph": "استمتع بوجبة في مطعم Al Dana Restaurant أو بتناول المأكولات الخفيفة في الكافيتيريا. كما يتم تقديم خدمة الغرف (خلال ساعات محدودة) في منشأة فندقية. يتم تقديم بوفيه فطور يوميًا من 6:30 صباحا إلى 10:30 صباحًا مقابل رسم إضافي."
+        },
+        {
+          "line": 3,
+          "title": "الغرف",
+          "paragraph": "اشعر وكأنك في منزلك عند الإقامة في واحدة من 611 غرفة ضيافة بديكورات فريدة لكل منها، يتوفر بها ثلاجات وتلفزيونات بشاشة مسطحة. يُتاح لك اتصال لاسلكي بالإنترنت مجانًا لتبقى على اتصال دائمًا، بالإضافة إلى قنوات فضائية من أجل متعتك. تضم الحمامات تجهيزات دش ومستلزمات مجانية للعناية الشخصية وبيديه. تشتمل وسائل الراحة المتاحة على هواتف، بالإضافة إلى خزنات ومكاتب."
+        },
+        {
+          "line": 4,
+          "title": "وسائل الراحة",
+          "paragraph": "تمتع بوسائل الراحة المتاحة في هذه المنشأة، ومنها اتصال لاسلكي مجاني بالإنترنت وخدمات الاستعلامات والإرشاد وقاعة رقص."
+        },
+        {
+          "line": 5,
+          "title": "وسائل الراحة للأعمال",
+          "paragraph": "تضم وسائل الرائحة المميزة مركز لرجال الأعمال مفتوح 24 ساعة وخدمة سريعة لإنهاء إجراءات المغادرة وخدمة الغسيل/التنظيف الجاف. يتاح مواقف سيارات مجانية قائمة على الخدمة الذاتية داخل موقع المنشأة."
+        },
+        {
+          "line": 6,
+          "title": "مواصفات العقار",
+          "paragraph": "عدد الغرف - 611"
+        },
+        {
+          "line": 7,
+          "title": "تقييمات هيئة السياحة الوطنية",
+          "paragraph": "حصلت هذه المنشأة على تصنيف النجوم الرسمي الخاص بها من Saudi Ministry of Tourism."
+        },
+        {
+          "line": 8,
+          "title": "اللغات التي يمكن لموظفينا مساعدتك بها",
+          "paragraph": "الأردية, الألمانية, الإنجليزية, العربية, الفرنسية, الهندية"
+        },
+        {
+          "line": 9,
+          "title": "أنواع الدفع في العقار",
+          "paragraph": "أمريكان إكسبريس, بطاقة MasterCard, فيزا, نقدًا, لا تُقبل بطاقات الخصم"
+        },
+        {
+          "line": 10,
+          "title": "تعليمات تسجيل الوصول",
+          "paragraph": "قد يتم تطبيق رسوم على إقامة شخص إضافي، وتختلف تلك الرسوم تبعًا لسياسة المنشأة. قد يلزم تقديم إثبات شخصية به صورة وصادر عن جهة حكومية، بالإضافة إلى تقديم بطاقة ائتمان عند تسجيل الوصول لتغطية أي رسوم نثرية. تخضع الطلبات الخاصة لمدى التوفر وقت تسجيل الوصول، وقد تستلزم سداد رسوم إضافية، ولا يمكن ضمان تلبية الطلبات الخاصة.. يجب على النزلاء التواصل مع هذه المنشأة مُسبقا لحجز مواقف سيارات ضمن المنشأة. تقبل هذه المنشأة الفندقية السداد باستخدام بطاقات الائتمان والدفع النقدي. تشمل ميزات الأمن والسلامة في هذه المنشأة الفندقية كاشف لغاز أول أكسيد الكربون، وطفّاية حريق، وكاشف دخان، ونظام أمان، وحقيبة إسعافات أولية، وسور حماية للنوافذ. يُرجى الانتباه إلى أن المعايير الثقافية وسياسات النزلاء قد تختلف باختلاف الدولة وباختلاف المنشأة. وقد تمّ تقديم السياسات المُدرجة من قِبَل المنشأة.الحد الأدنى لعمر تسجيل الوصول هو 18."
+        },
+        {
+          "line": 11,
+          "title": "تعليمات خاصة لتسجيل الوصول",
+          "paragraph": "سيتم الترحيب بالنزلاء عند وصولهم المنشأة الفندقية من قِبَل طاقم مكتب الاستقبال.قد تتم ترجمة المعلومات المقدمة من قبل المنشأة الفندقية باستخدام أدوات الترجمة الآلية. الحد الأدنى لعمر تسجيل الوصول هو: 18."
+        },
+        {
+          "line": 12,
+          "title": "إضافات اختيارية",
+          "paragraph": "رسوم فطور بوفيه: تبلغ تقريبًا SAR 35 للبالغين، وSAR 17.50 للأطفال. خدمة تسجيل الوصول المُتأخّر متوفرة مقابل رسم (تخضع الخدمة لمدى التوفر). رسوم السرير القابل للطي: 100.0 SAR في الليلة.   القائمة الموضحة أعلاه قد لا تكون شاملة. فالرسوم ومبالغ التأمين قد لا تشمل الضريبة كما قد تخضع للتغيير."
+        },
+        {
+          "line": 13,
+          "title": "سياسة الحيوانات الأليفة",
+          "paragraph": "غير مسموح باصطحاب الحيوانات الأليفة, لا يُسمح باصطحاب حيوانات الخدمة"
+        },
+        {
+          "line": 14,
+          "title": "ما تحتاج إلى معرفته",
+          "paragraph": "قد تفرض القوانين المحلية قيوداً على النزلاء غير المتزوجين تمنعهم من مشاركة الغرف. ويتحمل النزلاء مسؤولية حمل دليل على الزواج في حالة ما إذا طلبته المنشأة السياحية.  يجب على المترافقين من الجنسين الذين يرغبون في مشاركة الغرفة أن يقدموا دليلاً على الزواج. لا يسمح بتواجد أشخاص آخرين في الغرف بخلاف النزلاء المسجلين لدى المنشأة.  تتاح لدى المنشأة غرف متصلة/متجاورة حسب التوفر، ويمكن للنزلاء طلب الحصول عليها عن طريق بالاتصال بالمنشأة مباشرة بالاستعانة ببيانات الاتصال الموجودة في تأكيد الحجز.  غير مسموح بالحيوانات الأليفة في هذه المنشأة السياحية، بما يشمل الحيوانات المدربة على أغراض مساعدة أصحابها. تسري قيود داخل مواقف السيارات تتعلّق بارتفاع المركبات يتوفر تسجيل الوصول عن بعد وتسجيل المغادرة عن بعد."
+        },
+        {
+          "line": 15,
+          "title": "السجل العقاري",
+          "paragraph": "رقم تسجيل/ترخيص الإقامة: 10006701"
+        }
+      ],
+      "contactInfo": {
+        "phone": "966-54-1551903",
+        "phoneCode": "+966",
+        "fax": "966 1-2398195",
+        "postalCode": "24236",
+        "faxCode": null,
+        "email": null,
+        "website": "https://www.millenniumhotels.com/en/makkah/m-hotel-al-dana-makkah-by-millennium/"
+      }
+    },
+    "geoLocation": [
+      39.856452,
+      21.428895
+    ],
+    "locationId": 578689,
+    "isEnabled": true,
+    "isSpecial": false,
+    "facilities": [
+      {
+        "id": 11210,
+        "name": "Cleaning",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 12420,
+        "name": "Massage",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 13840,
+        "name": "TV",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 13320,
+        "name": "Smoke detector",
+        "type": "RoomFacility"
+      },
+      {
+        "id": 13160,
+        "name": "Security Features",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 10030,
+        "name": "24H. Security",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 11260,
+        "name": "Coffee",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 13250,
+        "name": "Shuttle service",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 13990,
+        "name": "WC",
+        "type": "RoomFacility"
+      },
+      {
+        "id": 14020,
+        "name": "Wheelchair accessible",
+        "type": "RoomFacility"
+      },
+      {
+        "id": 11890,
+        "name": "Garage",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 10540,
+        "name": "Buffet",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 12050,
+        "name": "Housekeeping",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 14770,
+        "name": "First aid",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 11310,
+        "name": "Concierge",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 10390,
+        "name": "Bathroom",
+        "type": "RoomFacility"
+      },
+      {
+        "id": 10360,
+        "name": "Bars",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 11370,
+        "name": "Cot",
+        "type": "RoomFacility"
+      },
+      {
+        "id": 13240,
+        "name": "Shower",
+        "type": "RoomFacility"
+      },
+      {
+        "id": 10080,
+        "name": "مكيف الهواء",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 13580,
+        "name": "Telephone",
+        "type": "RoomFacility"
+      },
+      {
+        "id": 11980,
+        "name": "مجفف الشعر",
+        "type": "RoomFacility"
+      },
+      {
+        "id": 13030,
+        "name": "Refrigerator",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 11450,
+        "name": "Desk",
+        "type": "RoomFacility"
+      },
+      {
+        "id": 13660,
+        "name": "Toiletries",
+        "type": "RoomFacility"
+      },
+      {
+        "id": 10640,
+        "name": "Carpeted",
+        "type": "RoomFacility"
+      },
+      {
+        "id": 13950,
+        "name": "Wake-Up service",
+        "type": "RoomFacility"
+      },
+      {
+        "id": 13770,
+        "name": "Towels",
+        "type": "RoomFacility"
+      },
+      {
+        "id": 13270,
+        "name": "Sink",
+        "type": "RoomFacility"
+      },
+      {
+        "id": 11970,
+        "name": "صالة للألعاب الرياضية",
+        "type": "RoomFacility"
+      },
+      {
+        "id": 12510,
+        "name": "Minibar",
+        "type": "RoomFacility"
+      },
+      {
+        "id": 10380,
+        "name": "Bathrobe",
+        "type": "RoomFacility"
+      },
+      {
+        "id": 13360,
+        "name": "Sofa bed",
+        "type": "RoomFacility"
+      },
+      {
+        "id": 14270,
+        "name": "Bath",
+        "type": "RoomFacility"
+      },
+      {
+        "id": 14220,
+        "name": "إفطار",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 12390,
+        "name": "خدمة تخزين الأمتعة",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 13970,
+        "name": "Water",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 14210,
+        "name": "Lunch",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 11360,
+        "name": "Copy",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 11860,
+        "name": "واى فاى مجانى",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 14850,
+        "name": "غرف عائلية",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 12670,
+        "name": "غرف لغير المدخنين",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 11750,
+        "name": "مركز اللياقة البدنية",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 14260,
+        "name": "موقف سيارات",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 13050,
+        "name": "مطعم",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 14040,
+        "name": "Wifi",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 13080,
+        "name": "خدمة الغرف",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 14841,
+        "name": "مكتب استقبال يعمل على مدار 24 ساعة",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 13300,
+        "name": "Slippers",
+        "type": "RoomFacility"
+      },
+      {
+        "id": 10590,
+        "name": "مركز أعمال",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 10310,
+        "name": "Banquet",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 11410,
+        "name": "Currency exchange",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 11640,
+        "name": "Express check in",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 12310,
+        "name": "مصعد",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 13110,
+        "name": "Safe",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 12140,
+        "name": "Iron and board",
+        "type": "RoomFacility"
+      },
+      {
+        "id": 10520,
+        "name": "Breakfast in room",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 11540,
+        "name": "خدمة التنظيف الجاف",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 12290,
+        "name": "خدمة غسيل الملابس",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 12980,
+        "name": "Internet access",
+        "type": "HotelFacility"
+      }
+    ],
+    "images": [
+      {
+        "uid": "https://imagecontent.net/images/full/8fcaf2af-4f1d-44c2-9360-99f08c39500f.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/b26eff87-a657-485e-a13b-fb001f0f3f5c.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/109933f8-a4cb-4dec-b9ff-7943747196f1.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/4d56809d-55cd-4cf1-a650-05acaee214b5.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/fc4adcff-a09c-4d8b-8a5e-ce06ce1b7ea3.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/fcb1ab55-4adf-4e32-aae1-9cc3a63c3c76.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/118f69e4-6ed5-44ea-97f6-05e64e25e68d.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/631819c7-f74d-492b-b053-3e31ca8b9545.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/75effcbc-8ede-46c1-a724-d9c2cee095c5.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/eb416b5e-85f7-4a6c-8913-69f5a95d2da8.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/58c99827-3ac2-47e9-9c06-9924806f3b47.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/ae3fa29c-e5fe-4b5e-bfc9-ab4976ccff97.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/36d505b6-703e-44b4-8df9-e1bb9fc1398a.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/861f39a2-5a3f-4604-a75a-64f38220559f.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/974f54ee-50c5-43c6-8c54-36e4210a7d6d.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/e2ce8748-8a21-42e7-aac9-2788578c38bf.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/559376cc-b6ea-41ba-8ace-db58d8f8fd0b.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/78644a8f-d36c-4515-bd6e-88627fe0962a.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/51ee8159-65cd-4b67-8c38-814fb52d23a4.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/c8f071a0-be7c-4721-8b92-9253ff1b1d9c.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/1327d307-e895-4894-aaef-2f14728fd9b6.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/d5f42665-5789-43ea-8502-2955cdb0ac8d.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/3627451d-789f-47df-85fb-ee28042f72c5.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/4a996438-cf06-4395-b347-fb68ab0b5489.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/c0a6993e-fe18-4c2b-93e6-6d995af192fc.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/cd646de3-5980-4a08-b96d-967f7e6bb0c4.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/8e14e2dd-9303-48a5-8f09-8bb6d42b96ef.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/46602d91-db8a-4f4f-b2fa-c70004aeae61.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/1c973b9c-b538-4be6-a1db-825a651854d7.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/203e1227-ea7c-4ddb-9ebc-f36d13ce47a3.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/51b5f617-91e8-49a3-822e-b2f1937cab86.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/2864b204-7613-43bd-b177-1b57ffe4b848.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/d7ca72bc-a5b2-4573-9716-1bf392fdcf69.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/47c66b4f-4ce3-44cf-a32b-7ef81c351451.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/2eb6fedf-97c6-463a-8eee-335659605c8a.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/5d7b30b4-899e-4bf0-9cda-9efdfd05145c.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/128c8809-6063-47e4-9b2f-5ca9d57db3be.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/3313c9f0-1049-4929-92d7-3affa9f1df9f.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/61416922-acc9-465d-82e3-08923aa0a2fb.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/584e58eb-b34f-4e98-b705-7f9208638816.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/775e7454-51ce-4d87-9c52-fd3e74d6d32a.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/2cc67716-f97c-487a-b1aa-7c6a3f5346fa.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/04031436-5ca8-4d04-ba2c-f983d1231e98.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/89da2536-2490-4b93-9c65-c6db2cedf1e4.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/7a01b39b-31d8-4ab6-ad7a-3c706048a6d4.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/fa4269f7-4968-47e4-8e3f-89826e42f11e.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/c83e13d8-9baf-424a-84f9-3a45fe37c7d4.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/2c21a762-a4d6-48b3-9f7b-1e85639219eb.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/c5b12724-5041-47b9-a180-ccb775b96483.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/fa2f396a-2aeb-43c5-8a9c-bcdb937bedd4.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/101a5db8-7826-4d2e-8b8c-1b059ba738db.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/4e530436-6268-470c-9edf-f913c5a4e145.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/03520916-6493-4236-8e85-acc06c344686.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/1944dfc1-0d2d-4c03-ab6a-5de1f9a3755c.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/9407d1db-ae1f-4aaf-9c06-6c433f791176.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/46188fc8-c911-48cd-9345-c2799f066456.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/b6a9e1f9-0566-494c-8e90-1a6965279610.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/26567e01-9226-4e05-b55b-e345e2dcba20.jpeg?width=800"
+      },
+      {
+        "uid": "https://imagecontent.net/images/full/f3a74673-90fc-49e1-a153-ecb6f36535fa.jpeg?width=800"
+      }
+    ],
+    "media": null,
+    "imageBaseUrl": "",
+    "almMainImage": "https://imagecontent.net/images/full/8fcaf2af-4f1d-44c2-9360-99f08c39500f.jpeg?width=800",
+    "ratings": {
+      "almatarRating": 4,
+      "tripAdvisorRating": 4.5,
+      "googleRating": 4.1,
+      "bookingRating": 4
+    },
+    "review": {
+      "badgeReview": [
+        {
+          "type": "category",
+          "title": "الأكثر نظافة",
+          "desc": "من أفضل 9% في المدينة"
+        }
+      ],
+      "categoryReview": [
+        {
+          "categoryTitle": "القيمة مقابل المال",
+          "totalreview": 132,
+          "rating": 4.5
+        },
+        {
+          "categoryTitle": "إنترنت",
+          "totalreview": 7,
+          "rating": 4.4
+        },
+        {
+          "categoryTitle": "مستوى النظافة",
+          "totalreview": 285,
+          "rating": 4.3
+        },
+        {
+          "categoryTitle": "الخدمة",
+          "totalreview": 778,
+          "rating": 4.2
+        },
+        {
+          "categoryTitle": "الإفطار",
+          "totalreview": 71,
+          "rating": 3.6
+        },
+        {
+          "categoryTitle": "الموقع",
+          "totalreview": 347,
+          "rating": 3.5
+        },
+        {
+          "categoryTitle": "الغرفة",
+          "totalreview": 400,
+          "rating": 3.3
+        }
+      ],
+      "overallReviewRatings": 4260,
+      "ratings": [
+        {
+          "category": "1",
+          "reviewCount": 310
+        },
+        {
+          "category": "2",
+          "reviewCount": 150
+        },
+        {
+          "category": "3",
+          "reviewCount": 290
+        },
+        {
+          "category": "4",
+          "reviewCount": 905
+        },
+        {
+          "category": "5",
+          "reviewCount": 2605
+        }
+      ],
+      "hotelType": "ممتاز للسفر مع الأصدقاء.",
+      "score": "4.4",
+      "scoreDescription": "ممتاز",
+      "scoreScale": "5"
+    },
+    "tags": [],
+    "experiences": [
+      {
+        "name": "التسوق في الضيافة مول",
+        "icon": null
+      },
+      {
+        "name": "زيارة أبراج البيت",
+        "icon": null
+      },
+      {
+        "name": "التسوق في الحجاز مول",
+        "icon": null
+      },
+      {
+        "name": "التسوق في مكة مول",
+        "icon": null
+      }
+    ],
+    "nearbyPlaces": [
+      {
+        "name": "مسجد الشيخ عبد العزيز بن باز",
+        "distanceFromHotelInMeters": 900,
+        "category": "Tourist attraction",
+        "icon": null
+      },
+      {
+        "name": "مسجد فقيه",
+        "distanceFromHotelInMeters": 2500,
+        "category": "Tourist attraction",
+        "icon": null
+      },
+      {
+        "name": "الجمرات",
+        "distanceFromHotelInMeters": 2500,
+        "category": "Tourist attraction",
+        "icon": null
+      },
+      {
+        "name": "مسجد الجن",
+        "distanceFromHotelInMeters": 3400,
+        "category": "Tourist attraction",
+        "icon": null
+      },
+      {
+        "name": "المسجد الحرام",
+        "distanceFromHotelInMeters": 3600,
+        "category": "Tourist attraction",
+        "icon": null
+      },
+      {
+        "name": "الصفا والمروة",
+        "distanceFromHotelInMeters": 3800,
+        "category": "Tourist attraction",
+        "icon": null
+      },
+      {
+        "name": "باب السلام",
+        "distanceFromHotelInMeters": 4000,
+        "category": "Tourist attraction",
+        "icon": null
+      },
+      {
+        "name": "بئر زمزم",
+        "distanceFromHotelInMeters": 4000,
+        "category": "Tourist attraction",
+        "icon": null
+      },
+      {
+        "name": "مَقَام إِبْرَاهِيْم",
+        "distanceFromHotelInMeters": 4100,
+        "category": "Tourist attraction",
+        "icon": null
+      },
+      {
+        "name": "الكعبة",
+        "distanceFromHotelInMeters": 4100,
+        "category": "Tourist attraction",
+        "icon": null
+      },
+      {
+        "name": "ٱلْحَجَرُ ٱلْأَسْوَد",
+        "distanceFromHotelInMeters": 4100,
+        "category": "Tourist attraction",
+        "icon": null
+      },
+      {
+        "name": "حي حراء الثقافي",
+        "distanceFromHotelInMeters": 4100,
+        "category": "Tourist attraction",
+        "icon": null
+      },
+      {
+        "name": "مقبرة المعلاة",
+        "distanceFromHotelInMeters": 4200,
+        "category": "Tourist attraction",
+        "icon": null
+      },
+      {
+        "name": "بوابة الملك فهد",
+        "distanceFromHotelInMeters": 4300,
+        "category": "Tourist attraction",
+        "icon": null
+      },
+      {
+        "name": "أبراج الساعة",
+        "distanceFromHotelInMeters": 4500,
+        "category": "Tourist attraction",
+        "icon": null
+      }
+    ],
+    "guestQuestions": [
+      {
+        "question": "ما أوقات تسجيل الوصول والمغادرة في فندق إم الدانة مكة من ميلينيوم؟",
+        "answer": "تسجيل الوصول من الساعة 4:00 عصرًا، وتسجيل المغادرة حتى الساعة 12:00 ظهرًا"
+      },
+      {
+        "question": "هل فندق ام الدانا مكة من ميلينيوم رائج بين العائلات؟",
+        "answer": "نعم، يحظى الفندق بإقبال كبير من الضيوف الذين يحجزون إقامات عائلية"
+      },
+      {
+        "question": "هل يتوفر مطعم في فندق إم الدانا مكة من ميلينيوم؟",
+        "answer": "يوجد بالفندق مطعم واحد: الياسمين"
+      },
+      {
+        "question": "ما بُعد فندق إم الدانة مكة من ميلينيوم عن وسط مكة؟",
+        "answer": "على بعد 3.2 كم من وسط مكة"
+      },
+      {
+        "question": "هل تتوفر مواقف للسيارات في الفندق؟",
+        "answer": "يتوفر موقف خاص للسيارات في الموقع (يُطلب الحجز المسبق) وقد يتم تطبيق رسوم إضافية"
+      }
+    ],
+    "rules": {
+      "checkIn": {
+        "daySegment": "PM",
+        "hour": "4:00"
+      },
+      "checkOut": {
+        "daySegment": "PM",
+        "hour": "12:00"
+      }
+    },
+    "currentViews": 33,
+    "topFacilities": [
+      {
+        "id": 14220,
+        "name": "إفطار",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 11860,
+        "name": "واى فاى مجانى",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 14850,
+        "name": "غرف عائلية",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 12670,
+        "name": "غرف لغير المدخنين",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 13080,
+        "name": "خدمة الغرف",
+        "type": "HotelFacility"
+      },
+      {
+        "id": 14841,
+        "name": "مكتب استقبال يعمل على مدار 24 ساعة",
+        "type": "HotelFacility"
+      }
+    ],
+    "trustyouHotelId": "afa14596-fa3c-4f5f-9832-794621f84621"
+  },
+  "count": null
+}

@@ -1,0 +1,3039 @@
+{
+  "hotelId": "133550",
+  "hotelProfileKey": "mecca-al-marwa-rayhaan-by-rotana-makkah-133550",
+  "hotelName": "المروة ريحان من روتانا",
+  "baseSlug": "hotels/rooms/mecca-al-marwa-rayhaan-by-rotana-makkah-133550/",
+  "countryCode": "SA",
+  "hotelInput": "https://almatar.com/ar/hotels/rooms/mecca-al-marwa-rayhaan-by-rotana-makkah-133550/?checkIn=10%2F01%2F2026&checkOut=10%2F02%2F2026&rooms=2_adult&source=list&freq=&fname=&h_index=0",
+  "checkIn": "2026-10-01",
+  "checkOut": "2026-11-01",
+  "nights": 31,
+  "adults": 2,
+  "rooms": 1,
+  "childAges": [],
+  "roomName": "غرفة واسعة بسرير توأم",
+  "roomKeywords": [
+    "غرفة واسعة بسرير توأم"
+  ],
+  "bedCount": 0,
+  "bedType": "any",
+  "mealPlan": "",
+  "fetchedAt": "2026-10-02T02:25:54.105Z",
+  "rows": [
+    {
+      "rowIndex": 1,
+      "dayName": "الخميس",
+      "date": "2026-10-01",
+      "nextDate": "2026-10-02",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "1190.00",
+      "breakfastFlexible": "غير متاح",
+      "halfBoard": "1434.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": "1280.00",
+        "breakfastFlexible": null,
+        "halfBoard": "1542.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "غير قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfast": {
+          "price": 1190,
+          "totalPrice": 1190,
+          "sourceTotalPrice": 1190,
+          "originalPrice": 1280,
+          "originalTotalPrice": 1280,
+          "sourceRounding": "round-package-total",
+          "packageId": "19557345-5c34-48c7-86d0-6c81107b7854",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfast",
+          "flexible": false
+        },
+        "halfBoard": {
+          "price": 1434,
+          "totalPrice": 1434,
+          "sourceTotalPrice": 1434,
+          "originalPrice": 1542,
+          "originalTotalPrice": 1542,
+          "sourceRounding": "round-package-total",
+          "packageId": "e99ac9b5-f2ca-4522-95ca-a4c43e28180b",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        }
+      }
+    },
+    {
+      "rowIndex": 2,
+      "dayName": "الجمعة",
+      "date": "2026-10-02",
+      "nextDate": "2026-10-03",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "1131.00",
+      "breakfastFlexible": "غير متاح",
+      "halfBoard": "1390.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": "1216.00",
+        "breakfastFlexible": null,
+        "halfBoard": "1494.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "غير قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfast": {
+          "price": 1131,
+          "totalPrice": 1131,
+          "sourceTotalPrice": 1131,
+          "originalPrice": 1216,
+          "originalTotalPrice": 1216,
+          "sourceRounding": "round-package-total",
+          "packageId": "ddc021ee-8028-4235-ad44-9026c5263c63",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfast",
+          "flexible": false
+        },
+        "halfBoard": {
+          "price": 1390,
+          "totalPrice": 1390,
+          "sourceTotalPrice": 1390,
+          "originalPrice": 1494,
+          "originalTotalPrice": 1494,
+          "sourceRounding": "round-package-total",
+          "packageId": "ebb1c185-5c6f-44a3-a1d3-06a50e059ef9",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        }
+      }
+    },
+    {
+      "rowIndex": 3,
+      "dayName": "السبت",
+      "date": "2026-10-03",
+      "nextDate": "2026-10-04",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "1023.00",
+      "breakfastFlexible": "غير متاح",
+      "halfBoard": "1282.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": "1099.00",
+        "breakfastFlexible": null,
+        "halfBoard": "1378.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "غير قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfast": {
+          "price": 1023,
+          "totalPrice": 1023,
+          "sourceTotalPrice": 1023,
+          "originalPrice": 1099,
+          "originalTotalPrice": 1099,
+          "sourceRounding": "round-package-total",
+          "packageId": "f9bd4356-c612-405d-a60f-251d5e5951a6",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfast",
+          "flexible": false
+        },
+        "halfBoard": {
+          "price": 1282,
+          "totalPrice": 1282,
+          "sourceTotalPrice": 1282,
+          "originalPrice": 1378,
+          "originalTotalPrice": 1378,
+          "sourceRounding": "round-package-total",
+          "packageId": "c3619109-91cd-4389-b529-ba01b3bf8881",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        }
+      }
+    },
+    {
+      "rowIndex": 4,
+      "dayName": "الأحد",
+      "date": "2026-10-04",
+      "nextDate": "2026-10-05",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "غير متاح",
+      "breakfastFlexible": "1083.00",
+      "halfBoard": "1342.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": null,
+        "breakfastFlexible": "1164.00",
+        "halfBoard": "1443.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfastFlexible": {
+          "price": 1083,
+          "totalPrice": 1083,
+          "sourceTotalPrice": 1083,
+          "originalPrice": 1164,
+          "originalTotalPrice": 1164,
+          "sourceRounding": "round-package-total",
+          "packageId": "76a2969b-94e0-4278-9540-cc24ef842541",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1790899140,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        },
+        "halfBoard": {
+          "price": 1342,
+          "totalPrice": 1342,
+          "sourceTotalPrice": 1342,
+          "originalPrice": 1443,
+          "originalTotalPrice": 1443,
+          "sourceRounding": "round-package-total",
+          "packageId": "0657b599-d8d3-4cbb-9d6a-006a345edc86",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        }
+      }
+    },
+    {
+      "rowIndex": 5,
+      "dayName": "الإثنين",
+      "date": "2026-10-05",
+      "nextDate": "2026-10-06",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "غير متاح",
+      "breakfastFlexible": "1083.00",
+      "halfBoard": "1342.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": null,
+        "breakfastFlexible": "1164.00",
+        "halfBoard": "1443.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfastFlexible": {
+          "price": 1083,
+          "totalPrice": 1083,
+          "sourceTotalPrice": 1083,
+          "originalPrice": 1164,
+          "originalTotalPrice": 1164,
+          "sourceRounding": "round-package-total",
+          "packageId": "a4d9d5a2-bdb7-486e-8bee-21fa58c577a3",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1790985540,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        },
+        "halfBoard": {
+          "price": 1342,
+          "totalPrice": 1342,
+          "sourceTotalPrice": 1342,
+          "originalPrice": 1443,
+          "originalTotalPrice": 1443,
+          "sourceRounding": "round-package-total",
+          "packageId": "4c047649-80ad-4745-a381-0e8fca9597b6",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        }
+      }
+    },
+    {
+      "rowIndex": 6,
+      "dayName": "الثلاثاء",
+      "date": "2026-10-06",
+      "nextDate": "2026-10-07",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "غير متاح",
+      "breakfastFlexible": "1083.00",
+      "halfBoard": "1342.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": null,
+        "breakfastFlexible": "1164.00",
+        "halfBoard": "1443.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfastFlexible": {
+          "price": 1083,
+          "totalPrice": 1083,
+          "sourceTotalPrice": 1083,
+          "originalPrice": 1164,
+          "originalTotalPrice": 1164,
+          "sourceRounding": "round-package-total",
+          "packageId": "225e1206-5ce4-4983-94bc-ff1d32ddf4a8",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1791071940,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        },
+        "halfBoard": {
+          "price": 1342,
+          "totalPrice": 1342,
+          "sourceTotalPrice": 1342,
+          "originalPrice": 1443,
+          "originalTotalPrice": 1443,
+          "sourceRounding": "round-package-total",
+          "packageId": "af7e0d40-26c4-49ec-8d66-36b075fa052c",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        }
+      }
+    },
+    {
+      "rowIndex": 7,
+      "dayName": "الأربعاء",
+      "date": "2026-10-07",
+      "nextDate": "2026-10-08",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "غير متاح",
+      "breakfastFlexible": "1089.00",
+      "halfBoard": "1348.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": null,
+        "breakfastFlexible": "1171.00",
+        "halfBoard": "1449.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfastFlexible": {
+          "price": 1089,
+          "totalPrice": 1089,
+          "sourceTotalPrice": 1089,
+          "originalPrice": 1171,
+          "originalTotalPrice": 1171,
+          "sourceRounding": "round-package-total",
+          "packageId": "86ec9fcd-91a7-45d5-a326-eaf4beac0c87",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1791158340,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        },
+        "halfBoard": {
+          "price": 1348,
+          "totalPrice": 1348,
+          "sourceTotalPrice": 1348,
+          "originalPrice": 1449,
+          "originalTotalPrice": 1449,
+          "sourceRounding": "round-package-total",
+          "packageId": "1b8b2198-725d-4239-96a4-542428246424",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        }
+      }
+    },
+    {
+      "rowIndex": 8,
+      "dayName": "الخميس",
+      "date": "2026-10-08",
+      "nextDate": "2026-10-09",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "غير متاح",
+      "breakfastFlexible": "1383.00",
+      "halfBoard": "1642.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": null,
+        "breakfastFlexible": "1488.00",
+        "halfBoard": "1766.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfastFlexible": {
+          "price": 1383,
+          "totalPrice": 1383,
+          "sourceTotalPrice": 1383,
+          "originalPrice": 1488,
+          "originalTotalPrice": 1488,
+          "sourceRounding": "round-package-total",
+          "packageId": "a222e53a-1918-4561-b70c-929315c39d5f",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1791071940,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        },
+        "halfBoard": {
+          "price": 1642,
+          "totalPrice": 1642,
+          "sourceTotalPrice": 1642,
+          "originalPrice": 1766,
+          "originalTotalPrice": 1766,
+          "sourceRounding": "round-package-total",
+          "packageId": "e70b7c8f-2808-4d1a-bb3a-807912bad968",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        }
+      }
+    },
+    {
+      "rowIndex": 9,
+      "dayName": "الجمعة",
+      "date": "2026-10-09",
+      "nextDate": "2026-10-10",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "غير متاح",
+      "breakfastFlexible": "1299.00",
+      "halfBoard": "1558.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": null,
+        "breakfastFlexible": "1397.00",
+        "halfBoard": "1676.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfastFlexible": {
+          "price": 1299,
+          "totalPrice": 1299,
+          "sourceTotalPrice": 1299,
+          "originalPrice": 1397,
+          "originalTotalPrice": 1397,
+          "sourceRounding": "round-package-total",
+          "packageId": "013d433a-64a6-4fc0-aa29-82a83cbdd2ae",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1791158340,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        },
+        "halfBoard": {
+          "price": 1558,
+          "totalPrice": 1558,
+          "sourceTotalPrice": 1558,
+          "originalPrice": 1676,
+          "originalTotalPrice": 1676,
+          "sourceRounding": "round-package-total",
+          "packageId": "05523188-df13-4c64-8eb7-b8fabe739491",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        }
+      }
+    },
+    {
+      "rowIndex": 10,
+      "dayName": "السبت",
+      "date": "2026-10-10",
+      "nextDate": "2026-10-11",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "غير متاح",
+      "breakfastFlexible": "1149.00",
+      "halfBoard": "1408.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": null,
+        "breakfastFlexible": "1235.00",
+        "halfBoard": "1514.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfastFlexible": {
+          "price": 1149,
+          "totalPrice": 1149,
+          "sourceTotalPrice": 1149,
+          "originalPrice": 1235,
+          "originalTotalPrice": 1235,
+          "sourceRounding": "round-package-total",
+          "packageId": "c5a100f7-02d6-49f8-a8dd-a664c22eb827",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1791244740,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        },
+        "halfBoard": {
+          "price": 1408,
+          "totalPrice": 1408,
+          "sourceTotalPrice": 1408,
+          "originalPrice": 1514,
+          "originalTotalPrice": 1514,
+          "sourceRounding": "round-package-total",
+          "packageId": "31ad8350-16cb-4389-a1c2-04da6915cea1",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        }
+      }
+    },
+    {
+      "rowIndex": 11,
+      "dayName": "الأحد",
+      "date": "2026-10-11",
+      "nextDate": "2026-10-12",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "غير متاح",
+      "breakfastFlexible": "1251.00",
+      "halfBoard": "1510.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": null,
+        "breakfastFlexible": "1345.00",
+        "halfBoard": "1624.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfastFlexible": {
+          "price": 1251,
+          "totalPrice": 1251,
+          "sourceTotalPrice": 1251,
+          "originalPrice": 1345,
+          "originalTotalPrice": 1345,
+          "sourceRounding": "round-package-total",
+          "packageId": "c6650e2b-2375-43a3-9364-4a17585a2669",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1791331140,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        },
+        "halfBoard": {
+          "price": 1510,
+          "totalPrice": 1510,
+          "sourceTotalPrice": 1510,
+          "originalPrice": 1624,
+          "originalTotalPrice": 1624,
+          "sourceRounding": "round-package-total",
+          "packageId": "42c6ff45-7e41-490e-a071-41058bbfe235",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        }
+      }
+    },
+    {
+      "rowIndex": 12,
+      "dayName": "الإثنين",
+      "date": "2026-10-12",
+      "nextDate": "2026-10-13",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "غير متاح",
+      "breakfastFlexible": "1287.00",
+      "halfBoard": "1546.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": null,
+        "breakfastFlexible": "1384.00",
+        "halfBoard": "1663.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfastFlexible": {
+          "price": 1287,
+          "totalPrice": 1287,
+          "sourceTotalPrice": 1287,
+          "originalPrice": 1384,
+          "originalTotalPrice": 1384,
+          "sourceRounding": "round-package-total",
+          "packageId": "20b162bd-8af5-4f74-8cce-b049939615f9",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1791417540,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        },
+        "halfBoard": {
+          "price": 1546,
+          "totalPrice": 1546,
+          "sourceTotalPrice": 1546,
+          "originalPrice": 1663,
+          "originalTotalPrice": 1663,
+          "sourceRounding": "round-package-total",
+          "packageId": "a72f45f5-4c61-4f0e-9477-0274475920e2",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        }
+      }
+    },
+    {
+      "rowIndex": 13,
+      "dayName": "الثلاثاء",
+      "date": "2026-10-13",
+      "nextDate": "2026-10-14",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "غير متاح",
+      "breakfastFlexible": "1089.00",
+      "halfBoard": "1348.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": null,
+        "breakfastFlexible": "1171.00",
+        "halfBoard": "1449.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfastFlexible": {
+          "price": 1089,
+          "totalPrice": 1089,
+          "sourceTotalPrice": 1089,
+          "originalPrice": 1171,
+          "originalTotalPrice": 1171,
+          "sourceRounding": "round-package-total",
+          "packageId": "0a4bd47b-39d6-4743-bbaa-be64ec2d712e",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1791503940,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        },
+        "halfBoard": {
+          "price": 1348,
+          "totalPrice": 1348,
+          "sourceTotalPrice": 1348,
+          "originalPrice": 1449,
+          "originalTotalPrice": 1449,
+          "sourceRounding": "round-package-total",
+          "packageId": "4d4b077f-7489-4d5d-9b7d-b52dfa739da8",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        }
+      }
+    },
+    {
+      "rowIndex": 14,
+      "dayName": "الأربعاء",
+      "date": "2026-10-14",
+      "nextDate": "2026-10-15",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "1219.00",
+      "breakfastFlexible": "1239.00",
+      "halfBoard": "1498.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": "1310.00",
+        "breakfastFlexible": "1332.00",
+        "halfBoard": "1611.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "غير قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfast": {
+          "price": 1219,
+          "totalPrice": 1219,
+          "sourceTotalPrice": 1219,
+          "originalPrice": 1310,
+          "originalTotalPrice": 1310,
+          "sourceRounding": "round-package-total",
+          "packageId": "38be1ad1-4601-434c-9608-afbc49b75d50",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfast",
+          "flexible": false
+        },
+        "halfBoard": {
+          "price": 1498,
+          "totalPrice": 1498,
+          "sourceTotalPrice": 1498,
+          "originalPrice": 1611,
+          "originalTotalPrice": 1611,
+          "sourceRounding": "round-package-total",
+          "packageId": "48348b21-1add-43be-af34-66975485a96c",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        },
+        "breakfastFlexible": {
+          "price": 1239,
+          "totalPrice": 1239,
+          "sourceTotalPrice": 1239,
+          "originalPrice": 1332,
+          "originalTotalPrice": 1332,
+          "sourceRounding": "round-package-total",
+          "packageId": "9d64079a-216a-448c-912f-2ea2ffd96dc6",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1791590340,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        }
+      }
+    },
+    {
+      "rowIndex": 15,
+      "dayName": "الخميس",
+      "date": "2026-10-15",
+      "nextDate": "2026-10-16",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "غير متاح",
+      "breakfastFlexible": "1684.00",
+      "halfBoard": "1943.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": null,
+        "breakfastFlexible": "1811.00",
+        "halfBoard": "2089.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfastFlexible": {
+          "price": 1684,
+          "totalPrice": 1684,
+          "sourceTotalPrice": 1684,
+          "originalPrice": 1811,
+          "originalTotalPrice": 1811,
+          "sourceRounding": "round-package-total",
+          "packageId": "94167db5-74bc-40a1-a09b-de01eaf4bc0f",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1791676740,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        },
+        "halfBoard": {
+          "price": 1943,
+          "totalPrice": 1943,
+          "sourceTotalPrice": 1943,
+          "originalPrice": 2089,
+          "originalTotalPrice": 2089,
+          "sourceRounding": "round-package-total",
+          "packageId": "47da5c79-f64e-49b3-9771-15798fbbe0c1",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        }
+      }
+    },
+    {
+      "rowIndex": 16,
+      "dayName": "الجمعة",
+      "date": "2026-10-16",
+      "nextDate": "2026-10-17",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "1652.00",
+      "breakfastFlexible": "1684.00",
+      "halfBoard": "1932.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": "1776.00",
+        "breakfastFlexible": "1811.00",
+        "halfBoard": "2077.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "غير قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfast": {
+          "price": 1652,
+          "totalPrice": 1652,
+          "sourceTotalPrice": 1652,
+          "originalPrice": 1776,
+          "originalTotalPrice": 1776,
+          "sourceRounding": "round-package-total",
+          "packageId": "642fdd7e-5bc8-4f5f-a4b4-1be05a20879f",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfast",
+          "flexible": false
+        },
+        "breakfastFlexible": {
+          "price": 1684,
+          "totalPrice": 1684,
+          "sourceTotalPrice": 1684,
+          "originalPrice": 1811,
+          "originalTotalPrice": 1811,
+          "sourceRounding": "round-package-total",
+          "packageId": "61626dd1-4127-43f0-be4a-3c1f7d279197",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1791763140,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        },
+        "halfBoard": {
+          "price": 1932,
+          "totalPrice": 1932,
+          "sourceTotalPrice": 1932,
+          "originalPrice": 2077,
+          "originalTotalPrice": 2077,
+          "sourceRounding": "round-package-total",
+          "packageId": "f9820137-4bdc-4553-a9fb-8a3fd76df48a",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        }
+      }
+    },
+    {
+      "rowIndex": 17,
+      "dayName": "السبت",
+      "date": "2026-10-17",
+      "nextDate": "2026-10-18",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "غير متاح",
+      "breakfastFlexible": "2256.00",
+      "halfBoard": "2515.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": null,
+        "breakfastFlexible": "2425.00",
+        "halfBoard": "2704.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfastFlexible": {
+          "price": 2256,
+          "totalPrice": 2256,
+          "sourceTotalPrice": 2256,
+          "originalPrice": 2425,
+          "originalTotalPrice": 2425,
+          "sourceRounding": "round-package-total",
+          "packageId": "5b1d72f0-78e9-4b2c-aa0c-a82beeca529d",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1791849540,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        },
+        "halfBoard": {
+          "price": 2515,
+          "totalPrice": 2515,
+          "sourceTotalPrice": 2515,
+          "originalPrice": 2704,
+          "originalTotalPrice": 2704,
+          "sourceRounding": "round-package-total",
+          "packageId": "d8ceb19e-083f-4037-baf1-4d15c5b11004",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        }
+      }
+    },
+    {
+      "rowIndex": 18,
+      "dayName": "الأحد",
+      "date": "2026-10-18",
+      "nextDate": "2026-10-19",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "2295.00",
+      "breakfastFlexible": "2346.00",
+      "halfBoard": "2605.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": "2468.00",
+        "breakfastFlexible": "2522.00",
+        "halfBoard": "2801.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "غير قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfast": {
+          "price": 2295,
+          "totalPrice": 2295,
+          "sourceTotalPrice": 2295,
+          "originalPrice": 2468,
+          "originalTotalPrice": 2468,
+          "sourceRounding": "round-package-total",
+          "packageId": "ba4e85e5-13c4-4090-bf59-7b8268714578",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfast",
+          "flexible": false
+        },
+        "halfBoard": {
+          "price": 2605,
+          "totalPrice": 2605,
+          "sourceTotalPrice": 2605,
+          "originalPrice": 2801,
+          "originalTotalPrice": 2801,
+          "sourceRounding": "round-package-total",
+          "packageId": "7d2e3378-9c8a-4756-990f-b77e6e35054a",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        },
+        "breakfastFlexible": {
+          "price": 2346,
+          "totalPrice": 2346,
+          "sourceTotalPrice": 2346,
+          "originalPrice": 2522,
+          "originalTotalPrice": 2522,
+          "sourceRounding": "round-package-total",
+          "packageId": "adb07c93-15e6-4c5b-aa2f-f7a8d182a616",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1791935940,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        }
+      }
+    },
+    {
+      "rowIndex": 19,
+      "dayName": "الإثنين",
+      "date": "2026-10-19",
+      "nextDate": "2026-10-20",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "1336.00",
+      "breakfastFlexible": "1359.00",
+      "halfBoard": "1618.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": "1436.00",
+        "breakfastFlexible": "1462.00",
+        "halfBoard": "1740.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "غير قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfast": {
+          "price": 1336,
+          "totalPrice": 1336,
+          "sourceTotalPrice": 1336,
+          "originalPrice": 1436,
+          "originalTotalPrice": 1436,
+          "sourceRounding": "round-package-total",
+          "packageId": "df75b1e8-a7b0-4ac5-afd7-8c52720f0f56",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfast",
+          "flexible": false
+        },
+        "halfBoard": {
+          "price": 1618,
+          "totalPrice": 1618,
+          "sourceTotalPrice": 1618,
+          "originalPrice": 1740,
+          "originalTotalPrice": 1740,
+          "sourceRounding": "round-package-total",
+          "packageId": "22959068-8b0d-4feb-9e2f-1120a5721281",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        },
+        "breakfastFlexible": {
+          "price": 1359,
+          "totalPrice": 1359,
+          "sourceTotalPrice": 1359,
+          "originalPrice": 1462,
+          "originalTotalPrice": 1462,
+          "sourceRounding": "round-package-total",
+          "packageId": "a6fefdcd-4732-470e-bf66-4977995239ed",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1792022340,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        }
+      }
+    },
+    {
+      "rowIndex": 20,
+      "dayName": "الثلاثاء",
+      "date": "2026-10-20",
+      "nextDate": "2026-10-21",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "2661.00",
+      "breakfastFlexible": "2942.00",
+      "halfBoard": "غير متاح",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": "2861.00",
+        "breakfastFlexible": "3164.00",
+        "halfBoard": null,
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "غير قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfast": {
+          "price": 2661,
+          "totalPrice": 2661,
+          "sourceTotalPrice": 2661,
+          "originalPrice": 2861,
+          "originalTotalPrice": 2861,
+          "sourceRounding": "round-package-total",
+          "packageId": "954694d6-59ed-454c-8d92-47bc274aa328",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfast",
+          "flexible": false
+        },
+        "breakfastFlexible": {
+          "price": 2942,
+          "totalPrice": 2942,
+          "sourceTotalPrice": 2942,
+          "originalPrice": 3164,
+          "originalTotalPrice": 3164,
+          "sourceRounding": "round-package-total",
+          "packageId": "b3303d9a-a644-4372-a174-352f02601bca",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1792108740,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        }
+      }
+    },
+    {
+      "rowIndex": 21,
+      "dayName": "الأربعاء",
+      "date": "2026-10-21",
+      "nextDate": "2026-10-22",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "1955.00",
+      "breakfastFlexible": "2152.00",
+      "halfBoard": "غير متاح",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": "2102.00",
+        "breakfastFlexible": "2314.00",
+        "halfBoard": null,
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "غير قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfast": {
+          "price": 1955,
+          "totalPrice": 1955,
+          "sourceTotalPrice": 1955,
+          "originalPrice": 2102,
+          "originalTotalPrice": 2102,
+          "sourceRounding": "round-package-total",
+          "packageId": "fda9a391-9b66-43b1-a232-e045cfbc3da2",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfast",
+          "flexible": false
+        },
+        "breakfastFlexible": {
+          "price": 2152,
+          "totalPrice": 2152,
+          "sourceTotalPrice": 2152,
+          "originalPrice": 2314,
+          "originalTotalPrice": 2314,
+          "sourceRounding": "round-package-total",
+          "packageId": "f7cbd532-032c-4f11-96b8-c25973cffc06",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1792195140,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        }
+      }
+    },
+    {
+      "rowIndex": 22,
+      "dayName": "الخميس",
+      "date": "2026-10-22",
+      "nextDate": "2026-10-23",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "3317.00",
+      "breakfastFlexible": "3670.00",
+      "halfBoard": "غير متاح",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": "3566.00",
+        "breakfastFlexible": "3946.00",
+        "halfBoard": null,
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "غير قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfast": {
+          "price": 3317,
+          "totalPrice": 3317,
+          "sourceTotalPrice": 3317,
+          "originalPrice": 3566,
+          "originalTotalPrice": 3566,
+          "sourceRounding": "round-package-total",
+          "packageId": "2f02a5bf-cd6e-47dc-934e-b0aaafd9fffb",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfast",
+          "flexible": false
+        },
+        "breakfastFlexible": {
+          "price": 3670,
+          "totalPrice": 3670,
+          "sourceTotalPrice": 3670,
+          "originalPrice": 3946,
+          "originalTotalPrice": 3946,
+          "sourceRounding": "round-package-total",
+          "packageId": "bf51de58-f222-431f-90ad-9d799bf5d3fd",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1792281540,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        }
+      }
+    },
+    {
+      "rowIndex": 23,
+      "dayName": "الجمعة",
+      "date": "2026-10-23",
+      "nextDate": "2026-10-24",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "غير متاح",
+      "breakfastFlexible": "2779.00",
+      "halfBoard": "3038.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": null,
+        "breakfastFlexible": "2988.00",
+        "halfBoard": "3267.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfastFlexible": {
+          "price": 2779,
+          "totalPrice": 2779,
+          "sourceTotalPrice": 2779,
+          "originalPrice": 2988,
+          "originalTotalPrice": 2988,
+          "sourceRounding": "round-package-total",
+          "packageId": "36e6637c-b01f-4703-a2ca-28bf8acf2790",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1792367940,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        },
+        "halfBoard": {
+          "price": 3038,
+          "totalPrice": 3038,
+          "sourceTotalPrice": 3038,
+          "originalPrice": 3267,
+          "originalTotalPrice": 3267,
+          "sourceRounding": "round-package-total",
+          "packageId": "89d9a64e-898e-4024-8c6d-5a9f387e8e2a",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        }
+      }
+    },
+    {
+      "rowIndex": 24,
+      "dayName": "السبت",
+      "date": "2026-10-24",
+      "nextDate": "2026-10-25",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "2669.00",
+      "breakfastFlexible": "2947.00",
+      "halfBoard": "غير متاح",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": "2870.00",
+        "breakfastFlexible": "3168.00",
+        "halfBoard": null,
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "غير قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfast": {
+          "price": 2669,
+          "totalPrice": 2669,
+          "sourceTotalPrice": 2669,
+          "originalPrice": 2870,
+          "originalTotalPrice": 2870,
+          "sourceRounding": "round-package-total",
+          "packageId": "2bdef351-6d35-41de-bd2d-4e89a046d74e",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfast",
+          "flexible": false
+        },
+        "breakfastFlexible": {
+          "price": 2947,
+          "totalPrice": 2947,
+          "sourceTotalPrice": 2947,
+          "originalPrice": 3168,
+          "originalTotalPrice": 3168,
+          "sourceRounding": "round-package-total",
+          "packageId": "af0c0162-e10e-4701-acca-1a1019565aec",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1792454340,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        }
+      }
+    },
+    {
+      "rowIndex": 25,
+      "dayName": "الأحد",
+      "date": "2026-10-25",
+      "nextDate": "2026-10-26",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "غير متاح",
+      "breakfastFlexible": "1444.00",
+      "halfBoard": "1703.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": null,
+        "breakfastFlexible": "1552.00",
+        "halfBoard": "1831.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfastFlexible": {
+          "price": 1444,
+          "totalPrice": 1444,
+          "sourceTotalPrice": 1444,
+          "originalPrice": 1552,
+          "originalTotalPrice": 1552,
+          "sourceRounding": "round-package-total",
+          "packageId": "2abca3be-f690-41c4-b38a-7a6ff4daf5e4",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1792540740,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        },
+        "halfBoard": {
+          "price": 1703,
+          "totalPrice": 1703,
+          "sourceTotalPrice": 1703,
+          "originalPrice": 1831,
+          "originalTotalPrice": 1831,
+          "sourceRounding": "round-package-total",
+          "packageId": "56d73f9f-961e-444b-82b2-bc45a7e81b05",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        }
+      }
+    },
+    {
+      "rowIndex": 26,
+      "dayName": "الإثنين",
+      "date": "2026-10-26",
+      "nextDate": "2026-10-27",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "1418.00",
+      "breakfastFlexible": "1444.00",
+      "halfBoard": "1703.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": "1524.00",
+        "breakfastFlexible": "1552.00",
+        "halfBoard": "1831.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "غير قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfast": {
+          "price": 1418,
+          "totalPrice": 1418,
+          "sourceTotalPrice": 1418,
+          "originalPrice": 1524,
+          "originalTotalPrice": 1524,
+          "sourceRounding": "round-package-total",
+          "packageId": "ed128dc7-82d5-4b50-9cc2-54f13582cb5e",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfast",
+          "flexible": false
+        },
+        "halfBoard": {
+          "price": 1703,
+          "totalPrice": 1703,
+          "sourceTotalPrice": 1703,
+          "originalPrice": 1831,
+          "originalTotalPrice": 1831,
+          "sourceRounding": "round-package-total",
+          "packageId": "e15905a4-5cd2-4327-9e9a-33926b8478e2",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        },
+        "breakfastFlexible": {
+          "price": 1444,
+          "totalPrice": 1444,
+          "sourceTotalPrice": 1444,
+          "originalPrice": 1552,
+          "originalTotalPrice": 1552,
+          "sourceRounding": "round-package-total",
+          "packageId": "d4f04436-229e-459a-a2b0-153e6d2842fb",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1792627140,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        }
+      }
+    },
+    {
+      "rowIndex": 27,
+      "dayName": "الثلاثاء",
+      "date": "2026-10-27",
+      "nextDate": "2026-10-28",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "غير متاح",
+      "breakfastFlexible": "1498.00",
+      "halfBoard": "1757.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": null,
+        "breakfastFlexible": "1610.00",
+        "halfBoard": "1889.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfastFlexible": {
+          "price": 1498,
+          "totalPrice": 1498,
+          "sourceTotalPrice": 1498,
+          "originalPrice": 1610,
+          "originalTotalPrice": 1610,
+          "sourceRounding": "round-package-total",
+          "packageId": "bbc07a73-2dcb-42fb-8980-429ca168d9f2",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1792713540,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        },
+        "halfBoard": {
+          "price": 1757,
+          "totalPrice": 1757,
+          "sourceTotalPrice": 1757,
+          "originalPrice": 1889,
+          "originalTotalPrice": 1889,
+          "sourceRounding": "round-package-total",
+          "packageId": "4fe2b739-5ac0-46de-9f74-c53931e52b81",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        }
+      }
+    },
+    {
+      "rowIndex": 28,
+      "dayName": "الأربعاء",
+      "date": "2026-10-28",
+      "nextDate": "2026-10-29",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "1418.00",
+      "breakfastFlexible": "1444.00",
+      "halfBoard": "1703.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": "1524.00",
+        "breakfastFlexible": "1552.00",
+        "halfBoard": "1831.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "غير قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfast": {
+          "price": 1418,
+          "totalPrice": 1418,
+          "sourceTotalPrice": 1418,
+          "originalPrice": 1524,
+          "originalTotalPrice": 1524,
+          "sourceRounding": "round-package-total",
+          "packageId": "56d20dc2-24d4-438b-abeb-26b2e886df3b",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfast",
+          "flexible": false
+        },
+        "halfBoard": {
+          "price": 1703,
+          "totalPrice": 1703,
+          "sourceTotalPrice": 1703,
+          "originalPrice": 1831,
+          "originalTotalPrice": 1831,
+          "sourceRounding": "round-package-total",
+          "packageId": "ca50f2b2-0b08-4f0c-8b9b-9affbe6f5979",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        },
+        "breakfastFlexible": {
+          "price": 1444,
+          "totalPrice": 1444,
+          "sourceTotalPrice": 1444,
+          "originalPrice": 1552,
+          "originalTotalPrice": 1552,
+          "sourceRounding": "round-package-total",
+          "packageId": "e7e4f45b-031c-4a4b-b728-027e98a29e98",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1792799940,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        }
+      }
+    },
+    {
+      "rowIndex": 29,
+      "dayName": "الخميس",
+      "date": "2026-10-29",
+      "nextDate": "2026-10-30",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "2043.00",
+      "breakfastFlexible": "2087.00",
+      "halfBoard": "2346.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": "2197.00",
+        "breakfastFlexible": "2244.00",
+        "halfBoard": "2523.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "غير قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfast": {
+          "price": 2043,
+          "totalPrice": 2043,
+          "sourceTotalPrice": 2043,
+          "originalPrice": 2197,
+          "originalTotalPrice": 2197,
+          "sourceRounding": "round-package-total",
+          "packageId": "dbefc72a-963c-4fae-a8c7-a68bfb4aef46",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfast",
+          "flexible": false
+        },
+        "halfBoard": {
+          "price": 2346,
+          "totalPrice": 2346,
+          "sourceTotalPrice": 2346,
+          "originalPrice": 2523,
+          "originalTotalPrice": 2523,
+          "sourceRounding": "round-package-total",
+          "packageId": "c8a6fe1f-c905-4fea-ac94-bded41d36374",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        },
+        "breakfastFlexible": {
+          "price": 2087,
+          "totalPrice": 2087,
+          "sourceTotalPrice": 2087,
+          "originalPrice": 2244,
+          "originalTotalPrice": 2244,
+          "sourceRounding": "round-package-total",
+          "packageId": "b5ee3742-75b3-4f49-be9b-6dd7c8b81960",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1792886340,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        }
+      }
+    },
+    {
+      "rowIndex": 30,
+      "dayName": "الجمعة",
+      "date": "2026-10-30",
+      "nextDate": "2026-10-31",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "2155.00",
+      "breakfastFlexible": "2201.00",
+      "halfBoard": "2460.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": "2317.00",
+        "breakfastFlexible": "2367.00",
+        "halfBoard": "2646.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "غير قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfast": {
+          "price": 2155,
+          "totalPrice": 2155,
+          "sourceTotalPrice": 2155,
+          "originalPrice": 2317,
+          "originalTotalPrice": 2317,
+          "sourceRounding": "round-package-total",
+          "packageId": "cb7e4d4f-56c8-4533-9392-00e6c42a4b2f",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfast",
+          "flexible": false
+        },
+        "halfBoard": {
+          "price": 2460,
+          "totalPrice": 2460,
+          "sourceTotalPrice": 2460,
+          "originalPrice": 2646,
+          "originalTotalPrice": 2646,
+          "sourceRounding": "round-package-total",
+          "packageId": "8aac93b7-3827-47a7-b9e9-a65f55c75b3a",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        },
+        "breakfastFlexible": {
+          "price": 2201,
+          "totalPrice": 2201,
+          "sourceTotalPrice": 2201,
+          "originalPrice": 2367,
+          "originalTotalPrice": 2367,
+          "sourceRounding": "round-package-total",
+          "packageId": "5714082c-6ebd-401d-a714-25d32958efb5",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1792972740,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        }
+      }
+    },
+    {
+      "rowIndex": 31,
+      "dayName": "السبت",
+      "date": "2026-10-31",
+      "nextDate": "2026-11-01",
+      "roomOnly": "غير متاح",
+      "roomOnlyFlexible": "غير متاح",
+      "breakfast": "غير متاح",
+      "breakfastFlexible": "1383.00",
+      "halfBoard": "1642.00",
+      "halfBoardFlexible": "غير متاح",
+      "originalPrices": {
+        "breakfast": null,
+        "breakfastFlexible": "1488.00",
+        "halfBoard": "1766.00",
+        "halfBoardFlexible": null,
+        "roomOnly": null,
+        "roomOnlyFlexible": null
+      },
+      "breakfastDiff": "غير متاح",
+      "dayStatus": "قابل للإسترداد",
+      "error": null,
+      "offers": {
+        "breakfastFlexible": {
+          "price": 1383,
+          "totalPrice": 1383,
+          "sourceTotalPrice": 1383,
+          "originalPrice": 1488,
+          "originalTotalPrice": 1488,
+          "sourceRounding": "round-package-total",
+          "packageId": "f76e0b95-6386-42a8-b0ca-c33c37557126",
+          "mealLabel": "إقامة وإفطار",
+          "cancellationPolicy": "قابل للإسترداد",
+          "refundableUntil": 1793059140,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "breakfastFlexible",
+          "flexible": true
+        },
+        "halfBoard": {
+          "price": 1642,
+          "totalPrice": 1642,
+          "sourceTotalPrice": 1642,
+          "originalPrice": 1766,
+          "originalTotalPrice": 1766,
+          "sourceRounding": "round-package-total",
+          "packageId": "af976795-fbb8-454d-ad39-785bf62eaa25",
+          "mealLabel": "إفطار + غداء أو عشاء",
+          "cancellationPolicy": "غير قابل للإسترداد",
+          "refundableUntil": null,
+          "appliedCouponCode": "saaug12",
+          "roomIdentity": "غرفة واسعة بسرير توأم::[{\"name\":\"غرفة واسعة بسرير توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+          "roomName": "غرفة واسعة بسرير توأم",
+          "bedType": "TWIN Bed",
+          "beds": [
+            {
+              "label": "TWIN Bed",
+              "options": [
+                {
+                  "count": 2,
+                  "type": "single"
+                }
+              ]
+            }
+          ],
+          "originalNames": [
+            "غرفة واسعة بسرير توأم"
+          ],
+          "plan": "halfBoard",
+          "flexible": false
+        }
+      }
+    }
+  ]
+}

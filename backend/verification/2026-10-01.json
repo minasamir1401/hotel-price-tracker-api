@@ -1,0 +1,21 @@
+{
+  "pollingStatus": "COMPLETED_SUCCESSFULLY",
+  "numberOfGroups": 0,
+  "numberOfPackages": 0,
+  "hotelId": 0,
+  "hotelCountryCode": null,
+  "posCountryCode": null,
+  "currencyCode": null,
+  "numberOfNights": 0,
+  "filters": null,
+  "packagesGroups": null,
+  "additionalData": null,
+  "searchResult": null,
+  "config": null,
+  "sessionCreatedAt": null,
+  "sessionExpiredAt": null,
+  "delayInMillis": 0,
+  "hasRewards": true,
+  "pId": "no-pkg-sid-01a0f327-86de-70dd-9151-b6e7732ab283",
+  "sId": "01a0f327-86de-70dd-9151-b6e7732ab283"
+}

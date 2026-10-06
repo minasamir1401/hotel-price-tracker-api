@@ -1,0 +1,5456 @@
+{
+  "pollingStatus": "COMPLETED_SUCCESSFULLY",
+  "numberOfGroups": 8,
+  "numberOfPackages": 30,
+  "hotelId": 1798852,
+  "hotelCountryCode": "SA",
+  "posCountryCode": "US",
+  "currencyCode": "SAR",
+  "numberOfNights": 1,
+  "filters": [
+    {
+      "key": "pay_at_property",
+      "label": {
+        "en": "Pay At Property",
+        "ar": "الدفع في مكان الإقامة"
+      }
+    },
+    {
+      "key": "free_cancellation",
+      "label": {
+        "en": "Free cancellation",
+        "ar": "إلغاء مجاني"
+      }
+    },
+    {
+      "key": "breakfast_included",
+      "label": {
+        "en": "Breakfast included",
+        "ar": "شاملة الإفطار"
+      }
+    },
+    {
+      "key": "bedding_preference",
+      "label": {
+        "en": "Bedding Preference",
+        "ar": "خيارات الأسرّة"
+      },
+      "selectionType": "multiple",
+      "nestedFilters": [
+        {
+          "key": "bedding_2_single_beds",
+          "label": {
+            "en": "2 Single Beds",
+            "ar": "٢ سرير فردي"
+          }
+        },
+        {
+          "key": "bedding_king_bed",
+          "label": {
+            "en": "King Bed",
+            "ar": "١ سرير كينج"
+          }
+        },
+        {
+          "key": "bedding_3_single_beds",
+          "label": {
+            "en": "3 Single Beds",
+            "ar": "٣ أسرّة فردية"
+          }
+        },
+        {
+          "key": "bedding_4_single_beds",
+          "label": {
+            "en": "4 Single Beds",
+            "ar": "٤ أسرّة فردية"
+          }
+        },
+        {
+          "key": "bedding_multiple_beds/4_single_beds",
+          "label": {
+            "en": "Multiple Beds/4 Single Beds",
+            "ar": "أسرة متعددة/٤ أسرّة فردية"
+          }
+        }
+      ]
+    }
+  ],
+  "packagesGroups": [
+    {
+      "title": {
+        "en": "Standard Room",
+        "ar": "غرفة ستاندرد"
+      },
+      "templates": {
+        "82997696": {
+          "id": 82997696,
+          "roomSize": 25,
+          "descriptionAr": null,
+          "descriptionEn": null,
+          "hotelSummaryId": 1798852,
+          "templateTitle": "Standard Room, 1 King Bed",
+          "templateNameForCode": "Standard Room, 1 King Bed",
+          "templateHashCode": "f35b5e3f",
+          "templateCode": "---:STD:ROM:---:KNG:---:---:---",
+          "facilityCategories": [
+            {
+              "id": 25,
+              "facilities": [
+                {
+                  "id": 126,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 131,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 134,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 137,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 29,
+              "facilities": [
+                {
+                  "id": 140,
+                  "facilityTagResponseId": 5
+                }
+              ]
+            },
+            {
+              "id": 27,
+              "facilities": [
+                {
+                  "id": 147,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 26,
+              "facilities": [
+                {
+                  "id": 150,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 153,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 156,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 28,
+              "facilities": [
+                {
+                  "id": 168,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 170,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 30,
+              "facilities": [
+                {
+                  "id": 184,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 187,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 189,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 24,
+              "facilities": [
+                {
+                  "id": 190,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 31,
+              "facilities": [
+                {
+                  "id": 191,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 192,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 193,
+                  "facilityTagResponseId": 4
+                }
+              ]
+            }
+          ],
+          "imageCategories": [
+            {
+              "id": 243,
+              "images": [
+                {
+                  "id": 45958416,
+                  "imageCategoryId": 243,
+                  "rank": 1,
+                  "url": "http://hotelcms-contents-live.almosafer.com/9d119eea-c33e-4feb-a73c-e755b722f5a8.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                },
+                {
+                  "id": 45958414,
+                  "imageCategoryId": 243,
+                  "rank": 2,
+                  "url": "http://hotelcms-contents-live.almosafer.com/e7477ef9-7b30-4683-986e-4ae66b0f8486.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "images": [
+                {
+                  "id": 45958418,
+                  "imageCategoryId": 6,
+                  "rank": 4,
+                  "url": "http://hotelcms-contents-live.almosafer.com/7de6d935-6c74-4f8a-809a-bbf5876d16eb.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                },
+                {
+                  "id": 45958415,
+                  "imageCategoryId": 6,
+                  "rank": 5,
+                  "url": "http://hotelcms-contents-live.almosafer.com/8608e56c-0d01-4f5d-9ac0-39157b78efec.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            }
+          ],
+          "roomBedGroups": [
+            {
+              "id": 794200,
+              "bedGroup": "1 King Bed"
+            }
+          ]
+        },
+        "82997697": {
+          "id": 82997697,
+          "roomSize": 25,
+          "descriptionAr": null,
+          "descriptionEn": null,
+          "hotelSummaryId": 1798852,
+          "templateTitle": "Standard Room, 2 Twin Beds",
+          "templateNameForCode": "Standard Room, 2 Twin Beds",
+          "templateHashCode": "ed482bdc",
+          "templateCode": "---:STD:ROM:---:2TW:---:---:---",
+          "facilityCategories": [
+            {
+              "id": 25,
+              "facilities": [
+                {
+                  "id": 126,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 131,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 134,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 137,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 29,
+              "facilities": [
+                {
+                  "id": 140,
+                  "facilityTagResponseId": 5
+                }
+              ]
+            },
+            {
+              "id": 27,
+              "facilities": [
+                {
+                  "id": 147,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 26,
+              "facilities": [
+                {
+                  "id": 150,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 153,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 156,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 28,
+              "facilities": [
+                {
+                  "id": 168,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 170,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 30,
+              "facilities": [
+                {
+                  "id": 184,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 187,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 189,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 24,
+              "facilities": [
+                {
+                  "id": 190,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 31,
+              "facilities": [
+                {
+                  "id": 191,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 192,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 193,
+                  "facilityTagResponseId": 4
+                }
+              ]
+            }
+          ],
+          "imageCategories": [
+            {
+              "id": 243,
+              "images": [
+                {
+                  "id": 45958337,
+                  "imageCategoryId": 243,
+                  "rank": 1,
+                  "url": "http://hotelcms-contents-live.almosafer.com/c273d22e-e818-4fc6-81ec-41e2c0bedff8.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                },
+                {
+                  "id": 45958333,
+                  "imageCategoryId": 243,
+                  "rank": 2,
+                  "url": "http://hotelcms-contents-live.almosafer.com/0fbe4289-4a52-4e30-9c61-ba8ef3b5eae2.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "images": [
+                {
+                  "id": 45958335,
+                  "imageCategoryId": 6,
+                  "rank": 4,
+                  "url": "http://hotelcms-contents-live.almosafer.com/7de6d935-6c74-4f8a-809a-bbf5876d16eb.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                },
+                {
+                  "id": 45958336,
+                  "imageCategoryId": 6,
+                  "rank": 5,
+                  "url": "http://hotelcms-contents-live.almosafer.com/8608e56c-0d01-4f5d-9ac0-39157b78efec.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            }
+          ],
+          "roomBedGroups": [
+            {
+              "id": 794193,
+              "bedGroup": "2 Twin Beds"
+            }
+          ]
+        }
+      },
+      "guests": {
+        "adults": 2,
+        "children": 0
+      },
+      "numberOfRooms": 1,
+      "packages": [
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 217.43
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "cc4e1831-68a8-479a-8ef6-dd75a82e1d90",
+          "packageRateInfo": {
+            "total": 217.43,
+            "firstTotal": 217.43,
+            "packageNightlyRates": [
+              {
+                "rate": 217.43
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 37.37
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 217.43,
+            "subTotal": 217.43,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "King Bed",
+                "view": "",
+                "room": "",
+                "hashCode": "aa181571-8135-5824-bd26-e91844a70b89",
+                "roomCode": "---:STD:ROM:---:KNG:---:---:---",
+                "matchingCode": "---:STD:ROM:---:KNG:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:---:---:---:---:---",
+                "original": "Standard Room, 1 King Bed",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "١ سرير كينج",
+                    "view": "",
+                    "room": "",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "RO",
+              "roomId": "4e926431-6333-4d8e-8909-c92f8f345d3e",
+              "originalRoomName": "Standard Room, 1 King Bed",
+              "roomName": {
+                "en": "Standard Room - King Bed",
+                "ar": "غرفة ستاندرد - ١ سرير كينج"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 82997696
+            }
+          ],
+          "bookable": true,
+          "tags": null
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 217.43
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "e69af657-5ea5-43c3-b3ea-2d45c797d024",
+          "packageRateInfo": {
+            "total": 217.43,
+            "firstTotal": 217.43,
+            "packageNightlyRates": [
+              {
+                "rate": 217.43
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 37.37
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 217.43,
+            "subTotal": 217.43,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "2 Single Beds",
+                "view": "",
+                "room": "",
+                "hashCode": "2860a37d-5623-5573-827a-bb90d268a017",
+                "roomCode": "---:STD:ROM:---:1G4:---:---:---",
+                "matchingCode": "---:STD:ROM:---:1G4:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:---:---:---:---:---",
+                "original": "Standard Room, 2 Twin Beds",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "٢ سرير فردي",
+                    "view": "",
+                    "room": "",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "RO",
+              "roomId": "dae10d0b-c321-43bf-b880-7831bf94f45b",
+              "originalRoomName": "Standard Room, 2 Twin Beds",
+              "roomName": {
+                "en": "Standard Room - 2 Single Beds",
+                "ar": "غرفة ستاندرد - ٢ سرير فردي"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 82997697
+            }
+          ],
+          "bookable": true,
+          "tags": null
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 285.07
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "c0529db6-e7eb-499b-b719-2604cbc57acc",
+          "packageRateInfo": {
+            "total": 285.07,
+            "firstTotal": 285.07,
+            "packageNightlyRates": [
+              {
+                "rate": 285.07
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 48.98
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 285.07,
+            "subTotal": 285.07,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "2 Single Beds",
+                "view": "",
+                "room": "",
+                "hashCode": "2860a37d-5623-5573-827a-bb90d268a017",
+                "roomCode": "---:STD:ROM:---:1G4:---:---:---",
+                "matchingCode": "---:STD:ROM:---:1G4:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:---:---:---:---:---",
+                "original": "Standard Room, 2 Twin Beds",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "٢ سرير فردي",
+                    "view": "",
+                    "room": "",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "BB",
+              "roomId": "132f1483-4201-455b-b5fb-b9f18cacb138",
+              "originalRoomName": "Standard Room, 2 Twin Beds",
+              "roomName": {
+                "en": "Standard Room - 2 Single Beds",
+                "ar": "غرفة ستاندرد - ٢ سرير فردي"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 82997697
+            }
+          ],
+          "bookable": true,
+          "tags": null
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 285.07
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "14bbb5eb-d1fe-4147-87ef-e430f9b0e7a4",
+          "packageRateInfo": {
+            "total": 285.07,
+            "firstTotal": 285.07,
+            "packageNightlyRates": [
+              {
+                "rate": 285.07
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 48.98
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 285.07,
+            "subTotal": 285.07,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "King Bed",
+                "view": "",
+                "room": "",
+                "hashCode": "aa181571-8135-5824-bd26-e91844a70b89",
+                "roomCode": "---:STD:ROM:---:KNG:---:---:---",
+                "matchingCode": "---:STD:ROM:---:KNG:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:---:---:---:---:---",
+                "original": "Standard Room, 1 King Bed",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "١ سرير كينج",
+                    "view": "",
+                    "room": "",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "BB",
+              "roomId": "6a18dafc-d734-42ea-873e-8ac1b3125ce0",
+              "originalRoomName": "Standard Room, 1 King Bed",
+              "roomName": {
+                "en": "Standard Room - King Bed",
+                "ar": "غرفة ستاندرد - ١ سرير كينج"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 82997696
+            }
+          ],
+          "bookable": true,
+          "tags": null
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 513.4
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            },
+            {
+              "type": "payAtProperty",
+              "label": "Pay At Property"
+            }
+          ],
+          "packageId": "c3508109-c379-4792-8a59-0c69645026a8",
+          "packageRateInfo": {
+            "total": 513.4,
+            "firstTotal": 513.4,
+            "packageNightlyRates": [
+              {
+                "rate": 513.4
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 88.23
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 513.4,
+            "subTotal": 513.4,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "2 Single Beds",
+                "view": "",
+                "room": "",
+                "hashCode": "2860a37d-5623-5573-827a-bb90d268a017",
+                "roomCode": "---:STD:ROM:---:1G4:---:---:---",
+                "matchingCode": "---:STD:ROM:---:1G4:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:---:---:---:---:---",
+                "original": "Standard Room, 2 Twin Beds",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "٢ سرير فردي",
+                    "view": "",
+                    "room": "",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "HB",
+              "roomId": "eee8f4a3-0ec5-4849-8ea6-f68b5689f49c",
+              "originalRoomName": "Standard Room, 2 Twin Beds",
+              "roomName": {
+                "en": "Standard Room - 2 Single Beds",
+                "ar": "غرفة ستاندرد - ٢ سرير فردي"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 82997697
+            }
+          ],
+          "bookable": true,
+          "tags": null,
+          "relatedPackages": [
+            {
+              "type": "merge",
+              "id": "fa24853e-ab8b-477a-86b1-5cecc8681e20",
+              "amount": 0,
+              "amountPerNight": 0,
+              "available": false
+            }
+          ]
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 513.4
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            },
+            {
+              "type": "payAtProperty",
+              "label": "Pay At Property"
+            }
+          ],
+          "packageId": "845ac9db-9c37-40ab-b430-8a3890782c7b",
+          "packageRateInfo": {
+            "total": 513.4,
+            "firstTotal": 513.4,
+            "packageNightlyRates": [
+              {
+                "rate": 513.4
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 88.23
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 513.4,
+            "subTotal": 513.4,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "King Bed",
+                "view": "",
+                "room": "",
+                "hashCode": "aa181571-8135-5824-bd26-e91844a70b89",
+                "roomCode": "---:STD:ROM:---:KNG:---:---:---",
+                "matchingCode": "---:STD:ROM:---:KNG:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:---:---:---:---:---",
+                "original": "Standard Room, 1 King Bed",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "١ سرير كينج",
+                    "view": "",
+                    "room": "",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "HB",
+              "roomId": "c26d6c80-26ca-4bac-8a08-bcf4312cfb66",
+              "originalRoomName": "Standard Room, 1 King Bed",
+              "roomName": {
+                "en": "Standard Room - King Bed",
+                "ar": "غرفة ستاندرد - ١ سرير كينج"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 82997696
+            }
+          ],
+          "bookable": true,
+          "tags": null,
+          "relatedPackages": [
+            {
+              "type": "merge",
+              "id": "0adccb3e-4ed2-4e55-badf-b4fa45f3282e",
+              "amount": 0,
+              "amountPerNight": 0,
+              "available": false
+            }
+          ]
+        }
+      ],
+      "startingFromPrice": 217.43,
+      "rates": [
+        {
+          "roomBasis": "RO",
+          "refundability": "Refundable",
+          "hasFreeCancellation": true,
+          "startingFromPrice": 217.43,
+          "bedPackages": [
+            {
+              "packageId": "cc4e1831-68a8-479a-8ef6-dd75a82e1d90"
+            },
+            {
+              "packageId": "e69af657-5ea5-43c3-b3ea-2d45c797d024"
+            }
+          ]
+        },
+        {
+          "roomBasis": "BB",
+          "refundability": "Refundable",
+          "hasFreeCancellation": true,
+          "startingFromPrice": 285.07,
+          "bedPackages": [
+            {
+              "packageId": "14bbb5eb-d1fe-4147-87ef-e430f9b0e7a4"
+            },
+            {
+              "packageId": "c0529db6-e7eb-499b-b719-2604cbc57acc"
+            }
+          ]
+        },
+        {
+          "roomBasis": "HB",
+          "refundability": "Refundable",
+          "hasFreeCancellation": true,
+          "startingFromPrice": 513.4,
+          "bedPackages": [
+            {
+              "packageId": "c3508109-c379-4792-8a59-0c69645026a8"
+            },
+            {
+              "packageId": "845ac9db-9c37-40ab-b430-8a3890782c7b"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Superior Room",
+        "ar": "غرفة سوبيريور"
+      },
+      "templates": {
+        "85352187": {
+          "id": 85352187,
+          "roomSize": 25,
+          "descriptionAr": null,
+          "descriptionEn": null,
+          "hotelSummaryId": 1798852,
+          "templateTitle": "Superior Room, 1 King Bed",
+          "templateNameForCode": "Superior Room, 1 King Bed",
+          "templateHashCode": "9b8f7ca6",
+          "templateCode": "9b8f7ca6",
+          "facilityCategories": [
+            {
+              "id": 25,
+              "facilities": [
+                {
+                  "id": 126,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 127,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 131,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 134,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 137,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 29,
+              "facilities": [
+                {
+                  "id": 140,
+                  "facilityTagResponseId": 5
+                }
+              ]
+            },
+            {
+              "id": 27,
+              "facilities": [
+                {
+                  "id": 147,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 26,
+              "facilities": [
+                {
+                  "id": 150,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 153,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 156,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 28,
+              "facilities": [
+                {
+                  "id": 168,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 170,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 30,
+              "facilities": [
+                {
+                  "id": 184,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 187,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 189,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 24,
+              "facilities": [
+                {
+                  "id": 190,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 31,
+              "facilities": [
+                {
+                  "id": 191,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 192,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 193,
+                  "facilityTagResponseId": 4
+                }
+              ]
+            }
+          ],
+          "imageCategories": [
+            {
+              "id": 243,
+              "images": [
+                {
+                  "id": 88649467,
+                  "imageCategoryId": 243,
+                  "rank": 1,
+                  "url": "http://hotelcms-contents-live.almosafer.com/ed96c5d2-fc1b-42c2-aa7a-e7f61cbf46f6.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                },
+                {
+                  "id": 94092201,
+                  "imageCategoryId": 243,
+                  "rank": 2,
+                  "url": "http://hotelcms-contents-live.almosafer.com/dfa67178-0bc5-411a-8b91-215400e0b608.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 252,
+              "images": [
+                {
+                  "id": 94092237,
+                  "imageCategoryId": 252,
+                  "rank": 3,
+                  "url": "http://hotelcms-contents-live.almosafer.com/f2e77ec0-5834-43f7-8d33-d0904f7ff60e.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "images": [
+                {
+                  "id": 94092209,
+                  "imageCategoryId": 6,
+                  "rank": 4,
+                  "url": "http://hotelcms-contents-live.almosafer.com/1e1e3ced-edf4-451a-82d1-fe140d816429.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 7,
+              "images": [
+                {
+                  "id": 94092254,
+                  "imageCategoryId": 7,
+                  "rank": 5,
+                  "url": "http://hotelcms-contents-live.almosafer.com/716c2047-1122-485f-ade2-6cd8e13e876a.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            }
+          ],
+          "roomBedGroups": [
+            {
+              "id": 4498728,
+              "bedGroup": "1 King Bed"
+            }
+          ]
+        }
+      },
+      "guests": {
+        "adults": 2,
+        "children": 0
+      },
+      "numberOfRooms": 1,
+      "packages": [
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 227.08
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "583fd224-3820-41a7-8e25-3f21c51eb2f4",
+          "packageRateInfo": {
+            "total": 227.08,
+            "firstTotal": 227.08,
+            "packageNightlyRates": [
+              {
+                "rate": 227.08
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 39.02
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 227.08,
+            "subTotal": 227.08,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "King Bed",
+                "view": "",
+                "room": "",
+                "hashCode": "d50afaec-5759-5c69-8020-3aa4bee3f37f",
+                "roomCode": "---:SPR:ROM:---:KNG:---:---:---",
+                "matchingCode": "---:SPR:ROM:---:KNG:---:---:---",
+                "matchingCodeNoBed": "---:SPR:ROM:---:---:---:---:---",
+                "original": "Superior Room, 1 King Bed",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "١ سرير كينج",
+                    "view": "",
+                    "room": "",
+                    "class": "سوبيريور"
+                  }
+                },
+                "class": "Superior"
+              },
+              "roomBasis": "RO",
+              "roomId": "aff683f8-727f-4439-8ecd-0a3c14e9f143",
+              "originalRoomName": "Superior Room, 1 King Bed",
+              "roomName": {
+                "en": "Superior Room - King Bed",
+                "ar": "غرفة سوبيريور - ١ سرير كينج"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 85352187
+            }
+          ],
+          "bookable": true,
+          "tags": null
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 294.76
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "12b5f1b4-d522-460a-a07a-513830fec5b4",
+          "packageRateInfo": {
+            "total": 294.76,
+            "firstTotal": 294.76,
+            "packageNightlyRates": [
+              {
+                "rate": 294.76
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 50.67
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 294.76,
+            "subTotal": 294.76,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "King Bed",
+                "view": "",
+                "room": "",
+                "hashCode": "d50afaec-5759-5c69-8020-3aa4bee3f37f",
+                "roomCode": "---:SPR:ROM:---:KNG:---:---:---",
+                "matchingCode": "---:SPR:ROM:---:KNG:---:---:---",
+                "matchingCodeNoBed": "---:SPR:ROM:---:---:---:---:---",
+                "original": "Superior Room, 1 King Bed",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "١ سرير كينج",
+                    "view": "",
+                    "room": "",
+                    "class": "سوبيريور"
+                  }
+                },
+                "class": "Superior"
+              },
+              "roomBasis": "BB",
+              "roomId": "d3bb8fd7-1997-4aa9-bb54-b8f4d03028be",
+              "originalRoomName": "Superior Room, 1 King Bed",
+              "roomName": {
+                "en": "Superior Room - King Bed",
+                "ar": "غرفة سوبيريور - ١ سرير كينج"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 85352187
+            }
+          ],
+          "bookable": true,
+          "tags": null
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 525.45
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            },
+            {
+              "type": "payAtProperty",
+              "label": "Pay At Property"
+            }
+          ],
+          "packageId": "33880346-0bfe-42bd-9813-36346866c6c4",
+          "packageRateInfo": {
+            "total": 525.45,
+            "firstTotal": 525.45,
+            "packageNightlyRates": [
+              {
+                "rate": 525.45
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 90.29
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 525.45,
+            "subTotal": 525.45,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "King Bed",
+                "view": "",
+                "room": "",
+                "hashCode": "d50afaec-5759-5c69-8020-3aa4bee3f37f",
+                "roomCode": "---:SPR:ROM:---:KNG:---:---:---",
+                "matchingCode": "---:SPR:ROM:---:KNG:---:---:---",
+                "matchingCodeNoBed": "---:SPR:ROM:---:---:---:---:---",
+                "original": "Superior Room, 1 King Bed",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "١ سرير كينج",
+                    "view": "",
+                    "room": "",
+                    "class": "سوبيريور"
+                  }
+                },
+                "class": "Superior"
+              },
+              "roomBasis": "HB",
+              "roomId": "4909b966-a811-49ee-9ef3-08978589f26e",
+              "originalRoomName": "Superior Room, 1 King Bed",
+              "roomName": {
+                "en": "Superior Room - King Bed",
+                "ar": "غرفة سوبيريور - ١ سرير كينج"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 85352187
+            }
+          ],
+          "bookable": true,
+          "tags": null,
+          "relatedPackages": [
+            {
+              "type": "merge",
+              "id": "09407790-8552-4200-a9fa-e1fd34ea178a",
+              "amount": 0,
+              "amountPerNight": 0,
+              "available": false
+            }
+          ]
+        }
+      ],
+      "startingFromPrice": 227.08,
+      "rates": [
+        {
+          "roomBasis": "RO",
+          "refundability": "Refundable",
+          "hasFreeCancellation": true,
+          "startingFromPrice": 227.08,
+          "bedPackages": [
+            {
+              "packageId": "583fd224-3820-41a7-8e25-3f21c51eb2f4"
+            }
+          ]
+        },
+        {
+          "roomBasis": "BB",
+          "refundability": "Refundable",
+          "hasFreeCancellation": true,
+          "startingFromPrice": 294.76,
+          "bedPackages": [
+            {
+              "packageId": "12b5f1b4-d522-460a-a07a-513830fec5b4"
+            }
+          ]
+        },
+        {
+          "roomBasis": "HB",
+          "refundability": "Refundable",
+          "hasFreeCancellation": true,
+          "startingFromPrice": 525.45,
+          "bedPackages": [
+            {
+              "packageId": "33880346-0bfe-42bd-9813-36346866c6c4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Deluxe Room",
+        "ar": "غرفة ديلوكس"
+      },
+      "templates": {
+        "84753772": {
+          "id": 84753772,
+          "roomSize": 36,
+          "descriptionAr": null,
+          "descriptionEn": null,
+          "hotelSummaryId": 1798852,
+          "templateTitle": "Deluxe Room, 1 King Bed",
+          "templateNameForCode": "Deluxe Room, 1 King Bed",
+          "templateHashCode": "4811bd2d",
+          "templateCode": "4811bd2d",
+          "facilityCategories": [
+            {
+              "id": 25,
+              "facilities": [
+                {
+                  "id": 126,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 127,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 131,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 134,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 137,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 29,
+              "facilities": [
+                {
+                  "id": 140,
+                  "facilityTagResponseId": 5
+                }
+              ]
+            },
+            {
+              "id": 27,
+              "facilities": [
+                {
+                  "id": 147,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 26,
+              "facilities": [
+                {
+                  "id": 150,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 153,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 156,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 28,
+              "facilities": [
+                {
+                  "id": 168,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 170,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 30,
+              "facilities": [
+                {
+                  "id": 184,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 187,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 189,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 24,
+              "facilities": [
+                {
+                  "id": 190,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 31,
+              "facilities": [
+                {
+                  "id": 191,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 192,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 193,
+                  "facilityTagResponseId": 4
+                }
+              ]
+            }
+          ],
+          "imageCategories": [
+            {
+              "id": 243,
+              "images": [
+                {
+                  "id": 74328697,
+                  "imageCategoryId": 243,
+                  "rank": 1,
+                  "url": "http://hotelcms-contents-live.almosafer.com/9d119eea-c33e-4feb-a73c-e755b722f5a8.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                },
+                {
+                  "id": 94091566,
+                  "imageCategoryId": 243,
+                  "rank": 2,
+                  "url": "http://hotelcms-contents-live.almosafer.com/ecf3d8cd-5e6c-415a-9f5b-887ce2895dbc.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                },
+                {
+                  "id": 94091585,
+                  "imageCategoryId": 243,
+                  "rank": 3,
+                  "url": "http://hotelcms-contents-live.almosafer.com/c7c75e84-b367-4852-b37c-c0af06d5905a.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 252,
+              "images": [
+                {
+                  "id": 94091526,
+                  "imageCategoryId": 252,
+                  "rank": 4,
+                  "url": "http://hotelcms-contents-live.almosafer.com/d2741dac-3dc1-46f5-a63b-aabe4502ba2a.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "images": [
+                {
+                  "id": 94091548,
+                  "imageCategoryId": 6,
+                  "rank": 5,
+                  "url": "http://hotelcms-contents-live.almosafer.com/bec5ea43-e57e-4d17-8ea3-97526cab0a9a.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 7,
+              "images": [
+                {
+                  "id": 94091563,
+                  "imageCategoryId": 7,
+                  "rank": 6,
+                  "url": "http://hotelcms-contents-live.almosafer.com/b46c9cab-7231-4b6a-83c8-0e0e4c33a2e8.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            }
+          ],
+          "roomBedGroups": [
+            {
+              "id": 3885400,
+              "bedGroup": "1 King Bed"
+            }
+          ]
+        }
+      },
+      "guests": {
+        "adults": 2,
+        "children": 0
+      },
+      "numberOfRooms": 1,
+      "packages": [
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 241.58
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "777ffdcd-c554-4c33-b621-f58c39663c1c",
+          "packageRateInfo": {
+            "total": 241.58,
+            "firstTotal": 241.58,
+            "packageNightlyRates": [
+              {
+                "rate": 241.58
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 41.5
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 241.58,
+            "subTotal": 241.58,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "King Bed",
+                "view": "",
+                "room": "",
+                "hashCode": "ce1e2598-5afe-5c2a-bbcc-7a90c30f3cbe",
+                "roomCode": "---:DLX:ROM:---:KNG:---:---:---",
+                "matchingCode": "---:DLX:ROM:---:KNG:---:---:---",
+                "matchingCodeNoBed": "---:DLX:ROM:---:---:---:---:---",
+                "original": "Deluxe Room, 1 King Bed",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "١ سرير كينج",
+                    "view": "",
+                    "room": "",
+                    "class": "ديلوكس"
+                  }
+                },
+                "class": "Deluxe"
+              },
+              "roomBasis": "RO",
+              "roomId": "598ac0cb-73ee-4f81-b9e1-80fa8540d091",
+              "originalRoomName": "Deluxe Room, 1 King Bed",
+              "roomName": {
+                "en": "Deluxe Room - King Bed",
+                "ar": "غرفة ديلوكس - ١ سرير كينج"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 84753772
+            }
+          ],
+          "bookable": true,
+          "tags": null
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 309.22
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            },
+            {
+              "type": "payAtProperty",
+              "label": "Pay At Property"
+            }
+          ],
+          "packageId": "161b4164-d961-4c6c-9f99-317a080dd40c",
+          "packageRateInfo": {
+            "total": 309.22,
+            "firstTotal": 309.22,
+            "packageNightlyRates": [
+              {
+                "rate": 309.22
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 53.15
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 309.22,
+            "subTotal": 309.22,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "King Bed",
+                "view": "",
+                "room": "",
+                "hashCode": "ce1e2598-5afe-5c2a-bbcc-7a90c30f3cbe",
+                "roomCode": "---:DLX:ROM:---:KNG:---:---:---",
+                "matchingCode": "---:DLX:ROM:---:KNG:---:---:---",
+                "matchingCodeNoBed": "---:DLX:ROM:---:---:---:---:---",
+                "original": "Deluxe Room, 1 King Bed",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "١ سرير كينج",
+                    "view": "",
+                    "room": "",
+                    "class": "ديلوكس"
+                  }
+                },
+                "class": "Deluxe"
+              },
+              "roomBasis": "BB",
+              "roomId": "3ee7afa8-d2d4-4b6f-8116-34de5e6adb62",
+              "originalRoomName": "Deluxe Room, 1 King Bed",
+              "roomName": {
+                "en": "Deluxe Room - King Bed",
+                "ar": "غرفة ديلوكس - ١ سرير كينج"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 84753772
+            }
+          ],
+          "bookable": true,
+          "tags": null,
+          "relatedPackages": [
+            {
+              "type": "merge",
+              "id": "dab4183f-d5fd-44b2-a839-895211c91b3f",
+              "amount": 0,
+              "amountPerNight": 0,
+              "available": false
+            }
+          ]
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 543.59
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            },
+            {
+              "type": "payAtProperty",
+              "label": "Pay At Property"
+            }
+          ],
+          "packageId": "bd17fe74-990e-46dd-803f-f399c50cb92e",
+          "packageRateInfo": {
+            "total": 543.59,
+            "firstTotal": 543.59,
+            "packageNightlyRates": [
+              {
+                "rate": 543.59
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 93.41
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 543.59,
+            "subTotal": 543.59,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "King Bed",
+                "view": "",
+                "room": "",
+                "hashCode": "ce1e2598-5afe-5c2a-bbcc-7a90c30f3cbe",
+                "roomCode": "---:DLX:ROM:---:KNG:---:---:---",
+                "matchingCode": "---:DLX:ROM:---:KNG:---:---:---",
+                "matchingCodeNoBed": "---:DLX:ROM:---:---:---:---:---",
+                "original": "Deluxe Room, 1 King Bed",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "١ سرير كينج",
+                    "view": "",
+                    "room": "",
+                    "class": "ديلوكس"
+                  }
+                },
+                "class": "Deluxe"
+              },
+              "roomBasis": "HB",
+              "roomId": "7cedf197-c8c0-4608-bd7f-c09205dbaf2f",
+              "originalRoomName": "Deluxe Room, 1 King Bed",
+              "roomName": {
+                "en": "Deluxe Room - King Bed",
+                "ar": "غرفة ديلوكس - ١ سرير كينج"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 84753772
+            }
+          ],
+          "bookable": true,
+          "tags": null,
+          "relatedPackages": [
+            {
+              "type": "merge",
+              "id": "16d9a5ee-76b9-4f7b-8aa0-f6a5f8342e2f",
+              "amount": 0,
+              "amountPerNight": 0,
+              "available": false
+            }
+          ]
+        }
+      ],
+      "startingFromPrice": 241.58,
+      "rates": [
+        {
+          "roomBasis": "RO",
+          "refundability": "Refundable",
+          "hasFreeCancellation": true,
+          "startingFromPrice": 241.58,
+          "bedPackages": [
+            {
+              "packageId": "777ffdcd-c554-4c33-b621-f58c39663c1c"
+            }
+          ]
+        },
+        {
+          "roomBasis": "BB",
+          "refundability": "Refundable",
+          "hasFreeCancellation": true,
+          "startingFromPrice": 309.22,
+          "bedPackages": [
+            {
+              "packageId": "161b4164-d961-4c6c-9f99-317a080dd40c"
+            }
+          ]
+        },
+        {
+          "roomBasis": "HB",
+          "refundability": "Refundable",
+          "hasFreeCancellation": true,
+          "startingFromPrice": 543.59,
+          "bedPackages": [
+            {
+              "packageId": "bd17fe74-990e-46dd-803f-f399c50cb92e"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Standard Triple Room",
+        "ar": "غرفة ستاندرد من ثلاثية"
+      },
+      "templates": {
+        "83219597": {
+          "id": 83219597,
+          "roomSize": 25,
+          "descriptionAr": null,
+          "descriptionEn": null,
+          "hotelSummaryId": 1798852,
+          "templateTitle": "Standard Triple Room, 3 Twin Beds",
+          "templateNameForCode": "Standard Triple Room, 3 Twin Beds",
+          "templateHashCode": "38fd252a",
+          "templateCode": "---:STD:ROM:---:3TW:---:---:TR3",
+          "facilityCategories": [
+            {
+              "id": 25,
+              "facilities": [
+                {
+                  "id": 126,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 131,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 134,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 137,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 29,
+              "facilities": [
+                {
+                  "id": 140,
+                  "facilityTagResponseId": 5
+                }
+              ]
+            },
+            {
+              "id": 27,
+              "facilities": [
+                {
+                  "id": 147,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 26,
+              "facilities": [
+                {
+                  "id": 150,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 153,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 156,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 28,
+              "facilities": [
+                {
+                  "id": 168,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 170,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 30,
+              "facilities": [
+                {
+                  "id": 184,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 187,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 189,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 24,
+              "facilities": [
+                {
+                  "id": 190,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 31,
+              "facilities": [
+                {
+                  "id": 191,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 192,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 193,
+                  "facilityTagResponseId": 4
+                }
+              ]
+            }
+          ],
+          "imageCategories": [
+            {
+              "id": 1,
+              "images": [
+                {
+                  "id": 57849439,
+                  "imageCategoryId": 1,
+                  "rank": 1,
+                  "url": "http://hotelcms-contents-live.almosafer.com/536162ce-5325-432d-8aeb-05190eca1800.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "images": [
+                {
+                  "id": 45958242,
+                  "imageCategoryId": 6,
+                  "rank": 3,
+                  "url": "http://hotelcms-contents-live.almosafer.com/7de6d935-6c74-4f8a-809a-bbf5876d16eb.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                },
+                {
+                  "id": 45958240,
+                  "imageCategoryId": 6,
+                  "rank": 4,
+                  "url": "http://hotelcms-contents-live.almosafer.com/8608e56c-0d01-4f5d-9ac0-39157b78efec.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            }
+          ],
+          "roomBedGroups": [
+            {
+              "id": 794187,
+              "bedGroup": "3 Twin Beds"
+            }
+          ]
+        }
+      },
+      "guests": {
+        "adults": 2,
+        "children": 0
+      },
+      "numberOfRooms": 1,
+      "packages": [
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 256.08
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "d5d9b3d5-a904-4fb2-a052-c60dffe5ef53",
+          "packageRateInfo": {
+            "total": 256.08,
+            "firstTotal": 256.08,
+            "packageNightlyRates": [
+              {
+                "rate": 256.08
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 43.98
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 256.08,
+            "subTotal": 256.08,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "3 Single Beds",
+                "view": "",
+                "room": "Triple",
+                "hashCode": "9a0c1609-c039-5576-9d4d-28d20ac2815a",
+                "roomCode": "---:STD:ROM:TR3:3SN:---:---:---",
+                "matchingCode": "---:STD:ROM:TR3:3SN:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:TR3:---:---:---:---",
+                "original": "Standard Triple Room, 3 Twin Beds",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "٣ أسرّة فردية",
+                    "view": "",
+                    "room": "ثلاثية",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "RO",
+              "roomId": "6c9737d9-33fd-4713-8818-55aa471d98d4",
+              "originalRoomName": "Standard Triple Room, 3 Twin Beds",
+              "roomName": {
+                "en": "Standard Triple Room - 3 Single Beds",
+                "ar": "غرفة ستاندرد من ثلاثية - ٣ أسرّة فردية"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 83219597
+            }
+          ],
+          "bookable": true,
+          "tags": null
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 323.76
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "ce5cc366-9f7c-4d56-bbad-56ecd8ab5239",
+          "packageRateInfo": {
+            "total": 323.76,
+            "firstTotal": 323.76,
+            "packageNightlyRates": [
+              {
+                "rate": 323.76
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 55.66
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 323.76,
+            "subTotal": 323.76,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "3 Single Beds",
+                "view": "",
+                "room": "Triple",
+                "hashCode": "9a0c1609-c039-5576-9d4d-28d20ac2815a",
+                "roomCode": "---:STD:ROM:TR3:3SN:---:---:---",
+                "matchingCode": "---:STD:ROM:TR3:3SN:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:TR3:---:---:---:---",
+                "original": "Standard Triple Room, 3 Twin Beds",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "٣ أسرّة فردية",
+                    "view": "",
+                    "room": "ثلاثية",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "BB",
+              "roomId": "603e2a54-81d3-4fec-8541-f144acc682e7",
+              "originalRoomName": "Standard Triple Room, 3 Twin Beds",
+              "roomName": {
+                "en": "Standard Triple Room - 3 Single Beds",
+                "ar": "غرفة ستاندرد من ثلاثية - ٣ أسرّة فردية"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 83219597
+            }
+          ],
+          "bookable": true,
+          "tags": null
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 561.7
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            },
+            {
+              "type": "payAtProperty",
+              "label": "Pay At Property"
+            }
+          ],
+          "packageId": "099a1403-507e-45e7-ba14-a507bdf91c95",
+          "packageRateInfo": {
+            "total": 561.7,
+            "firstTotal": 561.7,
+            "packageNightlyRates": [
+              {
+                "rate": 561.7
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 96.53
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 561.7,
+            "subTotal": 561.7,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "3 Single Beds",
+                "view": "",
+                "room": "Triple",
+                "hashCode": "9a0c1609-c039-5576-9d4d-28d20ac2815a",
+                "roomCode": "---:STD:ROM:TR3:3SN:---:---:---",
+                "matchingCode": "---:STD:ROM:TR3:3SN:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:TR3:---:---:---:---",
+                "original": "Standard Triple Room, 3 Twin Beds",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "٣ أسرّة فردية",
+                    "view": "",
+                    "room": "ثلاثية",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "HB",
+              "roomId": "cce59246-acb6-42fc-a3d6-1771037c6fbb",
+              "originalRoomName": "Standard Triple Room, 3 Twin Beds",
+              "roomName": {
+                "en": "Standard Triple Room - 3 Single Beds",
+                "ar": "غرفة ستاندرد من ثلاثية - ٣ أسرّة فردية"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 83219597
+            }
+          ],
+          "bookable": true,
+          "tags": null,
+          "relatedPackages": [
+            {
+              "type": "merge",
+              "id": "cc7304ec-8aa5-4c24-8040-c62d8ee94dba",
+              "amount": 0,
+              "amountPerNight": 0,
+              "available": false
+            }
+          ]
+        }
+      ],
+      "startingFromPrice": 256.08,
+      "rates": [
+        {
+          "roomBasis": "RO",
+          "refundability": "Refundable",
+          "hasFreeCancellation": true,
+          "startingFromPrice": 256.08,
+          "bedPackages": [
+            {
+              "packageId": "d5d9b3d5-a904-4fb2-a052-c60dffe5ef53"
+            }
+          ]
+        },
+        {
+          "roomBasis": "BB",
+          "refundability": "Refundable",
+          "hasFreeCancellation": true,
+          "startingFromPrice": 323.76,
+          "bedPackages": [
+            {
+              "packageId": "ce5cc366-9f7c-4d56-bbad-56ecd8ab5239"
+            }
+          ]
+        },
+        {
+          "roomBasis": "HB",
+          "refundability": "Refundable",
+          "hasFreeCancellation": true,
+          "startingFromPrice": 561.7,
+          "bedPackages": [
+            {
+              "packageId": "099a1403-507e-45e7-ba14-a507bdf91c95"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Standard Quadruple Room",
+        "ar": "غرفة ستاندرد من رباعية"
+      },
+      "templates": {
+        "84642364": {
+          "id": 84642364,
+          "roomSize": null,
+          "descriptionAr": null,
+          "descriptionEn": null,
+          "hotelSummaryId": 1798852,
+          "templateTitle": "Standard Quadruple Room, Multiple Beds",
+          "templateNameForCode": "Standard Quadruple Room",
+          "templateHashCode": "e9d5ef13",
+          "templateCode": "e9d5ef13",
+          "facilityCategories": [
+            {
+              "id": 25,
+              "facilities": [
+                {
+                  "id": 126,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 131,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 134,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 137,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 29,
+              "facilities": [
+                {
+                  "id": 140,
+                  "facilityTagResponseId": 5
+                }
+              ]
+            },
+            {
+              "id": 27,
+              "facilities": [
+                {
+                  "id": 147,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 26,
+              "facilities": [
+                {
+                  "id": 150,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 153,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 156,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 28,
+              "facilities": [
+                {
+                  "id": 168,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 170,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 30,
+              "facilities": [
+                {
+                  "id": 184,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 187,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 189,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 24,
+              "facilities": [
+                {
+                  "id": 190,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 31,
+              "facilities": [
+                {
+                  "id": 191,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 192,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 193,
+                  "facilityTagResponseId": 4
+                }
+              ]
+            }
+          ],
+          "imageCategories": [
+            {
+              "id": 1,
+              "images": [
+                {
+                  "id": 72381453,
+                  "imageCategoryId": 1,
+                  "rank": 1,
+                  "url": "http://hotelcms-contents-live.almosafer.com/536162ce-5325-432d-8aeb-05190eca1800.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            }
+          ],
+          "roomBedGroups": [
+            {
+              "id": 3773591,
+              "bedGroup": "4 Twin Beds"
+            }
+          ]
+        }
+      },
+      "guests": {
+        "adults": 2,
+        "children": 0
+      },
+      "numberOfRooms": 1,
+      "packages": [
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 275.46
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "350bc432-36c7-4323-b804-ca7153e2b48d",
+          "packageRateInfo": {
+            "total": 275.46,
+            "firstTotal": 275.46,
+            "packageNightlyRates": [
+              {
+                "rate": 275.46
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 47.36
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 275.46,
+            "subTotal": 275.46,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "4 Single Beds",
+                "view": "",
+                "room": "Quadruple",
+                "hashCode": "027624a2-a419-5353-b838-f107c8a3c6e2",
+                "roomCode": "---:STD:ROM:X27:4SN_OFS:---:---:---",
+                "matchingCode": "---:STD:ROM:X27:4SN:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:X27:---:---:---:---",
+                "original": "Standard Quadruple Room, Multiple Beds, 4 Twin Beds",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "٤ أسرّة فردية",
+                    "view": "",
+                    "room": "رباعية",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "RO",
+              "roomId": "75740b4d-f7ef-489d-ad1e-d75bd32be76a",
+              "originalRoomName": "Standard Quadruple Room, Multiple Beds, 4 Twin Beds",
+              "roomName": {
+                "en": "Standard Quadruple Room - 4 Single Beds",
+                "ar": "غرفة ستاندرد من رباعية - ٤ أسرّة فردية"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 84642364
+            }
+          ],
+          "bookable": true,
+          "tags": null,
+          "relatedPackages": [
+            {
+              "type": "breakfast_upselling",
+              "id": "efac0b36-5414-4475-b52a-332e104092ed",
+              "amount": 67.61,
+              "amountPerNight": 67.61,
+              "available": true
+            }
+          ]
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 343.07
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "efac0b36-5414-4475-b52a-332e104092ed",
+          "packageRateInfo": {
+            "total": 343.07,
+            "firstTotal": 343.07,
+            "packageNightlyRates": [
+              {
+                "rate": 343.07
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 58.97
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 343.07,
+            "subTotal": 343.07,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "4 Single Beds",
+                "view": "",
+                "room": "Quadruple",
+                "hashCode": "027624a2-a419-5353-b838-f107c8a3c6e2",
+                "roomCode": "---:STD:ROM:X27:4SN_OFS:---:---:---",
+                "matchingCode": "---:STD:ROM:X27:4SN:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:X27:---:---:---:---",
+                "original": "Standard Quadruple Room, Multiple Beds, 4 Twin Beds",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "٤ أسرّة فردية",
+                    "view": "",
+                    "room": "رباعية",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "BB",
+              "roomId": "727939e9-e2bc-4b20-9957-d06355dedc6c",
+              "originalRoomName": "Standard Quadruple Room, Multiple Beds, 4 Twin Beds",
+              "roomName": {
+                "en": "Standard Quadruple Room - 4 Single Beds",
+                "ar": "غرفة ستاندرد من رباعية - ٤ أسرّة فردية"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 84642364
+            }
+          ],
+          "bookable": true,
+          "tags": null
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 585.85
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payAtProperty",
+              "label": "Pay At Property"
+            },
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "4faf8232-c4f8-4ad9-9e70-1a41382bb8bd",
+          "packageRateInfo": {
+            "total": 585.85,
+            "firstTotal": 585.85,
+            "packageNightlyRates": [
+              {
+                "rate": 585.85
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 100.66
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 585.85,
+            "subTotal": 585.85,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Room",
+                "bedding": "4 Single Beds",
+                "view": "",
+                "room": "Quadruple",
+                "hashCode": "027624a2-a419-5353-b838-f107c8a3c6e2",
+                "roomCode": "---:STD:ROM:X27:4SN_OFS:---:---:---",
+                "matchingCode": "---:STD:ROM:X27:4SN:---:---:---",
+                "matchingCodeNoBed": "---:STD:ROM:X27:---:---:---:---",
+                "original": "Standard Quadruple Room, Multiple Beds, 4 Twin Beds",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "٤ أسرّة فردية",
+                    "view": "",
+                    "room": "رباعية",
+                    "class": "ستاندرد"
+                  }
+                },
+                "class": "Standard"
+              },
+              "roomBasis": "HB",
+              "roomId": "70a91c14-ac70-4e62-b44c-ff70f8f44595",
+              "originalRoomName": "Standard Quadruple Room, Multiple Beds, 4 Twin Beds",
+              "roomName": {
+                "en": "Standard Quadruple Room - 4 Single Beds",
+                "ar": "غرفة ستاندرد من رباعية - ٤ أسرّة فردية"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 84642364
+            }
+          ],
+          "bookable": true,
+          "tags": null,
+          "relatedPackages": [
+            {
+              "type": "merge",
+              "id": "09376b30-eff8-44b8-8b99-1d0f7cc15fe7",
+              "amount": 0,
+              "amountPerNight": 0,
+              "available": false
+            }
+          ]
+        }
+      ],
+      "startingFromPrice": 275.46,
+      "rates": [
+        {
+          "roomBasis": "RO",
+          "refundability": "Refundable",
+          "hasFreeCancellation": true,
+          "startingFromPrice": 275.46,
+          "bedPackages": [
+            {
+              "packageId": "350bc432-36c7-4323-b804-ca7153e2b48d"
+            }
+          ]
+        },
+        {
+          "roomBasis": "BB",
+          "refundability": "Refundable",
+          "hasFreeCancellation": true,
+          "startingFromPrice": 343.07,
+          "bedPackages": [
+            {
+              "packageId": "efac0b36-5414-4475-b52a-332e104092ed"
+            }
+          ]
+        },
+        {
+          "roomBasis": "HB",
+          "refundability": "Refundable",
+          "hasFreeCancellation": true,
+          "startingFromPrice": 585.85,
+          "bedPackages": [
+            {
+              "packageId": "4faf8232-c4f8-4ad9-9e70-1a41382bb8bd"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Junior Suite (Mobility Access)",
+        "ar": "جناح جونيور (مُجهز لذوي القدرات الخاصة)"
+      },
+      "templates": {
+        "84167323": {
+          "id": 84167323,
+          "roomSize": 47,
+          "descriptionAr": null,
+          "descriptionEn": null,
+          "hotelSummaryId": 1798852,
+          "templateTitle": "Junior Suite, 1 King Bed, Accessible",
+          "templateNameForCode": "Junior Suite, 1 King Bed, Accessible",
+          "templateHashCode": "c14a063d",
+          "templateCode": "c14a063d",
+          "facilityCategories": [
+            {
+              "id": 25,
+              "facilities": [
+                {
+                  "id": 126,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 131,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 134,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 137,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 29,
+              "facilities": [
+                {
+                  "id": 140,
+                  "facilityTagResponseId": 5
+                }
+              ]
+            },
+            {
+              "id": 27,
+              "facilities": [
+                {
+                  "id": 147,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 26,
+              "facilities": [
+                {
+                  "id": 150,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 153,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 156,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 28,
+              "facilities": [
+                {
+                  "id": 168,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 170,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 30,
+              "facilities": [
+                {
+                  "id": 184,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 187,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 189,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 24,
+              "facilities": [
+                {
+                  "id": 190,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 31,
+              "facilities": [
+                {
+                  "id": 191,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 192,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 193,
+                  "facilityTagResponseId": 4
+                }
+              ]
+            }
+          ],
+          "imageCategories": [
+            {
+              "id": 243,
+              "images": [
+                {
+                  "id": 66230508,
+                  "imageCategoryId": 243,
+                  "rank": 1,
+                  "url": "http://hotelcms-contents-live.almosafer.com/c1dccaa0-92b1-4ac0-a47e-9fdff8fd354d.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            }
+          ],
+          "roomBedGroups": [
+            {
+              "id": 3278415,
+              "bedGroup": "1 King Bed"
+            }
+          ]
+        }
+      },
+      "guests": {
+        "adults": 2,
+        "children": 0
+      },
+      "numberOfRooms": 1,
+      "packages": [
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 386.52
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            },
+            {
+              "type": "payAtProperty",
+              "label": "Pay At Property"
+            }
+          ],
+          "packageId": "d668ef6c-0b83-45af-82e9-cd9b70fe5355",
+          "packageRateInfo": {
+            "total": 386.52,
+            "firstTotal": 386.52,
+            "packageNightlyRates": [
+              {
+                "rate": 386.52
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 66.4
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 386.52,
+            "subTotal": 386.52,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Suite",
+                "bedding": "King Bed",
+                "view": "",
+                "room": "",
+                "hashCode": "4c17032b-d390-5e08-9753-e535da837872",
+                "roomCode": "FL3:JUN:SUT:---:KNG:---:---:---",
+                "matchingCode": "FL3:JUN:SUT:---:KNG:---:---:---",
+                "matchingCodeNoBed": "FL3:JUN:SUT:---:---:---:---:---",
+                "original": "Junior Suite, 1 King Bed, Accessible",
+                "locale": {
+                  "ar": {
+                    "type": "جناح",
+                    "bedding": "١ سرير كينج",
+                    "view": "",
+                    "room": "",
+                    "class": "جونيور"
+                  }
+                },
+                "class": "Junior"
+              },
+              "roomBasis": "RO",
+              "roomId": "bf05e082-79dc-4bcb-a4dc-eedeb96abedc",
+              "originalRoomName": "Junior Suite, 1 King Bed, Accessible",
+              "roomName": {
+                "en": "Junior Suite - King Bed (Mobility Access)",
+                "ar": "جناح جونيور - ١ سرير كينج (مُجهز لذوي القدرات الخاصة)"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 84167323
+            }
+          ],
+          "bookable": true,
+          "tags": null,
+          "relatedPackages": [
+            {
+              "type": "merge",
+              "id": "13cf97fc-f926-4297-8de9-cba1f7cb75bc",
+              "amount": 0,
+              "amountPerNight": 0,
+              "available": false
+            },
+            {
+              "type": "breakfast_upselling",
+              "id": "cf69e0a1-2b8d-4eb5-8b0e-db75001ab2aa",
+              "amount": 67.65,
+              "amountPerNight": 67.65,
+              "available": true
+            }
+          ]
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 454.17
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            },
+            {
+              "type": "payAtProperty",
+              "label": "Pay At Property"
+            }
+          ],
+          "packageId": "cf69e0a1-2b8d-4eb5-8b0e-db75001ab2aa",
+          "packageRateInfo": {
+            "total": 454.17,
+            "firstTotal": 454.17,
+            "packageNightlyRates": [
+              {
+                "rate": 454.17
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 78.05
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 454.17,
+            "subTotal": 454.17,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Suite",
+                "bedding": "King Bed",
+                "view": "",
+                "room": "",
+                "hashCode": "4c17032b-d390-5e08-9753-e535da837872",
+                "roomCode": "FL3:JUN:SUT:---:KNG:---:---:---",
+                "matchingCode": "FL3:JUN:SUT:---:KNG:---:---:---",
+                "matchingCodeNoBed": "FL3:JUN:SUT:---:---:---:---:---",
+                "original": "Junior Suite, 1 King Bed, Accessible",
+                "locale": {
+                  "ar": {
+                    "type": "جناح",
+                    "bedding": "١ سرير كينج",
+                    "view": "",
+                    "room": "",
+                    "class": "جونيور"
+                  }
+                },
+                "class": "Junior"
+              },
+              "roomBasis": "BB",
+              "roomId": "285730dd-88aa-41d1-bc97-5c905f360339",
+              "originalRoomName": "Junior Suite, 1 King Bed, Accessible",
+              "roomName": {
+                "en": "Junior Suite - King Bed (Mobility Access)",
+                "ar": "جناح جونيور - ١ سرير كينج (مُجهز لذوي القدرات الخاصة)"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 84167323
+            }
+          ],
+          "bookable": true,
+          "tags": null,
+          "relatedPackages": [
+            {
+              "type": "merge",
+              "id": "bf7751a6-c539-4f8a-b115-946cba1f29f8",
+              "amount": 0,
+              "amountPerNight": 0,
+              "available": false
+            }
+          ]
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 724.78
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            },
+            {
+              "type": "payAtProperty",
+              "label": "Pay At Property"
+            }
+          ],
+          "packageId": "0e00f5cb-cef8-4ca7-a3e5-07aaf20efdb2",
+          "packageRateInfo": {
+            "total": 724.78,
+            "firstTotal": 724.78,
+            "packageNightlyRates": [
+              {
+                "rate": 724.78
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 124.55
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 724.78,
+            "subTotal": 724.78,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Suite",
+                "bedding": "King Bed",
+                "view": "",
+                "room": "",
+                "hashCode": "4c17032b-d390-5e08-9753-e535da837872",
+                "roomCode": "FL3:JUN:SUT:---:KNG:---:---:---",
+                "matchingCode": "FL3:JUN:SUT:---:KNG:---:---:---",
+                "matchingCodeNoBed": "FL3:JUN:SUT:---:---:---:---:---",
+                "original": "Junior Suite, 1 King Bed, Accessible",
+                "locale": {
+                  "ar": {
+                    "type": "جناح",
+                    "bedding": "١ سرير كينج",
+                    "view": "",
+                    "room": "",
+                    "class": "جونيور"
+                  }
+                },
+                "class": "Junior"
+              },
+              "roomBasis": "HB",
+              "roomId": "62a60fe9-0237-4b1a-a6bc-5a9a93c37cb3",
+              "originalRoomName": "Junior Suite, 1 King Bed, Accessible",
+              "roomName": {
+                "en": "Junior Suite - King Bed (Mobility Access)",
+                "ar": "جناح جونيور - ١ سرير كينج (مُجهز لذوي القدرات الخاصة)"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 84167323
+            }
+          ],
+          "bookable": true,
+          "tags": null,
+          "relatedPackages": [
+            {
+              "type": "merge",
+              "id": "a11402c5-b956-4b52-bbaf-e184b67c7755",
+              "amount": 0,
+              "amountPerNight": 0,
+              "available": false
+            }
+          ]
+        }
+      ],
+      "startingFromPrice": 386.52,
+      "rates": [
+        {
+          "roomBasis": "RO",
+          "refundability": "Refundable",
+          "hasFreeCancellation": true,
+          "startingFromPrice": 386.52,
+          "bedPackages": [
+            {
+              "packageId": "d668ef6c-0b83-45af-82e9-cd9b70fe5355"
+            }
+          ]
+        },
+        {
+          "roomBasis": "BB",
+          "refundability": "Refundable",
+          "hasFreeCancellation": true,
+          "startingFromPrice": 454.17,
+          "bedPackages": [
+            {
+              "packageId": "cf69e0a1-2b8d-4eb5-8b0e-db75001ab2aa"
+            }
+          ]
+        },
+        {
+          "roomBasis": "HB",
+          "refundability": "Refundable",
+          "hasFreeCancellation": true,
+          "startingFromPrice": 724.78,
+          "bedPackages": [
+            {
+              "packageId": "0e00f5cb-cef8-4ca7-a3e5-07aaf20efdb2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Junior Suite",
+        "ar": "جناح جونيور"
+      },
+      "templates": {
+        "83229577": {
+          "id": 83229577,
+          "roomSize": 45,
+          "descriptionAr": null,
+          "descriptionEn": null,
+          "hotelSummaryId": 1798852,
+          "templateTitle": "Junior Suite, 1 King Bed",
+          "templateNameForCode": "Junior Suite, 1 King Bed",
+          "templateHashCode": "c8a817c9",
+          "templateCode": "---:JUN:SUT:---:KNG:---:---:---",
+          "facilityCategories": [
+            {
+              "id": 25,
+              "facilities": [
+                {
+                  "id": 126,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 131,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 134,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 137,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 29,
+              "facilities": [
+                {
+                  "id": 140,
+                  "facilityTagResponseId": 5
+                }
+              ]
+            },
+            {
+              "id": 27,
+              "facilities": [
+                {
+                  "id": 147,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 26,
+              "facilities": [
+                {
+                  "id": 150,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 153,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 156,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 28,
+              "facilities": [
+                {
+                  "id": 168,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 170,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 30,
+              "facilities": [
+                {
+                  "id": 184,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 187,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 189,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 24,
+              "facilities": [
+                {
+                  "id": 190,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 31,
+              "facilities": [
+                {
+                  "id": 191,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 192,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 193,
+                  "facilityTagResponseId": 4
+                }
+              ]
+            }
+          ],
+          "imageCategories": [
+            {
+              "id": 243,
+              "images": [
+                {
+                  "id": 45958410,
+                  "imageCategoryId": 243,
+                  "rank": 1,
+                  "url": "http://hotelcms-contents-live.almosafer.com/4db32bee-d7b6-4131-b492-8a44945e9e00.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                },
+                {
+                  "id": 45958411,
+                  "imageCategoryId": 243,
+                  "rank": 2,
+                  "url": "http://hotelcms-contents-live.almosafer.com/3ac44c69-e4f7-463c-afff-7a178660fe04.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "images": [
+                {
+                  "id": 45958413,
+                  "imageCategoryId": 6,
+                  "rank": 4,
+                  "url": "http://hotelcms-contents-live.almosafer.com/d0243b6a-41d7-49ff-a3d1-3b84d993357a.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                },
+                {
+                  "id": 45958409,
+                  "imageCategoryId": 6,
+                  "rank": 5,
+                  "url": "http://hotelcms-contents-live.almosafer.com/fb75edbe-339b-4e9e-8bb7-30b19bde11b5.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            }
+          ],
+          "roomBedGroups": [
+            {
+              "id": 794199,
+              "bedGroup": "1 King Bed"
+            }
+          ]
+        },
+        "84192922": {
+          "id": 84192922,
+          "roomSize": 47,
+          "descriptionAr": null,
+          "descriptionEn": null,
+          "hotelSummaryId": 1798852,
+          "templateTitle": "Junior Suite, Multiple Beds",
+          "templateNameForCode": "Junior Suite, Multiple Beds",
+          "templateHashCode": "a022238",
+          "templateCode": "a022238",
+          "facilityCategories": [
+            {
+              "id": 25,
+              "facilities": [
+                {
+                  "id": 126,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 127,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 131,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 134,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 137,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 29,
+              "facilities": [
+                {
+                  "id": 140,
+                  "facilityTagResponseId": 5
+                }
+              ]
+            },
+            {
+              "id": 27,
+              "facilities": [
+                {
+                  "id": 147,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 26,
+              "facilities": [
+                {
+                  "id": 150,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 153,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 156,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 28,
+              "facilities": [
+                {
+                  "id": 168,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 170,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 30,
+              "facilities": [
+                {
+                  "id": 184,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 187,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 189,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 24,
+              "facilities": [
+                {
+                  "id": 190,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 31,
+              "facilities": [
+                {
+                  "id": 191,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 192,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 193,
+                  "facilityTagResponseId": 4
+                }
+              ]
+            }
+          ],
+          "imageCategories": [
+            {
+              "id": 243,
+              "images": [
+                {
+                  "id": 66230876,
+                  "imageCategoryId": 243,
+                  "rank": 1,
+                  "url": "http://hotelcms-contents-live.almosafer.com/d6d787ad-c75f-4fdd-93d0-5bc32fb012ba.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            }
+          ],
+          "roomBedGroups": [
+            {
+              "id": 3308214,
+              "bedGroup": "4 Twin Beds"
+            }
+          ]
+        }
+      },
+      "guests": {
+        "adults": 2,
+        "children": 0
+      },
+      "numberOfRooms": 1,
+      "packages": [
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 386.52
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "352d989d-fa9e-4735-95b0-e0d044977bcd",
+          "packageRateInfo": {
+            "total": 386.52,
+            "firstTotal": 386.52,
+            "packageNightlyRates": [
+              {
+                "rate": 386.52
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 66.4
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 386.52,
+            "subTotal": 386.52,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Suite",
+                "bedding": "King Bed",
+                "view": "",
+                "room": "",
+                "hashCode": "58f8144d-9255-5e6b-9d57-01f06e5bc323",
+                "roomCode": "---:JUN:SUT:---:KNG:---:---:---",
+                "matchingCode": "---:JUN:SUT:---:KNG:---:---:---",
+                "matchingCodeNoBed": "---:JUN:SUT:---:---:---:---:---",
+                "original": "Junior Suite, 1 King Bed",
+                "locale": {
+                  "ar": {
+                    "type": "جناح",
+                    "bedding": "١ سرير كينج",
+                    "view": "",
+                    "room": "",
+                    "class": "جونيور"
+                  }
+                },
+                "class": "Junior"
+              },
+              "roomBasis": "RO",
+              "roomId": "ba8e2ee7-b5e8-4d40-b4b1-4d9c9a801a09",
+              "originalRoomName": "Junior Suite, 1 King Bed",
+              "roomName": {
+                "en": "Junior Suite - King Bed",
+                "ar": "جناح جونيور - ١ سرير كينج"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 83229577
+            }
+          ],
+          "bookable": true,
+          "tags": null,
+          "relatedPackages": [
+            {
+              "type": "breakfast_upselling",
+              "id": "db879c3f-0357-4e5d-bb31-331b387c6544",
+              "amount": 67.68,
+              "amountPerNight": 67.68,
+              "available": true
+            }
+          ]
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 454.2
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "ec911a62-e637-4171-bb04-87dd0a947f58",
+          "packageRateInfo": {
+            "total": 454.2,
+            "firstTotal": 454.2,
+            "packageNightlyRates": [
+              {
+                "rate": 454.2
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 78.05
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 454.2,
+            "subTotal": 454.2,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Suite",
+                "bedding": "Multiple Beds/4 Single Beds",
+                "view": "",
+                "room": "",
+                "hashCode": "5ffc7015-6268-5297-8ef3-e414df18fd57",
+                "roomCode": "---:JUN:SUT:---:4SN_OFS:---:---:---",
+                "matchingCode": "---:JUN:SUT:---:4SN_OFS:---:---:---",
+                "matchingCodeNoBed": "---:JUN:SUT:---:---:---:---:---",
+                "original": "Junior Suite, Multiple Beds, 4 Twin Beds",
+                "locale": {
+                  "ar": {
+                    "type": "جناح",
+                    "bedding": "أسرة متعددة/٤ أسرّة فردية",
+                    "view": "",
+                    "room": "",
+                    "class": "جونيور"
+                  }
+                },
+                "class": "Junior"
+              },
+              "roomBasis": "RO",
+              "roomId": "ed725de8-0bfc-42c0-bc77-41f20b9beba9",
+              "originalRoomName": "Junior Suite, Multiple Beds, 4 Twin Beds",
+              "roomName": {
+                "en": "Junior Suite - Multiple Beds/4 Single Beds",
+                "ar": "جناح جونيور - أسرة متعددة/٤ أسرّة فردية"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 84192922
+            }
+          ],
+          "bookable": true,
+          "tags": null
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 454.2
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "db879c3f-0357-4e5d-bb31-331b387c6544",
+          "packageRateInfo": {
+            "total": 454.2,
+            "firstTotal": 454.2,
+            "packageNightlyRates": [
+              {
+                "rate": 454.2
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 78.05
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 454.2,
+            "subTotal": 454.2,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Suite",
+                "bedding": "King Bed",
+                "view": "",
+                "room": "",
+                "hashCode": "58f8144d-9255-5e6b-9d57-01f06e5bc323",
+                "roomCode": "---:JUN:SUT:---:KNG:---:---:---",
+                "matchingCode": "---:JUN:SUT:---:KNG:---:---:---",
+                "matchingCodeNoBed": "---:JUN:SUT:---:---:---:---:---",
+                "original": "Junior Suite, 1 King Bed",
+                "locale": {
+                  "ar": {
+                    "type": "جناح",
+                    "bedding": "١ سرير كينج",
+                    "view": "",
+                    "room": "",
+                    "class": "جونيور"
+                  }
+                },
+                "class": "Junior"
+              },
+              "roomBasis": "BB",
+              "roomId": "881acf1d-0200-4ec5-b91d-c59bff17f4ca",
+              "originalRoomName": "Junior Suite, 1 King Bed",
+              "roomName": {
+                "en": "Junior Suite - King Bed",
+                "ar": "جناح جونيور - ١ سرير كينج"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 83229577
+            }
+          ],
+          "bookable": true,
+          "tags": null
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 521.81
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            },
+            {
+              "type": "payAtProperty",
+              "label": "Pay At Property"
+            }
+          ],
+          "packageId": "9c810ad5-599b-423d-a969-877373a46056",
+          "packageRateInfo": {
+            "total": 521.81,
+            "firstTotal": 521.81,
+            "packageNightlyRates": [
+              {
+                "rate": 521.81
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 89.65
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 521.81,
+            "subTotal": 521.81,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Suite",
+                "bedding": "Multiple Beds/4 Single Beds",
+                "view": "",
+                "room": "",
+                "hashCode": "5ffc7015-6268-5297-8ef3-e414df18fd57",
+                "roomCode": "---:JUN:SUT:---:4SN_OFS:---:---:---",
+                "matchingCode": "---:JUN:SUT:---:4SN_OFS:---:---:---",
+                "matchingCodeNoBed": "---:JUN:SUT:---:---:---:---:---",
+                "original": "Junior Suite, Multiple Beds, 4 Twin Beds",
+                "locale": {
+                  "ar": {
+                    "type": "جناح",
+                    "bedding": "أسرة متعددة/٤ أسرّة فردية",
+                    "view": "",
+                    "room": "",
+                    "class": "جونيور"
+                  }
+                },
+                "class": "Junior"
+              },
+              "roomBasis": "BB",
+              "roomId": "4a65f987-a0ce-4e5a-8485-b3e73793b080",
+              "originalRoomName": "Junior Suite, Multiple Beds, 4 Twin Beds",
+              "roomName": {
+                "en": "Junior Suite - Multiple Beds/4 Single Beds",
+                "ar": "جناح جونيور - أسرة متعددة/٤ أسرّة فردية"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 84192922
+            }
+          ],
+          "bookable": true,
+          "tags": null,
+          "relatedPackages": [
+            {
+              "type": "merge",
+              "id": "a63ecb62-b3b5-40d6-b559-059c7f055b35",
+              "amount": 0,
+              "amountPerNight": 0,
+              "available": false
+            }
+          ]
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 724.78
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            },
+            {
+              "type": "payAtProperty",
+              "label": "Pay At Property"
+            }
+          ],
+          "packageId": "e9a0c449-99a8-4e6b-9a28-2537cf7f0433",
+          "packageRateInfo": {
+            "total": 724.78,
+            "firstTotal": 724.78,
+            "packageNightlyRates": [
+              {
+                "rate": 724.78
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 124.55
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 724.78,
+            "subTotal": 724.78,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Suite",
+                "bedding": "King Bed",
+                "view": "",
+                "room": "",
+                "hashCode": "58f8144d-9255-5e6b-9d57-01f06e5bc323",
+                "roomCode": "---:JUN:SUT:---:KNG:---:---:---",
+                "matchingCode": "---:JUN:SUT:---:KNG:---:---:---",
+                "matchingCodeNoBed": "---:JUN:SUT:---:---:---:---:---",
+                "original": "Junior Suite, 1 King Bed",
+                "locale": {
+                  "ar": {
+                    "type": "جناح",
+                    "bedding": "١ سرير كينج",
+                    "view": "",
+                    "room": "",
+                    "class": "جونيور"
+                  }
+                },
+                "class": "Junior"
+              },
+              "roomBasis": "HB",
+              "roomId": "051dc4d9-902f-4059-b24d-d1bb6c1a2e99",
+              "originalRoomName": "Junior Suite, 1 King Bed",
+              "roomName": {
+                "en": "Junior Suite - King Bed",
+                "ar": "جناح جونيور - ١ سرير كينج"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 83229577
+            }
+          ],
+          "bookable": true,
+          "tags": null,
+          "relatedPackages": [
+            {
+              "type": "merge",
+              "id": "2338174f-7198-4ba6-bf8d-b064918cbdda",
+              "amount": 0,
+              "amountPerNight": 0,
+              "available": false
+            }
+          ]
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 809.32
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            },
+            {
+              "type": "payAtProperty",
+              "label": "Pay At Property"
+            }
+          ],
+          "packageId": "a56deea3-72b5-4c19-b4a9-c7fb4e9e1465",
+          "packageRateInfo": {
+            "total": 809.32,
+            "firstTotal": 809.32,
+            "packageNightlyRates": [
+              {
+                "rate": 809.32
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 139.08
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 809.32,
+            "subTotal": 809.32,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Suite",
+                "bedding": "Multiple Beds/4 Single Beds",
+                "view": "",
+                "room": "",
+                "hashCode": "5ffc7015-6268-5297-8ef3-e414df18fd57",
+                "roomCode": "---:JUN:SUT:---:4SN_OFS:---:---:---",
+                "matchingCode": "---:JUN:SUT:---:4SN_OFS:---:---:---",
+                "matchingCodeNoBed": "---:JUN:SUT:---:---:---:---:---",
+                "original": "Junior Suite, Multiple Beds, 4 Twin Beds",
+                "locale": {
+                  "ar": {
+                    "type": "جناح",
+                    "bedding": "أسرة متعددة/٤ أسرّة فردية",
+                    "view": "",
+                    "room": "",
+                    "class": "جونيور"
+                  }
+                },
+                "class": "Junior"
+              },
+              "roomBasis": "HB",
+              "roomId": "d6909fb0-dca8-450d-9a49-c20a654dd640",
+              "originalRoomName": "Junior Suite, Multiple Beds, 4 Twin Beds",
+              "roomName": {
+                "en": "Junior Suite - Multiple Beds/4 Single Beds",
+                "ar": "جناح جونيور - أسرة متعددة/٤ أسرّة فردية"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 84192922
+            }
+          ],
+          "bookable": true,
+          "tags": null,
+          "relatedPackages": [
+            {
+              "type": "merge",
+              "id": "2417340a-029e-47e2-9413-e766377bb7a6",
+              "amount": 0,
+              "amountPerNight": 0,
+              "available": false
+            }
+          ]
+        }
+      ],
+      "startingFromPrice": 386.52,
+      "rates": [
+        {
+          "roomBasis": "RO",
+          "refundability": "Refundable",
+          "hasFreeCancellation": true,
+          "startingFromPrice": 386.52,
+          "bedPackages": [
+            {
+              "packageId": "352d989d-fa9e-4735-95b0-e0d044977bcd"
+            },
+            {
+              "packageId": "ec911a62-e637-4171-bb04-87dd0a947f58"
+            }
+          ]
+        },
+        {
+          "roomBasis": "BB",
+          "refundability": "Refundable",
+          "hasFreeCancellation": true,
+          "startingFromPrice": 454.2,
+          "bedPackages": [
+            {
+              "packageId": "db879c3f-0357-4e5d-bb31-331b387c6544"
+            },
+            {
+              "packageId": "9c810ad5-599b-423d-a969-877373a46056"
+            }
+          ]
+        },
+        {
+          "roomBasis": "HB",
+          "refundability": "Refundable",
+          "hasFreeCancellation": true,
+          "startingFromPrice": 724.78,
+          "bedPackages": [
+            {
+              "packageId": "e9a0c449-99a8-4e6b-9a28-2537cf7f0433"
+            },
+            {
+              "packageId": "a56deea3-72b5-4c19-b4a9-c7fb4e9e1465"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Executive Suite",
+        "ar": "جناح تنفيذي"
+      },
+      "templates": {
+        "84023603": {
+          "id": 84023603,
+          "roomSize": 57,
+          "descriptionAr": null,
+          "descriptionEn": null,
+          "hotelSummaryId": 1798852,
+          "templateTitle": "Executive Suite, 1 King Bed",
+          "templateNameForCode": "Executive Suite, 1 King Bed",
+          "templateHashCode": "10e801d0",
+          "templateCode": "10e801d0",
+          "facilityCategories": [
+            {
+              "id": 25,
+              "facilities": [
+                {
+                  "id": 126,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 131,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 134,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 137,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 29,
+              "facilities": [
+                {
+                  "id": 140,
+                  "facilityTagResponseId": 5
+                }
+              ]
+            },
+            {
+              "id": 27,
+              "facilities": [
+                {
+                  "id": 147,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 26,
+              "facilities": [
+                {
+                  "id": 150,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 153,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 156,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 28,
+              "facilities": [
+                {
+                  "id": 168,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 170,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 30,
+              "facilities": [
+                {
+                  "id": 184,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 187,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 189,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 24,
+              "facilities": [
+                {
+                  "id": 190,
+                  "facilityTagResponseId": null
+                }
+              ]
+            },
+            {
+              "id": 31,
+              "facilities": [
+                {
+                  "id": 192,
+                  "facilityTagResponseId": null
+                },
+                {
+                  "id": 193,
+                  "facilityTagResponseId": 4
+                }
+              ]
+            }
+          ],
+          "imageCategories": [
+            {
+              "id": 46,
+              "images": [
+                {
+                  "id": 63850800,
+                  "imageCategoryId": 46,
+                  "rank": 1,
+                  "url": "http://hotelcms-contents-live.almosafer.com/f070185d-6ea3-4679-9b87-3f8995e98c5a.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                },
+                {
+                  "id": 63850801,
+                  "imageCategoryId": 46,
+                  "rank": 3,
+                  "url": "http://hotelcms-contents-live.almosafer.com/e57a295b-9a4a-4d8a-85fe-e63bd18d1b53.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 243,
+              "images": [
+                {
+                  "id": 63850802,
+                  "imageCategoryId": 243,
+                  "rank": 2,
+                  "url": "http://hotelcms-contents-live.almosafer.com/9d119eea-c33e-4feb-a73c-e755b722f5a8.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "images": [
+                {
+                  "id": 63850798,
+                  "imageCategoryId": 6,
+                  "rank": 5,
+                  "url": "http://hotelcms-contents-live.almosafer.com/7de6d935-6c74-4f8a-809a-bbf5876d16eb.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                },
+                {
+                  "id": 63850797,
+                  "imageCategoryId": 6,
+                  "rank": 6,
+                  "url": "http://hotelcms-contents-live.almosafer.com/8608e56c-0d01-4f5d-9ac0-39157b78efec.jpg",
+                  "isActive": true,
+                  "isDefaultImage": null
+                }
+              ]
+            }
+          ],
+          "roomBedGroups": [
+            {
+              "id": 3111773,
+              "bedGroup": "1 King Bed"
+            }
+          ]
+        }
+      },
+      "guests": {
+        "adults": 2,
+        "children": 0
+      },
+      "numberOfRooms": 1,
+      "packages": [
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 425.17
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "376e1471-efe1-4589-8f2b-1d74c90168ca",
+          "packageRateInfo": {
+            "total": 425.17,
+            "firstTotal": 425.17,
+            "packageNightlyRates": [
+              {
+                "rate": 425.17
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 73.05
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 425.17,
+            "subTotal": 425.17,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Suite",
+                "bedding": "King Bed",
+                "view": "",
+                "room": "",
+                "hashCode": "5a3d401d-6a28-5f56-a5e9-88ab6849df93",
+                "roomCode": "---:XTV:SUT:---:KNG:---:---:---",
+                "matchingCode": "---:XTV:SUT:---:KNG:---:---:---",
+                "matchingCodeNoBed": "---:XTV:SUT:---:---:---:---:---",
+                "original": "Executive Suite, 1 King Bed",
+                "locale": {
+                  "ar": {
+                    "type": "جناح",
+                    "bedding": "١ سرير كينج",
+                    "view": "",
+                    "room": "",
+                    "class": "تنفيذي"
+                  }
+                },
+                "class": "Executive"
+              },
+              "roomBasis": "RO",
+              "roomId": "5ce077a7-cfcb-4ed3-a087-2fd5192fd845",
+              "originalRoomName": "Executive Suite, 1 King Bed",
+              "roomName": {
+                "en": "Executive Suite - King Bed",
+                "ar": "جناح تنفيذي - ١ سرير كينج"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 84023603
+            }
+          ],
+          "bookable": true,
+          "tags": null,
+          "relatedPackages": [
+            {
+              "type": "breakfast_upselling",
+              "id": "a47219a7-2add-49ef-b963-095437b7fd7d",
+              "amount": 67.68,
+              "amountPerNight": 67.68,
+              "available": true
+            }
+          ]
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 492.85
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            }
+          ],
+          "packageId": "a47219a7-2add-49ef-b963-095437b7fd7d",
+          "packageRateInfo": {
+            "total": 492.85,
+            "firstTotal": 492.85,
+            "packageNightlyRates": [
+              {
+                "rate": 492.85
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 84.7
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 492.85,
+            "subTotal": 492.85,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Suite",
+                "bedding": "King Bed",
+                "view": "",
+                "room": "",
+                "hashCode": "5a3d401d-6a28-5f56-a5e9-88ab6849df93",
+                "roomCode": "---:XTV:SUT:---:KNG:---:---:---",
+                "matchingCode": "---:XTV:SUT:---:KNG:---:---:---",
+                "matchingCodeNoBed": "---:XTV:SUT:---:---:---:---:---",
+                "original": "Executive Suite, 1 King Bed",
+                "locale": {
+                  "ar": {
+                    "type": "جناح",
+                    "bedding": "١ سرير كينج",
+                    "view": "",
+                    "room": "",
+                    "class": "تنفيذي"
+                  }
+                },
+                "class": "Executive"
+              },
+              "roomBasis": "BB",
+              "roomId": "2d12825f-939a-499c-b277-ec07d2a6b5b7",
+              "originalRoomName": "Executive Suite, 1 King Bed",
+              "roomName": {
+                "en": "Executive Suite - King Bed",
+                "ar": "جناح تنفيذي - ١ سرير كينج"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 84023603
+            }
+          ],
+          "bookable": true,
+          "tags": null
+        },
+        {
+          "connectivitySupplierType": "Direct",
+          "cancellationPolicy": {
+            "bookingRemarks": "Choices between multiple bed types for the same room are requests only and may not be honored at the hotel if availability does not permit.",
+            "cancellationPolicyDetails": [
+              {
+                "cancellationFee": {
+                  "currency": "SAR",
+                  "finalPrice": 773.08
+                },
+                "dateFrom": "2026-10-06",
+                "dateTo": "2026-10-08"
+              }
+            ],
+            "hasFreeCancellation": true
+          },
+          "paymentCategories": [
+            {
+              "type": "payNow",
+              "label": "Pay Now"
+            },
+            {
+              "type": "payAtProperty",
+              "label": "Pay At Property"
+            }
+          ],
+          "packageId": "adff0294-1bec-487c-be38-7ccd7de0bed9",
+          "packageRateInfo": {
+            "total": 773.08,
+            "firstTotal": 773.08,
+            "packageNightlyRates": [
+              {
+                "rate": 773.08
+              }
+            ],
+            "currency": "SAR",
+            "taxesAndFees": [
+              {
+                "currency": "SAR",
+                "feeType": "property_taxes",
+                "isIncludedInPrice": true,
+                "isMandatory": true,
+                "value": 132.85
+              }
+            ]
+          },
+          "refundability": "Refundable",
+          "dynamicRefundability": "Refundable",
+          "contractId": 10135,
+          "vendorSupplierId": 100002,
+          "packagesVatResponse": {
+            "total": 773.08,
+            "subTotal": 773.08,
+            "vat": {
+              "outputVat": 0,
+              "inputVat": 0
+            }
+          },
+          "rewards": null,
+          "benefits": [],
+          "rooms": [
+            {
+              "kidsAges": [],
+              "numberOfAdults": 2,
+              "rmsDetail": {
+                "type": "Suite",
+                "bedding": "King Bed",
+                "view": "",
+                "room": "",
+                "hashCode": "5a3d401d-6a28-5f56-a5e9-88ab6849df93",
+                "roomCode": "---:XTV:SUT:---:KNG:---:---:---",
+                "matchingCode": "---:XTV:SUT:---:KNG:---:---:---",
+                "matchingCodeNoBed": "---:XTV:SUT:---:---:---:---:---",
+                "original": "Executive Suite, 1 King Bed",
+                "locale": {
+                  "ar": {
+                    "type": "جناح",
+                    "bedding": "١ سرير كينج",
+                    "view": "",
+                    "room": "",
+                    "class": "تنفيذي"
+                  }
+                },
+                "class": "Executive"
+              },
+              "roomBasis": "HB",
+              "roomId": "e77a3b10-b91a-4c8c-b9ea-47f2dd195fbc",
+              "originalRoomName": "Executive Suite, 1 King Bed",
+              "roomName": {
+                "en": "Executive Suite - King Bed",
+                "ar": "جناح تنفيذي - ١ سرير كينج"
+              },
+              "contentFlags": {
+                "description": true,
+                "size": true,
+                "facilityCategories": true,
+                "imageCategories": true
+              },
+              "templateId": 84023603
+            }
+          ],
+          "bookable": true,
+          "tags": null,
+          "relatedPackages": [
+            {
+              "type": "merge",
+              "id": "d5d86db3-c57d-4647-8e7a-4ff2cb1396ff",
+              "amount": 0,
+              "amountPerNight": 0,
+              "available": false
+            }
+          ]
+        }
+      ],
+      "startingFromPrice": 425.17,
+      "rates": [
+        {
+          "roomBasis": "RO",
+          "refundability": "Refundable",
+          "hasFreeCancellation": true,
+          "startingFromPrice": 425.17,
+          "bedPackages": [
+            {
+              "packageId": "376e1471-efe1-4589-8f2b-1d74c90168ca"
+            }
+          ]
+        },
+        {
+          "roomBasis": "BB",
+          "refundability": "Refundable",
+          "hasFreeCancellation": true,
+          "startingFromPrice": 492.85,
+          "bedPackages": [
+            {
+              "packageId": "a47219a7-2add-49ef-b963-095437b7fd7d"
+            }
+          ]
+        },
+        {
+          "roomBasis": "HB",
+          "refundability": "Refundable",
+          "hasFreeCancellation": true,
+          "startingFromPrice": 773.08,
+          "bedPackages": [
+            {
+              "packageId": "adff0294-1bec-487c-be38-7ccd7de0bed9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "additionalData": null,
+  "searchResult": {
+    "discountPercentage": 0,
+    "showDiscount": false
+  },
+  "config": {
+    "appliedPrice": null
+  },
+  "sessionCreatedAt": "2026-09-29 11:47:26",
+  "sessionExpiredAt": "2026-09-29 12:09:26",
+  "delayInMillis": 0,
+  "hasRewards": false,
+  "pId": "e442644c-0fde-40a1-b4f9-442d5939be29",
+  "sId": "01a0ecfd-ba7a-7f68-9b88-28a1c609d490"
+}

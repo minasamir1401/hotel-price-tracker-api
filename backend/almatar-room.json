@@ -1,0 +1,489 @@
+{
+  "groupId": 7,
+  "defaultPackage": {
+    "almtaarHotelId": 133550,
+    "packageId": "50f3f984-383b-4a50-ad29-269832381291",
+    "originalFinalPrice": 1156.32,
+    "appliedCouponCode": "saaug12",
+    "appliedCouponDiscountValue": 80.94239999999999,
+    "appliedCouponDiscountCurrency": null,
+    "appliedCouponDescription": "",
+    "discountPercentage": 7,
+    "finalPrice": 1075.3776,
+    "finalTax": 0,
+    "currency": "SAR",
+    "isRefundable": false,
+    "refundability": "غير قابل للإسترداد",
+    "refundableUntil": null,
+    "cancellationMessage": "",
+    "payLaterCancellationMessage": "",
+    "remarks": [],
+    "boardBasis": [
+      "إقامة وإفطار"
+    ],
+    "roomSize": [
+      37
+    ],
+    "taxesAndFees": null,
+    "appliedPriceCode": null,
+    "appliedPriceDiscountValue": null,
+    "canBookNowPayLater": false,
+    "bookNowPayLaterCancellationTime": 0,
+    "customerPaymentChoice": null,
+    "tierPoints": {
+      "tier-1": 1734,
+      "tier-2": 3468,
+      "tier-3": 5203,
+      "tier-4": 6937
+    },
+    "rooms": [
+      {
+        "adultsCount": 2,
+        "kidsAges": [],
+        "currency": "SAR",
+        "finalPrice": 1156.32,
+        "roomBasis": "إقامة وإفطار",
+        "roomView": "",
+        "roomName": "غرفة واسعة بإطلالة جزئية على الحرم بسرير كينج",
+        "bedType": "KING Bed",
+        "roomSize": "",
+        "finalPricePerNight": 1156.32,
+        "roomContent": {
+          "amenities": {
+            "bedroom": {
+              "id": "bedroom",
+              "name": "غرفة النوم",
+              "values": [
+                "مكيف",
+                "مكتب",
+                "خدمة ترتيب الأسرة",
+                "أسرة أطفال / رضع مجانًا",
+                "أسرّة قابلة للطي / إضافية ( تكلفة إضافية)"
+              ]
+            },
+            "bathroom": {
+              "id": "bathroom",
+              "name": "الحمام",
+              "values": [
+                "شباشب",
+                "الاستحمام فقط",
+                "حمام خاص",
+                "صابون",
+                "شامبو",
+                "ورق التواليت",
+                "المناشف موفرة"
+              ]
+            },
+            "food_drink": {
+              "id": "food_drink",
+              "name": "الطعام و الشراب",
+              "values": [
+                "مياه مجانية",
+                "صانع القهوة / الشاي",
+                "غلاية كهربائية"
+              ]
+            },
+            "entertainment": {
+              "id": "entertainment",
+              "name": "وسائل الترفيه",
+              "values": [
+                "يتوفر المساج في الغرفة",
+                "خدمة القنوات الفضائية",
+                "تلفزيون بشاشة مسطحة",
+                "شاشة HD"
+              ]
+            },
+            "more": {
+              "id": "more",
+              "name": "أخرى",
+              "values": [
+                "ثلاجة",
+                "المدفأة",
+                "غرف عازلة للصوت",
+                "ستائر عازلة للضوء / الستائر",
+                "خزنة داخل الغرفة (متوافقة مع الكمبيوتر المحمول)",
+                "تتوفر غرف متصلة / متجاورة",
+                "سحب طوارئ في الحمام",
+                "غير مدخن",
+                "تنظيف يومي",
+                "مجفف شعر",
+                "مستلزمات استحمام مجانية",
+                "توفر شراشف السرير",
+                "Chef",
+                "Access via exterior corridors",
+                "WiFi speed - 25+ Mbps",
+                "Toothbrush and toothpaste available",
+                "Meal delivery service available",
+                "Thin carpet in room",
+                "Television",
+                "Desk chair",
+                "Iron/ironing board (on request)",
+                "Laptop-friendly workspace",
+                "Minibar",
+                "Wardrobe or closet",
+                "Number of days between towel changes: 2",
+                "Number of days between bed sheet changes: 2",
+                "Free WiFi",
+                "Phone",
+                "Restaurant dining guide",
+                "Wireless internet access",
+                "Mobile key entry",
+                "TV size measurement: inch",
+                "TV size: 32",
+                "Room service (24 hours)",
+                "Paper towels"
+              ]
+            }
+          },
+          "description": "<p><strong>سرير ملكي</strong></p><p>غرفة مساحتها 37 متر مربع</p><br/> <p><b>التصميم</b> - غرف نوم </p><p><b>الاسترخاء</b> - مدفأة؛ خدمة التدليك داخل الغرفة</p><p><b>الإنترنت</b> - اتصال مجاني بشبكة واي فاي بسرعة 25+ ميجابايت/الثانية </p><p><b>الترفيه</b> - تلفزيون بشاشة عالية الوضوح مقاس 32 بوصة مع قنوات فضائية</p><p><b>المأكولات والمشروبات</b> - ثلاجة وميني بار وماكينة لصنع القهوة/الشاي وغلّاية كهربائية</p><p><b>تجهيزات النوم</b> - ستائر تعتيم وخدمة تحضير الأسرّة للنوم وملاءات الأسرّة </p><p><b>الحمّام</b> - حمام خاص ودش وخف للقدم ومستلزمات مجانية للعناية الشخصية</p> <p><b>وسائل راحة عمليّة</b> - خزنة مناسبة للكمبيوتر المحمول ومساحة عمل للكمبيوتر المحمول وهاتف؛ وتتوفر أيضا عند الطلب أسرّة قابلة للطي/إضافية وأسرّة أطفال/رضع مجانًا</p><p><b>وسائل الراحة</b> - تكييف هواء، وتنظيف الغرف يوميًا، وتغيير المناشف كل 2 من الأيام، وتغيير ملاءات الأسِرة كل 2 من الأيام </p>\n<p><b>تسهيلات ذوي الاحتياجات الخاصة</b> - فتيل طوارئ بالمرحاض</p><p>لغير المدخنين</p><p>يتم الوصول إلى الغرفة من ممرات خارجية </p>\n<p>يمكنك طلب الحصول على غرف متصلة/متجاورة، ويخضع ذلك لمدى توفرها </p>",
+          "images": [
+            "https://imagecontent.net/images/fullrm/e685128c-f863-4b23-9d30-5f2657504ea8.jpeg?width=1200",
+            "https://imagecontent.net/images/fullrm/9f74232e-88bf-4f78-b54d-96aabecffaba.jpeg?width=1200",
+            "https://imagecontent.net/images/fullrm/81c387df-2fe8-4321-8b42-0953a56b56f0.jpeg?width=1200",
+            "https://imagecontent.net/images/fullrm/1ba34802-f913-44c5-85e6-3a5bc32c32e2.jpeg?width=1200",
+            "https://imagecontent.net/images/fullrm/6cb72f41-68c7-4d51-be60-ef78dc752965.jpeg?width=1200",
+            "https://imagecontent.net/images/fullrm/f3f28c5c-d21c-4d04-acea-c15e8d2dbdd1.jpeg?width=1200",
+            "https://imagecontent.net/images/fullrm/50e2ba2e-abc3-4803-8fb7-cb331701b11e.jpeg?width=1200",
+            "https://imagecontent.net/images/fullrm/b673f6e0-2a64-468c-b6ec-6da29fda144e.jpeg?width=1200"
+          ],
+          "roomKey": "4460550-842",
+          "roomSizeSqm": "37"
+        },
+        "rateId": null
+      }
+    ],
+    "pId": 26,
+    "finalPriceWithoutDiscount": 1156.32,
+    "finalPricePerNight": 1075.3776,
+    "finalPriceWithoutDiscountPerNight": 1156.32,
+    "isAppliedCouponApplied": true,
+    "sessionId": "/215/140449/D20261001T113925/d81cc4d717b94ab09f195c5e49a73ace",
+    "paymentOption": null
+  },
+  "packages": [
+    {
+      "almtaarHotelId": 133550,
+      "packageId": "78e881f4-4931-4edf-8ec3-dfea88d8597c",
+      "originalFinalPrice": 1533.83,
+      "appliedCouponCode": "saaug12",
+      "appliedCouponDiscountValue": 107.3681,
+      "appliedCouponDiscountCurrency": null,
+      "appliedCouponDescription": "",
+      "discountPercentage": 7,
+      "finalPrice": 1426.4619,
+      "finalTax": 241.71,
+      "currency": "SAR",
+      "isRefundable": true,
+      "refundability": "قابل للإسترداد",
+      "refundableUntil": 1790899140,
+      "cancellationMessage": "إلغاء مجاني حتى Oct 1, 2026",
+      "payLaterCancellationMessage": "",
+      "remarks": [],
+      "boardBasis": [
+        "إفطار + غداء أو عشاء"
+      ],
+      "roomSize": [
+        37
+      ],
+      "taxesAndFees": null,
+      "appliedPriceCode": null,
+      "appliedPriceDiscountValue": null,
+      "canBookNowPayLater": false,
+      "bookNowPayLaterCancellationTime": 0,
+      "customerPaymentChoice": null,
+      "tierPoints": {
+        "tier-1": 2300,
+        "tier-2": 4601,
+        "tier-3": 6902,
+        "tier-4": 9202
+      },
+      "rooms": [
+        {
+          "adultsCount": 2,
+          "kidsAges": [],
+          "currency": "SAR",
+          "finalPrice": 1533.83,
+          "roomBasis": "إفطار + غداء أو عشاء",
+          "roomView": "",
+          "roomName": "غرفة واسعة بإطلالة جزئية على الحرم بسرير كينج",
+          "bedType": "KING Bed",
+          "roomSize": "",
+          "finalPricePerNight": 1533.83,
+          "roomContent": {
+            "amenities": {
+              "bedroom": {
+                "id": "bedroom",
+                "name": "غرفة النوم",
+                "values": [
+                  "مكيف",
+                  "مكتب",
+                  "خدمة ترتيب الأسرة",
+                  "أسرة أطفال / رضع مجانًا",
+                  "أسرّة قابلة للطي / إضافية ( تكلفة إضافية)"
+                ]
+              },
+              "bathroom": {
+                "id": "bathroom",
+                "name": "الحمام",
+                "values": [
+                  "شباشب",
+                  "الاستحمام فقط",
+                  "حمام خاص",
+                  "صابون",
+                  "شامبو",
+                  "ورق التواليت",
+                  "المناشف موفرة"
+                ]
+              },
+              "food_drink": {
+                "id": "food_drink",
+                "name": "الطعام و الشراب",
+                "values": [
+                  "مياه مجانية",
+                  "صانع القهوة / الشاي",
+                  "غلاية كهربائية"
+                ]
+              },
+              "entertainment": {
+                "id": "entertainment",
+                "name": "وسائل الترفيه",
+                "values": [
+                  "يتوفر المساج في الغرفة",
+                  "خدمة القنوات الفضائية",
+                  "تلفزيون بشاشة مسطحة",
+                  "شاشة HD"
+                ]
+              },
+              "more": {
+                "id": "more",
+                "name": "أخرى",
+                "values": [
+                  "ثلاجة",
+                  "المدفأة",
+                  "غرف عازلة للصوت",
+                  "ستائر عازلة للضوء / الستائر",
+                  "خزنة داخل الغرفة (متوافقة مع الكمبيوتر المحمول)",
+                  "تتوفر غرف متصلة / متجاورة",
+                  "سحب طوارئ في الحمام",
+                  "غير مدخن",
+                  "تنظيف يومي",
+                  "مجفف شعر",
+                  "مستلزمات استحمام مجانية",
+                  "توفر شراشف السرير",
+                  "Chef",
+                  "Access via exterior corridors",
+                  "WiFi speed - 25+ Mbps",
+                  "Toothbrush and toothpaste available",
+                  "Meal delivery service available",
+                  "Thin carpet in room",
+                  "Television",
+                  "Desk chair",
+                  "Iron/ironing board (on request)",
+                  "Laptop-friendly workspace",
+                  "Minibar",
+                  "Wardrobe or closet",
+                  "Number of days between towel changes: 2",
+                  "Number of days between bed sheet changes: 2",
+                  "Free WiFi",
+                  "Phone",
+                  "Restaurant dining guide",
+                  "Wireless internet access",
+                  "Mobile key entry",
+                  "TV size measurement: inch",
+                  "TV size: 32",
+                  "Room service (24 hours)",
+                  "Paper towels"
+                ]
+              }
+            },
+            "description": "<p><strong>سرير ملكي</strong></p><p>غرفة مساحتها 37 متر مربع</p><br/> <p><b>التصميم</b> - غرف نوم </p><p><b>الاسترخاء</b> - مدفأة؛ خدمة التدليك داخل الغرفة</p><p><b>الإنترنت</b> - اتصال مجاني بشبكة واي فاي بسرعة 25+ ميجابايت/الثانية </p><p><b>الترفيه</b> - تلفزيون بشاشة عالية الوضوح مقاس 32 بوصة مع قنوات فضائية</p><p><b>المأكولات والمشروبات</b> - ثلاجة وميني بار وماكينة لصنع القهوة/الشاي وغلّاية كهربائية</p><p><b>تجهيزات النوم</b> - ستائر تعتيم وخدمة تحضير الأسرّة للنوم وملاءات الأسرّة </p><p><b>الحمّام</b> - حمام خاص ودش وخف للقدم ومستلزمات مجانية للعناية الشخصية</p> <p><b>وسائل راحة عمليّة</b> - خزنة مناسبة للكمبيوتر المحمول ومساحة عمل للكمبيوتر المحمول وهاتف؛ وتتوفر أيضا عند الطلب أسرّة قابلة للطي/إضافية وأسرّة أطفال/رضع مجانًا</p><p><b>وسائل الراحة</b> - تكييف هواء، وتنظيف الغرف يوميًا، وتغيير المناشف كل 2 من الأيام، وتغيير ملاءات الأسِرة كل 2 من الأيام </p>\n<p><b>تسهيلات ذوي الاحتياجات الخاصة</b> - فتيل طوارئ بالمرحاض</p><p>لغير المدخنين</p><p>يتم الوصول إلى الغرفة من ممرات خارجية </p>\n<p>يمكنك طلب الحصول على غرف متصلة/متجاورة، ويخضع ذلك لمدى توفرها </p>",
+            "images": [
+              "https://imagecontent.net/images/fullrm/e685128c-f863-4b23-9d30-5f2657504ea8.jpeg?width=1200",
+              "https://imagecontent.net/images/fullrm/9f74232e-88bf-4f78-b54d-96aabecffaba.jpeg?width=1200",
+              "https://imagecontent.net/images/fullrm/81c387df-2fe8-4321-8b42-0953a56b56f0.jpeg?width=1200",
+              "https://imagecontent.net/images/fullrm/1ba34802-f913-44c5-85e6-3a5bc32c32e2.jpeg?width=1200",
+              "https://imagecontent.net/images/fullrm/6cb72f41-68c7-4d51-be60-ef78dc752965.jpeg?width=1200",
+              "https://imagecontent.net/images/fullrm/f3f28c5c-d21c-4d04-acea-c15e8d2dbdd1.jpeg?width=1200",
+              "https://imagecontent.net/images/fullrm/50e2ba2e-abc3-4803-8fb7-cb331701b11e.jpeg?width=1200",
+              "https://imagecontent.net/images/fullrm/b673f6e0-2a64-468c-b6ec-6da29fda144e.jpeg?width=1200"
+            ],
+            "roomKey": "4460550-842",
+            "roomSizeSqm": "37"
+          },
+          "rateId": null
+        }
+      ],
+      "pId": 1165,
+      "finalPriceWithoutDiscount": 1533.83,
+      "finalPricePerNight": 1426.4619,
+      "finalPriceWithoutDiscountPerNight": 1533.83,
+      "isAppliedCouponApplied": true,
+      "sessionId": "/215/140449/D20261001T113925/d81cc4d717b94ab09f195c5e49a73ace",
+      "paymentOption": null
+    },
+    {
+      "almtaarHotelId": 133550,
+      "packageId": "92d0a7e3-9fb3-49f4-bf12-12e13ee37cb5",
+      "originalFinalPrice": 1418.2,
+      "appliedCouponCode": "saaug12",
+      "appliedCouponDiscountValue": 99.274,
+      "appliedCouponDiscountCurrency": null,
+      "appliedCouponDescription": "",
+      "discountPercentage": 7,
+      "finalPrice": 1318.926,
+      "finalTax": 0,
+      "currency": "SAR",
+      "isRefundable": false,
+      "refundability": "غير قابل للإسترداد",
+      "refundableUntil": null,
+      "cancellationMessage": "",
+      "payLaterCancellationMessage": "",
+      "remarks": [],
+      "boardBasis": [
+        "إفطار + غداء أو عشاء"
+      ],
+      "roomSize": [
+        37
+      ],
+      "taxesAndFees": null,
+      "appliedPriceCode": null,
+      "appliedPriceDiscountValue": null,
+      "canBookNowPayLater": false,
+      "bookNowPayLaterCancellationTime": 0,
+      "customerPaymentChoice": null,
+      "tierPoints": {
+        "tier-1": 2127,
+        "tier-2": 4254,
+        "tier-3": 6381,
+        "tier-4": 8509
+      },
+      "rooms": [
+        {
+          "adultsCount": 2,
+          "kidsAges": [],
+          "currency": "SAR",
+          "finalPrice": 1418.2,
+          "roomBasis": "إفطار + غداء أو عشاء",
+          "roomView": "",
+          "roomName": "غرفة واسعة بإطلالة جزئية على الحرم بسرير كينج",
+          "bedType": "KING Bed",
+          "roomSize": "",
+          "finalPricePerNight": 1418.2,
+          "roomContent": {
+            "amenities": {
+              "bedroom": {
+                "id": "bedroom",
+                "name": "غرفة النوم",
+                "values": [
+                  "مكيف",
+                  "مكتب",
+                  "خدمة ترتيب الأسرة",
+                  "أسرة أطفال / رضع مجانًا",
+                  "أسرّة قابلة للطي / إضافية ( تكلفة إضافية)"
+                ]
+              },
+              "bathroom": {
+                "id": "bathroom",
+                "name": "الحمام",
+                "values": [
+                  "شباشب",
+                  "الاستحمام فقط",
+                  "حمام خاص",
+                  "صابون",
+                  "شامبو",
+                  "ورق التواليت",
+                  "المناشف موفرة"
+                ]
+              },
+              "food_drink": {
+                "id": "food_drink",
+                "name": "الطعام و الشراب",
+                "values": [
+                  "مياه مجانية",
+                  "صانع القهوة / الشاي",
+                  "غلاية كهربائية"
+                ]
+              },
+              "entertainment": {
+                "id": "entertainment",
+                "name": "وسائل الترفيه",
+                "values": [
+                  "يتوفر المساج في الغرفة",
+                  "خدمة القنوات الفضائية",
+                  "تلفزيون بشاشة مسطحة",
+                  "شاشة HD"
+                ]
+              },
+              "more": {
+                "id": "more",
+                "name": "أخرى",
+                "values": [
+                  "ثلاجة",
+                  "المدفأة",
+                  "غرف عازلة للصوت",
+                  "ستائر عازلة للضوء / الستائر",
+                  "خزنة داخل الغرفة (متوافقة مع الكمبيوتر المحمول)",
+                  "تتوفر غرف متصلة / متجاورة",
+                  "سحب طوارئ في الحمام",
+                  "غير مدخن",
+                  "تنظيف يومي",
+                  "مجفف شعر",
+                  "مستلزمات استحمام مجانية",
+                  "توفر شراشف السرير",
+                  "Chef",
+                  "Access via exterior corridors",
+                  "WiFi speed - 25+ Mbps",
+                  "Toothbrush and toothpaste available",
+                  "Meal delivery service available",
+                  "Thin carpet in room",
+                  "Television",
+                  "Desk chair",
+                  "Iron/ironing board (on request)",
+                  "Laptop-friendly workspace",
+                  "Minibar",
+                  "Wardrobe or closet",
+                  "Number of days between towel changes: 2",
+                  "Number of days between bed sheet changes: 2",
+                  "Free WiFi",
+                  "Phone",
+                  "Restaurant dining guide",
+                  "Wireless internet access",
+                  "Mobile key entry",
+                  "TV size measurement: inch",
+                  "TV size: 32",
+                  "Room service (24 hours)",
+                  "Paper towels"
+                ]
+              }
+            },
+            "description": "<p><strong>سرير ملكي</strong></p><p>غرفة مساحتها 37 متر مربع</p><br/> <p><b>التصميم</b> - غرف نوم </p><p><b>الاسترخاء</b> - مدفأة؛ خدمة التدليك داخل الغرفة</p><p><b>الإنترنت</b> - اتصال مجاني بشبكة واي فاي بسرعة 25+ ميجابايت/الثانية </p><p><b>الترفيه</b> - تلفزيون بشاشة عالية الوضوح مقاس 32 بوصة مع قنوات فضائية</p><p><b>المأكولات والمشروبات</b> - ثلاجة وميني بار وماكينة لصنع القهوة/الشاي وغلّاية كهربائية</p><p><b>تجهيزات النوم</b> - ستائر تعتيم وخدمة تحضير الأسرّة للنوم وملاءات الأسرّة </p><p><b>الحمّام</b> - حمام خاص ودش وخف للقدم ومستلزمات مجانية للعناية الشخصية</p> <p><b>وسائل راحة عمليّة</b> - خزنة مناسبة للكمبيوتر المحمول ومساحة عمل للكمبيوتر المحمول وهاتف؛ وتتوفر أيضا عند الطلب أسرّة قابلة للطي/إضافية وأسرّة أطفال/رضع مجانًا</p><p><b>وسائل الراحة</b> - تكييف هواء، وتنظيف الغرف يوميًا، وتغيير المناشف كل 2 من الأيام، وتغيير ملاءات الأسِرة كل 2 من الأيام </p>\n<p><b>تسهيلات ذوي الاحتياجات الخاصة</b> - فتيل طوارئ بالمرحاض</p><p>لغير المدخنين</p><p>يتم الوصول إلى الغرفة من ممرات خارجية </p>\n<p>يمكنك طلب الحصول على غرف متصلة/متجاورة، ويخضع ذلك لمدى توفرها </p>",
+            "images": [
+              "https://imagecontent.net/images/fullrm/e685128c-f863-4b23-9d30-5f2657504ea8.jpeg?width=1200",
+              "https://imagecontent.net/images/fullrm/9f74232e-88bf-4f78-b54d-96aabecffaba.jpeg?width=1200",
+              "https://imagecontent.net/images/fullrm/81c387df-2fe8-4321-8b42-0953a56b56f0.jpeg?width=1200",
+              "https://imagecontent.net/images/fullrm/1ba34802-f913-44c5-85e6-3a5bc32c32e2.jpeg?width=1200",
+              "https://imagecontent.net/images/fullrm/6cb72f41-68c7-4d51-be60-ef78dc752965.jpeg?width=1200",
+              "https://imagecontent.net/images/fullrm/f3f28c5c-d21c-4d04-acea-c15e8d2dbdd1.jpeg?width=1200",
+              "https://imagecontent.net/images/fullrm/50e2ba2e-abc3-4803-8fb7-cb331701b11e.jpeg?width=1200",
+              "https://imagecontent.net/images/fullrm/b673f6e0-2a64-468c-b6ec-6da29fda144e.jpeg?width=1200"
+            ],
+            "roomKey": "4460550-842",
+            "roomSizeSqm": "37"
+          },
+          "rateId": null
+        }
+      ],
+      "pId": 26,
+      "finalPriceWithoutDiscount": 1418.2,
+      "finalPricePerNight": 1318.926,
+      "finalPriceWithoutDiscountPerNight": 1418.2,
+      "isAppliedCouponApplied": true,
+      "sessionId": "/215/140449/D20261001T113925/d81cc4d717b94ab09f195c5e49a73ace",
+      "paymentOption": null
+    }
+  ],
+  "defaultGroupName": [
+    "غرفة واسعة بإطلالة جزئية على الحرم بسرير كينج"
+  ],
+  "heroPackage": true
+}

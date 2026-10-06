@@ -1,0 +1,5 @@
+{
+  "message": "App is not authorized! - UNAUTHORIZED APP: x-Authorization missing",
+  "code": 5001,
+  "type": "UNAUTHORIZED"
+}

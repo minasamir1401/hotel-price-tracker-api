@@ -1,0 +1,65 @@
+[
+  {
+    "id": 83652688,
+    "roomSize": null,
+    "descriptionAr": null,
+    "descriptionEn": null,
+    "hotelSummaryId": 1287944,
+    "templateTitle": "Standard Room",
+    "templateNameForCode": "Standard Room",
+    "templateHashCode": "f81a928e",
+    "templateCode": "f81a928e",
+    "isActive": true,
+    "facilityCategories": [
+      {
+        "id": 25,
+        "facilities": [
+          {
+            "id": 131,
+            "facilityTagResponseId": null
+          }
+        ]
+      },
+      {
+        "id": 30,
+        "facilities": [
+          {
+            "id": 183,
+            "facilityTagResponseId": null
+          }
+        ]
+      },
+      {
+        "id": 24,
+        "facilities": [
+          {
+            "id": 190,
+            "facilityTagResponseId": null
+          }
+        ]
+      }
+    ],
+    "imageCategories": [
+      {
+        "id": 242,
+        "images": [
+          {
+            "id": 58896700,
+            "atgHotelId": null,
+            "imageCategoryId": 242,
+            "roomTemplateId": 83652688,
+            "rank": 10,
+            "url": "http://hotelcms-contents-live.almosafer.com/038be39a-ec73-4b87-989a-a7b3aa855327.jpg",
+            "imageHeight": 400,
+            "imageWidth": 600,
+            "imageSize": 75598,
+            "description": "sample desc",
+            "isActive": true,
+            "isDefaultImage": null
+          }
+        ]
+      }
+    ],
+    "roomBedGroups": []
+  }
+]

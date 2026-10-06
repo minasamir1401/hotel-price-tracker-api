@@ -1,0 +1,6 @@
+{
+  "code": 401,
+  "timeStamp": "04-10-2026 11:38:31",
+  "message": "Invalid or expired token",
+  "type": "UNAUTHORIZED"
+}

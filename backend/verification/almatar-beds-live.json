@@ -1,0 +1,402 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": "almatar-1660326-1",
+      "source": "Almatar",
+      "sourceArabic": "المطار",
+      "hotelName": "فندق إم الدانة مكة من ميلينيوم",
+      "roomName": "غرفة ستاندرد توأم",
+      "roomType": "غرفة ستاندرد توأم",
+      "roomCategory": "غرفة ستاندرد توأم",
+      "capacityAdults": 2,
+      "capacityText": "2 أفراد",
+      "isExactOccupancyMatch": true,
+      "checkIn": "2026-10-01",
+      "checkOut": "2026-10-02",
+      "nights": 1,
+      "adults": 2,
+      "children": 0,
+      "rooms": 1,
+      "currency": "SAR",
+      "currencyArabic": "ر.س",
+      "bookingUrl": "https://almatar.com/ar/hotels/rooms/mecca-m-hotel-al-dana-makkah-millennium-1660326/?checkIn=10%2F01%2F2026&checkOut=10%2F02%2F2026&rooms=2_adult",
+      "lastUpdated": "١‏/١٠‏/٢٠٢٦، ٢:٠٩:٢٢ ص",
+      "dailyRates": [
+        {
+          "dayNumber": 1,
+          "dayTitle": "اليوم 1",
+          "date": "2026-10-01",
+          "nextDate": "2026-10-02",
+          "dayOfWeek": "الخميس",
+          "isWeekend": false,
+          "availability": "available",
+          "error": null,
+          "offers": {
+            "roomOnly": {
+              "price": 113,
+              "totalPrice": 113,
+              "sourceTotalPrice": 112.065,
+              "sourceRounding": "ceil-package-total",
+              "packageId": "13a968b9-5dd5-4f44-8007-1f81fb80e67d",
+              "mealLabel": "إقامة فقط",
+              "cancellationPolicy": "غير قابل للإسترداد",
+              "refundableUntil": null,
+              "appliedCouponCode": "saaug12",
+              "originalTotalPrice": 120.5,
+              "roomIdentity": "غرفة ستاندرد توأم::[{\"name\":\"غرفة ستاندرد توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]"
+            },
+            "halfBoard": {
+              "price": 352,
+              "totalPrice": 352,
+              "sourceTotalPrice": 351.67949999999996,
+              "sourceRounding": "ceil-package-total",
+              "packageId": "5175187d-161e-41c3-80d3-3832986c1c98",
+              "mealLabel": "إفطار + غداء أو عشاء",
+              "cancellationPolicy": "غير قابل للإسترداد",
+              "refundableUntil": null,
+              "appliedCouponCode": "saaug12",
+              "originalTotalPrice": 378.15,
+              "roomIdentity": "غرفة ستاندرد توأم::[{\"name\":\"غرفة ستاندرد توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]"
+            },
+            "breakfast": {
+              "price": 180,
+              "totalPrice": 180,
+              "sourceTotalPrice": 179.583,
+              "sourceRounding": "ceil-package-total",
+              "packageId": "ea233cea-980c-4834-b152-d849548de586",
+              "mealLabel": "إقامة وإفطار",
+              "cancellationPolicy": "غير قابل للإسترداد",
+              "refundableUntil": null,
+              "appliedCouponCode": "saaug12",
+              "originalTotalPrice": 193.1,
+              "roomIdentity": "غرفة ستاندرد توأم::[{\"name\":\"غرفة ستاندرد توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]"
+            }
+          },
+          "roomOnlyPrice": 113,
+          "breakfastPrice": 180,
+          "halfBoardPrice": 352,
+          "roomOnlyFlexiblePrice": null,
+          "breakfastFlexiblePrice": null,
+          "halfBoardFlexiblePrice": null,
+          "cancellationPolicy": "غير قابل للإسترداد"
+        }
+      ],
+      "dataKind": "live",
+      "pricingMethod": "independent-single-night-quotes",
+      "warnings": [],
+      "roomOnlyTotalPrice": 113,
+      "roomOnlyPricePerNight": 113,
+      "roomOnlyAvailableNights": 1,
+      "breakfastTotalPrice": 180,
+      "breakfastPricePerNight": 180,
+      "breakfastAvailableNights": 1,
+      "halfBoardTotalPrice": 352,
+      "halfBoardPricePerNight": 352,
+      "halfBoardAvailableNights": 1,
+      "roomOnlyFlexibleTotalPrice": null,
+      "roomOnlyFlexiblePricePerNight": null,
+      "roomOnlyFlexibleAvailableNights": 0,
+      "breakfastFlexibleTotalPrice": null,
+      "breakfastFlexiblePricePerNight": null,
+      "breakfastFlexibleAvailableNights": 0,
+      "halfBoardFlexibleTotalPrice": null,
+      "halfBoardFlexiblePricePerNight": null,
+      "halfBoardFlexibleAvailableNights": 0,
+      "cancellationPolicyLowest": "غير قابل للإسترداد",
+      "roomIdentity": "غرفة ستاندرد توأم::[{\"name\":\"غرفة ستاندرد توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+      "mealPlanLabels": {
+        "roomOnly": "إقامة فقط",
+        "breakfast": "إقامة وإفطار",
+        "halfBoard": "إفطار + غداء أو عشاء"
+      },
+      "beddingVerified": true,
+      "beds": [
+        {
+          "label": "TWIN Bed",
+          "options": [
+            {
+              "count": 2,
+              "type": "single"
+            }
+          ]
+        }
+      ],
+      "beddingLabel": "TWIN Bed",
+      "bedFilterStatus": "matched",
+      "requestedBeds": {
+        "count": 2,
+        "type": "single",
+        "active": true,
+        "includeUnknown": false
+      },
+      "originalRoomNames": [
+        "غرفة ستاندرد توأم"
+      ],
+      "cancellationPolicyFlexible": "غير متاح",
+      "cancellationPolicy": "غير قابل للإسترداد",
+      "hasDualRates": false,
+      "price": 113,
+      "pricePerNight": 113,
+      "mealPlan": "راجع توفر الوجبات لكل يوم"
+    },
+    {
+      "id": "almatar-1660326-4",
+      "source": "Almatar",
+      "sourceArabic": "المطار",
+      "hotelName": "فندق إم الدانة مكة من ميلينيوم",
+      "roomName": "غرفة سوبريور",
+      "roomType": "غرفة سوبريور",
+      "roomCategory": "غرفة سوبريور",
+      "capacityAdults": 2,
+      "capacityText": "2 أفراد",
+      "isExactOccupancyMatch": true,
+      "checkIn": "2026-10-01",
+      "checkOut": "2026-10-02",
+      "nights": 1,
+      "adults": 2,
+      "children": 0,
+      "rooms": 1,
+      "currency": "SAR",
+      "currencyArabic": "ر.س",
+      "bookingUrl": "https://almatar.com/ar/hotels/rooms/mecca-m-hotel-al-dana-makkah-millennium-1660326/?checkIn=10%2F01%2F2026&checkOut=10%2F02%2F2026&rooms=2_adult",
+      "lastUpdated": "١‏/١٠‏/٢٠٢٦، ٢:٠٩:٢٢ ص",
+      "dailyRates": [
+        {
+          "dayNumber": 1,
+          "dayTitle": "اليوم 1",
+          "date": "2026-10-01",
+          "nextDate": "2026-10-02",
+          "dayOfWeek": "الخميس",
+          "isWeekend": false,
+          "availability": "available",
+          "error": null,
+          "offers": {
+            "roomOnly": {
+              "price": 113,
+              "totalPrice": 113,
+              "sourceTotalPrice": 112.065,
+              "sourceRounding": "ceil-package-total",
+              "packageId": "213e4410-4967-4bd1-b1bb-59c8e50cb8ec",
+              "mealLabel": "إقامة فقط",
+              "cancellationPolicy": "غير قابل للإسترداد",
+              "refundableUntil": null,
+              "appliedCouponCode": "saaug12",
+              "originalTotalPrice": 120.5,
+              "roomIdentity": "غرفة سوبريور::[{\"name\":\"غرفة سوبريور\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]"
+            },
+            "halfBoard": {
+              "price": 352,
+              "totalPrice": 352,
+              "sourceTotalPrice": 351.67949999999996,
+              "sourceRounding": "ceil-package-total",
+              "packageId": "67c1d048-cf90-4d15-b9fe-a99f2e07816f",
+              "mealLabel": "إفطار + غداء أو عشاء",
+              "cancellationPolicy": "غير قابل للإسترداد",
+              "refundableUntil": null,
+              "appliedCouponCode": "saaug12",
+              "originalTotalPrice": 378.15,
+              "roomIdentity": "غرفة سوبريور::[{\"name\":\"غرفة سوبريور\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]"
+            },
+            "breakfast": {
+              "price": 180,
+              "totalPrice": 180,
+              "sourceTotalPrice": 179.583,
+              "sourceRounding": "ceil-package-total",
+              "packageId": "2f8c9f72-67c2-457a-ba7b-4054b855a45d",
+              "mealLabel": "إقامة وإفطار",
+              "cancellationPolicy": "غير قابل للإسترداد",
+              "refundableUntil": null,
+              "appliedCouponCode": "saaug12",
+              "originalTotalPrice": 193.1,
+              "roomIdentity": "غرفة سوبريور::[{\"name\":\"غرفة سوبريور\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]"
+            }
+          },
+          "roomOnlyPrice": 113,
+          "breakfastPrice": 180,
+          "halfBoardPrice": 352,
+          "roomOnlyFlexiblePrice": null,
+          "breakfastFlexiblePrice": null,
+          "halfBoardFlexiblePrice": null,
+          "cancellationPolicy": "غير قابل للإسترداد"
+        }
+      ],
+      "dataKind": "live",
+      "pricingMethod": "independent-single-night-quotes",
+      "warnings": [],
+      "roomOnlyTotalPrice": 113,
+      "roomOnlyPricePerNight": 113,
+      "roomOnlyAvailableNights": 1,
+      "breakfastTotalPrice": 180,
+      "breakfastPricePerNight": 180,
+      "breakfastAvailableNights": 1,
+      "halfBoardTotalPrice": 352,
+      "halfBoardPricePerNight": 352,
+      "halfBoardAvailableNights": 1,
+      "roomOnlyFlexibleTotalPrice": null,
+      "roomOnlyFlexiblePricePerNight": null,
+      "roomOnlyFlexibleAvailableNights": 0,
+      "breakfastFlexibleTotalPrice": null,
+      "breakfastFlexiblePricePerNight": null,
+      "breakfastFlexibleAvailableNights": 0,
+      "halfBoardFlexibleTotalPrice": null,
+      "halfBoardFlexiblePricePerNight": null,
+      "halfBoardFlexibleAvailableNights": 0,
+      "cancellationPolicyLowest": "غير قابل للإسترداد",
+      "roomIdentity": "غرفة سوبريور::[{\"name\":\"غرفة سوبريور\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]",
+      "mealPlanLabels": {
+        "roomOnly": "إقامة فقط",
+        "breakfast": "إقامة وإفطار",
+        "halfBoard": "إفطار + غداء أو عشاء"
+      },
+      "beddingVerified": true,
+      "beds": [
+        {
+          "label": "TWIN Bed",
+          "options": [
+            {
+              "count": 2,
+              "type": "single"
+            }
+          ]
+        }
+      ],
+      "beddingLabel": "TWIN Bed",
+      "bedFilterStatus": "matched",
+      "requestedBeds": {
+        "count": 2,
+        "type": "single",
+        "active": true,
+        "includeUnknown": false
+      },
+      "originalRoomNames": [
+        "غرفة سوبريور"
+      ],
+      "cancellationPolicyFlexible": "غير متاح",
+      "cancellationPolicy": "غير قابل للإسترداد",
+      "hasDualRates": false,
+      "price": 113,
+      "pricePerNight": 113,
+      "mealPlan": "راجع توفر الوجبات لكل يوم"
+    }
+  ],
+  "summary": {
+    "hotelName": "فندق إم الدانة مكة من ميلينيوم",
+    "checkIn": "2026-10-01",
+    "checkOut": "2026-10-02",
+    "nights": 1,
+    "adults": 2,
+    "children": 0,
+    "rooms": 1,
+    "totalRoomsCount": 2,
+    "searchedAt": "١‏/١٠‏/٢٠٢٦، ٢:٠٩:٢٢ ص",
+    "dailyBreakdown": [
+      {
+        "dayNumber": 1,
+        "dayTitle": "اليوم 1",
+        "date": "2026-10-01",
+        "dayOfWeek": "الخميس",
+        "isWeekend": false,
+        "capacityAdults": 2,
+        "hasAlmosafer": false,
+        "hasAlmatar": true,
+        "almosaferRoom": "غرفة ستاندرد توأم",
+        "almosaferAvailability": "available",
+        "almosaferError": null,
+        "almosaferCancellation": "غير قابل للإسترداد",
+        "almosaferOffers": {
+          "roomOnly": {
+            "price": 113,
+            "totalPrice": 113,
+            "sourceTotalPrice": 112.065,
+            "sourceRounding": "ceil-package-total",
+            "packageId": "13a968b9-5dd5-4f44-8007-1f81fb80e67d",
+            "mealLabel": "إقامة فقط",
+            "cancellationPolicy": "غير قابل للإسترداد",
+            "refundableUntil": null,
+            "appliedCouponCode": "saaug12",
+            "originalTotalPrice": 120.5,
+            "roomIdentity": "غرفة ستاندرد توأم::[{\"name\":\"غرفة ستاندرد توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]"
+          },
+          "halfBoard": {
+            "price": 352,
+            "totalPrice": 352,
+            "sourceTotalPrice": 351.67949999999996,
+            "sourceRounding": "ceil-package-total",
+            "packageId": "5175187d-161e-41c3-80d3-3832986c1c98",
+            "mealLabel": "إفطار + غداء أو عشاء",
+            "cancellationPolicy": "غير قابل للإسترداد",
+            "refundableUntil": null,
+            "appliedCouponCode": "saaug12",
+            "originalTotalPrice": 378.15,
+            "roomIdentity": "غرفة ستاندرد توأم::[{\"name\":\"غرفة ستاندرد توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]"
+          },
+          "breakfast": {
+            "price": 180,
+            "totalPrice": 180,
+            "sourceTotalPrice": 179.583,
+            "sourceRounding": "ceil-package-total",
+            "packageId": "ea233cea-980c-4834-b152-d849548de586",
+            "mealLabel": "إقامة وإفطار",
+            "cancellationPolicy": "غير قابل للإسترداد",
+            "refundableUntil": null,
+            "appliedCouponCode": "saaug12",
+            "originalTotalPrice": 193.1,
+            "roomIdentity": "غرفة ستاندرد توأم::[{\"name\":\"غرفة ستاندرد توأم\",\"beds\":[{\"count\":2,\"type\":\"single\"}],\"bedLabel\":\"TWIN Bed\",\"view\":\"\",\"size\":\"\"}]"
+          }
+        },
+        "currency": "SAR",
+        "currencyArabic": "ر.س",
+        "almosaferRoomOnly": 113,
+        "almosaferRoomOnlyFlexible": null,
+        "almosaferBreakfast": 180,
+        "almosaferBreakfastFlexible": null,
+        "almosaferHalfBoard": 352,
+        "almosaferHalfBoardFlexible": null,
+        "almosaferBreakfastMealDiff": 67,
+        "almosaferBreakfastPerPerson": 33.5,
+        "almosaferHalfBoardMealDiff": 239,
+        "almosaferHalfBoardPerPerson": 119.5
+      }
+    ],
+    "currency": "SAR",
+    "currencyArabic": "ر.س",
+    "activeRoomCategory": "غرفة ستاندرد توأم",
+    "almosaferRoom": "غرفة ستاندرد توأم",
+    "almosaferCancellation": "غير قابل للإسترداد",
+    "almosaferCancellationLowest": "غير قابل للإسترداد",
+    "almosaferCancellationFlexible": "غير متاح",
+    "pricingMethod": "independent-single-night-quotes",
+    "warnings": [
+      "المصدر لم يحدد السراير في 5 خيارات غرف؛ تم استبعادها من البحث الدقيق. يمكن إظهارها باختيار «إظهار العروض غير محددة السراير»."
+    ],
+    "source": "Almatar",
+    "sourceArabic": "المطار",
+    "mealPlanLabels": {
+      "roomOnly": "إقامة فقط",
+      "breakfast": "إقامة وإفطار",
+      "halfBoard": "إفطار + غداء أو عشاء"
+    },
+    "almosaferRoomOnly": 113,
+    "almosaferRoomOnlyPerNight": 113,
+    "almosaferRoomOnlyAvailableNights": 1,
+    "almosaferBreakfast": 180,
+    "almosaferBreakfastPerNight": 180,
+    "almosaferBreakfastAvailableNights": 1,
+    "almosaferHalfBoard": 352,
+    "almosaferHalfBoardPerNight": 352,
+    "almosaferHalfBoardAvailableNights": 1,
+    "almosaferRoomOnlyFlexible": null,
+    "almosaferRoomOnlyFlexiblePerNight": null,
+    "almosaferRoomOnlyFlexibleAvailableNights": 0,
+    "almosaferBreakfastFlexible": null,
+    "almosaferBreakfastFlexiblePerNight": null,
+    "almosaferBreakfastFlexibleAvailableNights": 0,
+    "almosaferHalfBoardFlexible": null,
+    "almosaferHalfBoardFlexiblePerNight": null,
+    "almosaferHalfBoardFlexibleAvailableNights": 0
+  },
+  "warnings": [
+    "المصدر لم يحدد السراير في 5 خيارات غرف؛ تم استبعادها من البحث الدقيق. يمكن إظهارها باختيار «إظهار العروض غير محددة السراير»."
+  ]
+}
