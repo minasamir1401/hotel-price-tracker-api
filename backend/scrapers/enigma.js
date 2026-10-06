@@ -96,7 +96,11 @@ export function createEnigmaClient({ fetchImpl = fetch, sleep = ms => new Promis
       throw new Error('تعذر تأكيد توفر هذه الليلة: المسافر لم ينشئ استعلام عروض صالحًا');
     }
     if (String(init.hotelId) !== String(payload.hotelId)) throw new Error('المسافر رجع عروض فندق مختلف');
-    await sleep(Math.min(20000, Math.max(0, Number(init.initialDelayInMillis) || 3000)));
+    const rawInitDelay = Number(init.initialDelayInMillis);
+    const waitFirst = Number.isFinite(rawInitDelay) && rawInitDelay > 0
+      ? Math.min(1500, Math.max(500, Math.floor(rawInitDelay * 0.4)))
+      : 800;
+    await sleep(waitFirst);
     for (let attempt = 0; attempt < 40; attempt++) {
       const poll = await json(`https://www.almosafer.com/api/enigma/v7/packages/poll/${encodeURIComponent(init.pId)}`, {}, deadline, requestHeaders);
       if (poll.pollingStatus === 'COMPLETED_SUCCESSFULLY') {
@@ -111,7 +115,11 @@ export function createEnigmaClient({ fetchImpl = fetch, sleep = ms => new Promis
         return parsePackages(poll, payload.roomsInfo[0].adultsCount, payload.roomsInfo.length);
       }
       if (poll.pollingStatus !== 'IN_PROGRESS') throw new Error(`لم يكتمل استعلام المسافر: ${poll.pollingStatus || 'حالة مجهولة'}`);
-      await sleep(Math.min(5000, Math.max(1000, Number(poll.delayInMillis) || 1500)));
+      const rawPollDelay = Number(poll.delayInMillis);
+      const waitPoll = Number.isFinite(rawPollDelay) && rawPollDelay > 0
+        ? Math.min(2000, Math.max(500, Math.floor(rawPollDelay * 0.6)))
+        : 800;
+      await sleep(waitPoll);
     }
     throw new Error('انتهت مهلة تحميل جميع عروض المسافر');
   }
@@ -129,9 +137,9 @@ export function createEnigmaClient({ fetchImpl = fetch, sleep = ms => new Promis
           const value = await query(payload, deadline);
           if (Object.keys(value).length || attempt === maxAttempts - 1) return value;
         } catch (error) {
-          if (attempt === maxAttempts - 1) throw error;
+          if (attempt === maxAttempts - 1 || error.message.includes('400') || error.message.includes('404')) throw error;
         }
-        await sleep(Math.max(600, 800 * (attempt + 1)));
+        await sleep(Math.max(300, 400 * (attempt + 1)));
       }
     })().then(value => {
       // Limit storage and cache only final responses; failed/partial polls never persist.

@@ -31,7 +31,7 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
           ...(details.hotelProfileKey ? { hotelProfileKey: details.hotelProfileKey, countryCode: details.countryCode } : {}),
           roomsInfo: Array.from({ length: rooms }, () => ({ adultsCount: adults, kidsAges: childAges })),
           currency: 'SAR',
-        }, { refresh: force, maxAttempts: 2 });
+        }, { refresh: force, maxAttempts: 1 });
         const old = errors.findIndex(e => e.date === dp.date);
         if (old >= 0) errors.splice(old, 1);
         return value;
@@ -44,7 +44,7 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
     };
     const reportProgress = (currentDate) => {
       if (typeof params.onProgress === 'function') {
-        const completed = Math.min(pairs.length, maps.filter(m => m !== undefined).length);
+        const completed = maps.filter(m => m !== undefined).length;
         const percent = pairs.length > 0 ? Math.round((completed / pairs.length) * 100) : 0;
         params.onProgress({
           completed,
@@ -56,28 +56,28 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
       }
     };
     reportProgress(pairs[0]?.date);
-    for (let offset = 0; offset < pairs.length; offset += 4) {
-      const slice = pairs.slice(offset, offset + 4);
-      const batch = await Promise.all(slice.map(dp => fetchNight(dp, refresh)));
-      maps.push(...batch);
-      reportProgress(slice[slice.length - 1]?.date);
-    }
-    // Recheck unsuccessful/empty nights with fresh searches and lower concurrency.
-    const repair = pairs.map((dp, i) => ({ dp, i })).filter(({ i }) => maps[i] === null || !Object.keys(maps[i] || {}).length);
-    for (let offset = 0; offset < repair.length; offset += 2) {
-      await Promise.all(repair.slice(offset, offset + 2).map(async ({ dp, i }) => {
-        const val = await fetchNight(dp, true, true);
-        if (val !== null) maps[i] = val;
+    const BATCH_SIZE = 8;
+    for (let offset = 0; offset < pairs.length; offset += BATCH_SIZE) {
+      const slice = pairs.slice(offset, offset + BATCH_SIZE);
+      await Promise.all(slice.map(async (dp, idx) => {
+        const val = await fetchNight(dp, refresh);
+        maps[offset + idx] = val;
+        reportProgress(dp.date);
       }));
-      reportProgress(repair[offset]?.dp?.date);
     }
-
-    // Sequential fallback pass to prevent missing nights from concurrent request collisions
-    const lingering = pairs.map((dp, i) => ({ dp, i })).filter(({ i }) => maps[i] === null || !Object.keys(maps[i] || {}).length);
-    for (const { dp, i } of lingering) {
-      const val = await fetchNight(dp, true, true);
-      if (val !== null) maps[i] = val;
-      reportProgress(dp.date);
+    // Recheck unsuccessful/empty nights with fresh searches
+    const repair = pairs.map((dp, i) => ({ dp, i })).filter(({ i }) => maps[i] === null || !Object.keys(maps[i] || {}).length);
+    if (repair.length > 0) {
+      const REPAIR_BATCH = 4;
+      for (let offset = 0; offset < repair.length; offset += REPAIR_BATCH) {
+        await Promise.all(repair.slice(offset, offset + REPAIR_BATCH).map(async ({ dp, i }) => {
+          const val = await fetchNight(dp, true, true);
+          if (val !== null && (Object.keys(val).length > 0 || maps[i] === null)) {
+            maps[i] = val;
+          }
+          reportProgress(dp.date);
+        }));
+      }
     }
     if (maps.every(m => m === null)) throw new Error(errors[0]?.message || `تعذر الاتصال بـ${sourceArabic}`);
     const keys = [...new Set(maps.flatMap(m=>Object.keys(m || {})))];
