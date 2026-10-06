@@ -80,7 +80,13 @@ export function createEnigmaClient({ fetchImpl = fetch, sleep = ms => new Promis
   }
   async function query(payload, deadline) {
     // Use the public web token; the injected placeholder general-key changes the offer pool.
-    const requestHeaders = {...headers, token: token || await getSessionToken(payload, deadline)};
+    const sessionToken = token || await getSessionToken(payload, deadline);
+    const cookieHeader = getSessionToken?.cookieHeader;
+    const requestHeaders = {
+      ...headers,
+      token: sessionToken,
+      ...(cookieHeader ? { Cookie: cookieHeader } : {}),
+    };
     const init = await json('https://www.almosafer.com/api/enigma/v7/packages', { method: 'PUT', body: JSON.stringify(payload) }, deadline, requestHeaders);
     if (!init.pId) throw new Error('لم يرجع المسافر رقم استعلام صالح');
     if (init.pId.startsWith('no-pkg') && !init.hotelId) {
