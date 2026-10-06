@@ -104,5 +104,5 @@ export async function resolveAlmosaferDetails(hotelInput, { checkIn, checkOut, r
 
 export const scrapeAlmosafer = createLiveScraper(
   resolveAlmosaferDetails,
-  createEnigmaClient({ token: process.env.ALMOSAFER_API_TOKEN })
+  createEnigmaClient({ token: process.env.ALMOSAFER_API_TOKEN || 'skdjfh73273$7268u2j89s' })
 );

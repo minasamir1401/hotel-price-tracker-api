@@ -14,7 +14,7 @@ import { createAlmatarResolver } from './scrapers/almatar.js';
 import { resolveAlmosaferDetails } from './scrapers/almosafer.js';
 import { createEnigmaClient } from './scrapers/enigma.js';
 const resolveAlmatar = createAlmatarResolver();
-const enigmaClient = createEnigmaClient({ token: process.env.ALMOSAFER_API_TOKEN });
+const enigmaClient = createEnigmaClient({ token: process.env.ALMOSAFER_API_TOKEN || 'skdjfh73273$7268u2j89s' });
 const app = express();
 const PORT = process.env.PORT || 5000;
 

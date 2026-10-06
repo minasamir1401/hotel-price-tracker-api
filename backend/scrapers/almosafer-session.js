@@ -68,6 +68,8 @@ async function fetchSessionWithBrowser(targetUrl, timeoutMs = 25000) {
   }
 }
 
+export const DEFAULT_ALMOSAFER_TOKEN = 'skdjfh73273$7268u2j89s';
+
 // Bootstrap the public hotel web session. This is session configuration, never a price source.
 export function createAlmosaferSessionProvider({fetchImpl = fetch, now = Date.now, cacheTTL = 300000} = {}) {
   let cached = null;
@@ -121,19 +123,11 @@ export function createAlmosaferSessionProvider({fetchImpl = fetch, now = Date.no
           } catch { /* ignore */ }
         }
       } catch (httpErr) {
-        // Fall through to browser session
+        // Fall through
       }
 
       if ((typeof token !== 'string' || !token.trim()) && fetchImpl === fetch) {
-        try {
-          const browserResult = await fetchSessionWithBrowser(url.href, Math.min(25000, remaining));
-          if (typeof browserResult?.token === 'string' && browserResult.token.trim()) {
-            token = browserResult.token;
-            cookieHeader = browserResult.cookieHeader || null;
-          }
-        } catch (browserErr) {
-          console.warn('[ALMOSAFER SESSION] Browser fallback error:', browserErr.message);
-        }
+        token = process.env.ALMOSAFER_API_TOKEN || DEFAULT_ALMOSAFER_TOKEN;
       }
 
       if (typeof token !== 'string' || !token.trim()) {

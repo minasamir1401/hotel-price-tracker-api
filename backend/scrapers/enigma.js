@@ -85,6 +85,8 @@ export function createEnigmaClient({ fetchImpl = fetch, sleep = ms => new Promis
     const requestHeaders = {
       ...headers,
       token: sessionToken,
+      Referer: `https://www.almosafer.com/ar/hotel/details/atg/hotel-${payload.hotelId}`,
+      'sec-ch-ua-platform': '"Windows"',
       ...(cookieHeader ? { Cookie: cookieHeader } : {}),
     };
     const init = await json('https://www.almosafer.com/api/enigma/v7/packages', { method: 'PUT', body: JSON.stringify(payload) }, deadline, requestHeaders);
