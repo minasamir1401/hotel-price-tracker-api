@@ -280,6 +280,7 @@ app.post('/api/hotel-rooms-list', async (req, res) => {
       let resPackages = {};
       let attempts = 0;
       let currentDate = effectiveIn;
+      let connectionError = null;
 
       while (attempts < 4) {
         const nextDate = new Date(Date.parse(`${currentDate}T12:00:00Z`) + 86400000).toISOString().slice(0, 10);
@@ -297,9 +298,23 @@ app.post('/api/hotel-rooms-list', async (req, res) => {
           }
         } catch (err) {
           console.warn(`[ALMOSAFER ROOMS] Attempt failed for ${currentDate}:`, err.message);
+          if (/جلسة|403|401|انتهت مهلة|fetch failed|econnrefused/i.test(err.message)) {
+            connectionError = err.message;
+            break;
+          }
         }
         currentDate = new Date(Date.parse(`${currentDate}T12:00:00Z`) + 86400000).toISOString().slice(0, 10);
         attempts++;
+      }
+
+      if (connectionError && Object.keys(resPackages).length === 0) {
+        return res.status(502).json({
+          success: false,
+          message: `تعذر الاتصال بالمسافر: ${connectionError}`,
+          hotelName: resolved.hotelName,
+          hotelId,
+          source: 'almosafer',
+        });
       }
 
       const roomNames = [...new Set(
