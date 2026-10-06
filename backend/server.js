@@ -129,6 +129,24 @@ app.post('/api/search-hotel-prices', async (req, res) => {
       effectiveCheckOut = d.toISOString().split('T')[0];
     }
 
+    const isStream = Boolean(req.headers.accept?.includes('text/event-stream'));
+    let pingTimer = null;
+    if (isStream) {
+      res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
+      res.setHeader('Cache-Control', 'no-cache, no-transform');
+      res.setHeader('Connection', 'keep-alive');
+      res.setHeader('X-Accel-Buffering', 'no');
+      if (typeof res.flushHeaders === 'function') res.flushHeaders();
+
+      pingTimer = setInterval(() => {
+        try { res.write(': ping\n\n'); } catch {}
+      }, 10000);
+
+      req.on('close', () => {
+        if (pingTimer) clearInterval(pingTimer);
+      });
+    }
+
     const comparisonResult = await executeHotelComparison({
       hotelInput: effectiveHotel,
       checkIn: effectiveCheckIn,
@@ -143,11 +161,28 @@ app.post('/api/search-hotel-prices', async (req, res) => {
       bedType,
       includeUnknownBeds,
       sources: effectiveSources,
+      onProgress: (p) => {
+        if (isStream) {
+          try {
+            res.write(`data: ${JSON.stringify({ type: 'progress', ...p })}\n\n`);
+          } catch {}
+        }
+      },
     });
+
+    if (isStream) {
+      if (pingTimer) clearInterval(pingTimer);
+      res.write(`data: ${JSON.stringify({ type: 'done', result: comparisonResult })}\n\n`);
+      return res.end();
+    }
 
     res.json(comparisonResult);
   } catch (error) {
     console.error('Error during hotel search execution:', error);
+    if (Boolean(req.headers?.accept?.includes('text/event-stream'))) {
+      res.write(`data: ${JSON.stringify({ type: 'error', message: error.message })}\n\n`);
+      return res.end();
+    }
     res.status(500).json({
       success: false,
       message: 'حدث خطأ في الخادم أثناء معالجة استعلام الأسعار',

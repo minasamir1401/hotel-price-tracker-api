@@ -42,9 +42,25 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
         return null;
       }
     };
+    const reportProgress = (currentDate) => {
+      if (typeof params.onProgress === 'function') {
+        const completed = Math.min(pairs.length, maps.filter(m => m !== undefined).length);
+        const percent = pairs.length > 0 ? Math.round((completed / pairs.length) * 100) : 0;
+        params.onProgress({
+          completed,
+          total: pairs.length,
+          currentDay: currentDate,
+          percent,
+          source: sourceArabic,
+        });
+      }
+    };
+    reportProgress(pairs[0]?.date);
     for (let offset = 0; offset < pairs.length; offset += 4) {
-      const batch = await Promise.all(pairs.slice(offset, offset + 4).map(dp => fetchNight(dp, refresh)));
+      const slice = pairs.slice(offset, offset + 4);
+      const batch = await Promise.all(slice.map(dp => fetchNight(dp, refresh)));
       maps.push(...batch);
+      reportProgress(slice[slice.length - 1]?.date);
     }
     // Recheck unsuccessful/empty nights with fresh searches and lower concurrency.
     const repair = pairs.map((dp, i) => ({ dp, i })).filter(({ i }) => maps[i] === null || !Object.keys(maps[i] || {}).length);
@@ -53,6 +69,7 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
         const val = await fetchNight(dp, true, true);
         if (val !== null) maps[i] = val;
       }));
+      reportProgress(repair[offset]?.dp?.date);
     }
 
     // Sequential fallback pass to prevent missing nights from concurrent request collisions
@@ -60,6 +77,7 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
     for (const { dp, i } of lingering) {
       const val = await fetchNight(dp, true, true);
       if (val !== null) maps[i] = val;
+      reportProgress(dp.date);
     }
     if (maps.every(m => m === null)) throw new Error(errors[0]?.message || `تعذر الاتصال بـ${sourceArabic}`);
     const keys = [...new Set(maps.flatMap(m=>Object.keys(m || {})))];
