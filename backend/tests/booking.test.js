@@ -79,6 +79,43 @@ test('Booking does not cache missing recommended offers as unavailable or use ho
   missing = false;
   assert.equal(Object.values(await client.rooms(input))[0].offers.breakfast.price, 2527.90);
 });
+
+test('Compact recommendations discover other room types but reprice every offer for the exact party', async () => {
+  let exactQuotes = 0;
+  const client = createBookingClient({ env: { BOOKING_APP_AUTHORIZATION: 'test', BOOKING_APP_SIGNATURE_SALT: 'test', BOOKING_APP_VERSION: 'test' }, fetchImpl: async raw => {
+    const url = new URL(raw), adults = Number(url.searchParams.get('rec_guest_qty')), count = Number(url.searchParams.get('rec_room_qty'));
+    const data = payload(), h = data[0];
+    const block = (id, capacity, price) => ({ ...h.block[0], block_id: `room-${id}`, room_id: id, room_name: ({ 10: 'King Room', 11: 'Double Room', 12: 'Triple Room', 13: 'Quadruple Room' })[id], nr_adults: capacity, fit_occupancy: { nr_adults: adults, children_ages: [] }, min_price: { currency: 'SAR', price } });
+    if (url.pathname.endsWith('mobile.hotelPage')) {
+      const perRoom = count === 2 ? 2 : adults;
+      h.min_room_distribution.adults = perRoom; h.total_blocks = 0; h.block_count = 4;
+      h.block = count === 2 ? [block(10, 2, 143), block(11, 2, 153)] : perRoom <= 2 ? [block(10, 2, 143)] : perRoom === 3 ? [block(12, 3, 186.12)] : [block(13, 4, 206.8)];
+    } else {
+      exactQuotes++;
+      assert.equal(adults, 2); assert.equal(count, 1);
+      h.block = url.searchParams.get('block_ids').includes('room-11') ? [block(10, 2, 168.03), block(11, 2, 179.78), block(12, 3, 423), block(13, 4, 470)] : [block(10, 2, 168.03)];
+      h.total_blocks = h.block.length;
+      h.rooms = Object.fromEntries(h.block.map(b => [b.room_id, { bed_configurations: [] }]));
+    }
+    return { ok: true, json: async () => data };
+  } });
+  const rooms = Object.values(await client.rooms(input));
+  assert.deepEqual(rooms.map(room => room.name), ['King Room', 'Double Room', 'Triple Room', 'Quadruple Room']);
+  assert.equal(rooms[2].offers.breakfast.price, 423);
+  assert.equal(rooms[3].offers.breakfast.price, 470);
+  assert.equal(exactQuotes, 2);
+  await client.rooms(input); assert.equal(exactQuotes, 2);
+});
+
+test('A larger room is included only when its source fit occupancy matches the requested party', () => {
+  const data = payload(); data[0].block[0].nr_adults = 3;
+  assert.equal(Object.values(normalizeBookingRooms(data, input))[0].offers.breakfast.price, 2527.90);
+  data[0].block[0].fit_occupancy.nr_adults = 3;
+  assert.throws(() => normalizeBookingRooms(data, input), /إشغال العرض غير مطابق/);
+  const single = payload(); single[0].min_room_distribution.adults = 1;
+  single[0].block.forEach(block => { block.fit_occupancy.nr_adults = 1; });
+  assert.equal(Object.keys(normalizeBookingRooms(single, { ...input, roomsInfo: [{ adultsCount: 1, kidsAges: [] }] })).length, 1);
+});
 test('Booking participates in comparison with the right source name and nightly totals', async () => {
   const engine = createLiveScraper(async () => ({ hotelId: '184752', hotelName: 'Al Marwa', baseSlug: 'test' }), async request => normalizeBookingRooms(payload(), request), { source: 'Booking', sourceArabic: 'بوكينج' });
   const result = await executeHotelComparison({ hotelInput: 'booking:184752', checkIn: input.checkIn, checkOut: input.checkOut, sources: ['booking'] }, { booking: engine });

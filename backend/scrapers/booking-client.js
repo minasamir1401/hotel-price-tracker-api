@@ -69,7 +69,9 @@ export function normalizeBookingRooms(payload, request) {
     assert(block.block_id && !seen.has(block.block_id), 'معرّف العرض مفقود أو مكرر');
     seen.add(block.block_id);
     // Incompatible rates are never substituted for the requested occupancy.
-    if (Number(block.is_block_fit) !== 1 || Number(block.nr_adults) !== adults || Number(block.nr_children) !== 0) continue;
+    // nr_adults is the rate's capacity; fit_occupancy is the requested party.
+    // A triple/quad room can be sold to two adults at its own source quote.
+    if (Number(block.is_block_fit) !== 1 || !Number.isInteger(Number(block.nr_adults)) || Number(block.nr_adults) < adults || Number(block.nr_children) !== 0) continue;
     assert(Number(block.fit_occupancy?.nr_adults) === adults && Array.isArray(block.fit_occupancy?.children_ages) && block.fit_occupancy.children_ages.length === 0, 'إشغال العرض غير مطابق');
     assert(block.min_price?.currency === 'SAR', 'عملة العرض غير مطابقة');
     const price = Number(block.min_price?.price);
@@ -102,7 +104,7 @@ export function normalizeBookingRooms(payload, request) {
 
 export function createBookingClient({ env = process.env, fetchImpl = fetch } = {}) {
   const deviceId = env.BOOKING_APP_DEVICE_ID || randomUUID().replaceAll('-', '');
-  const cache = new Map(), pending = new Map();
+  const cache = new Map(), pending = new Map(), catalogs = new Map(), catalogPending = new Map();
   async function request(endpoint, params) {
     assert(bookingConfigured(env), 'إعدادات الاتصال بالتطبيق غير موجودة على الخادم');
     const query = new URLSearchParams({ user_version: `${env.BOOKING_APP_VERSION}-android`, languagecode: 'en-gb', user_os: '15', device_id: deviceId, network_type: 'wifi', display: 'normal_xxhdpi', ...params }).toString();
@@ -120,6 +122,41 @@ export function createBookingClient({ env = process.env, fetchImpl = fetch } = {
     const adults = validateBookingOccupancy(input.roomsInfo);
     return { hotel_id: input.hotelId, currency_code: 'SAR', arrival_date: input.checkIn, departure_date: input.checkOut, rec_guest_qty: String(adults), rec_room_qty: '1', rec_children_qty: '0', detail_level: '1', include_taxes: '1', show_extra_charges: '1', include_mealplan: '1', show_occupancy_for_price: '1', include_paymentterms: '1', include_detail_mealplan: '1', include_cancellation_timeline: '1', include_sleeping_clarity: '1', no_html: '1' };
   };
+  const idsFor = page => {
+    assert(Array.isArray(page.block), 'قائمة العروض المقترحة مفقودة');
+    const ids = [...new Set(page.block.map(block => block.block_id))];
+    assert(ids.every(id => typeof id === 'string' && /^[A-Za-z0-9_-]{1,200}$/.test(id)), 'معرّف العرض المقترح غير صالح');
+    return ids;
+  };
+  async function discoverRoomBlocks(page, input, refresh) {
+    const key = JSON.stringify([input.hotelId, input.checkIn, input.checkOut]);
+    const stored = catalogs.get(key);
+    if (!refresh && stored && Date.now() - stored.at < 120000) return stored.ids;
+    if (catalogPending.has(key)) return catalogPending.get(key);
+    const work = (async () => {
+      const ids = new Set(idsFor(page));
+      // Compact hotelPage responses recommend only the cheapest room for a
+      // party. Discover other capacities and the next room when that room's
+      // stock is limited. These responses supply IDs only, never display prices.
+      for (let adults = 1; adults <= 8; adults++) {
+        if (adults === input.roomsInfo[0].adultsCount) continue;
+        const probe = { ...input, roomsInfo: [{ adultsCount: adults, kidsAges: [] }] };
+        const metadata = validateBookingHotel(await request('mobile.hotelPage', paramsFor(probe)), probe);
+        idsFor(metadata).forEach(id => ids.add(id));
+      }
+      const probe = { ...input, roomsInfo: [{ adultsCount: 2, kidsAges: [] }] };
+      const metadata = validateBookingHotel(await request('mobile.hotelPage', {
+        ...paramsFor(probe), rec_guest_qty: '4', rec_room_qty: '2',
+      }), probe);
+      idsFor(metadata).forEach(id => ids.add(id));
+      const value = [...ids];
+      if (catalogs.size >= 500) catalogs.delete(catalogs.keys().next().value);
+      catalogs.set(key, { at: Date.now(), ids: value });
+      return value;
+    })();
+    catalogPending.set(key, work);
+    try { return await work; } finally { catalogPending.delete(key); }
+  }
   return {
     async decodeUrl(url) {
       return request('mobile.decodeUniversalLink', { url });
@@ -139,14 +176,21 @@ export function createBookingClient({ env = process.env, fetchImpl = fetch } = {
         // The app carries hotelPage's recommended blocks into roomList. Without
         // them, roomList can return only extra offers, or an empty list.
         const page = validateBookingHotel(await request('mobile.hotelPage', params), input);
-        assert(Array.isArray(page.block), 'قائمة العروض المقترحة مفقودة');
-        const blockIds = [...new Set(page.block.map(block => block.block_id))];
-        assert(blockIds.every(id => typeof id === 'string' && /^[A-Za-z0-9_-]{1,200}$/.test(id)), 'معرّف العرض المقترح غير صالح');
-        const response = await request('mobile.roomList', { ...params,
+        const blockIds = idsFor(page);
+        const quote = ids => request('mobile.roomList', { ...params,
           include_is_block_fit: '1', move_room_info_from_block_to_room: '1',
-          ...(blockIds.length ? { block_ids: blockIds.join(',') } : {}),
+          ...(ids.length ? { block_ids: ids.join(',') } : {}),
         });
-        const hotel = validateBookingHotel(response, input);
+        let response = await quote(blockIds);
+        let hotel = validateBookingHotel(response, input);
+        // An exact-size compact recommendation is not a complete room catalog.
+        if (Number(page.total_blocks) === 0 && Number(page.block_count) > page.block.length && new Set((hotel.block || []).map(block => block.room_id)).size <= new Set(page.block.map(block => block.room_id)).size) {
+          const discovered = await discoverRoomBlocks(page, input, refresh);
+          if (discovered.some(id => !blockIds.includes(id))) {
+            response = await quote(discovered);
+            hotel = validateBookingHotel(response, input);
+          }
+        }
         assert(Array.isArray(hotel.block) && blockIds.every(id => hotel.block.some(block => block.block_id === id)), 'لم يُرجع التطبيق كل العروض المقترحة؛ أعد المحاولة لتحديث التوافر');
         const value = normalizeBookingRooms(response, input);
         if (cache.size >= 500) cache.delete(cache.keys().next().value);
