@@ -8,7 +8,7 @@ export const webUserAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebK
 const workerPath = fileURLToPath(new URL('./almosafer-http-worker.py', import.meta.url));
 
 // One public cookie jar per origin, with concurrent requests and bounded deadlines.
-export function createCurlFetch({ python = process.env.ALMOSAFER_PYTHON || 'python3', spawnImpl = spawn, idleMs = 600000 } = {}) {
+export function createCurlFetch({ python = process.env.ALMOSAFER_PYTHON || 'python', spawnImpl = spawn, idleMs = 600000 } = {}) {
   let worker, buffer = '', sequence = 0, idleTimer;
   const pending = new Map();
   const fail = () => new Error('تعذر تشغيل اتصال HTTP للمسافر أو انتهت مهلة الاتصال');

@@ -10,6 +10,11 @@ export function resolveBrowserLaunchOptions({ headless = true } = {}) {
     '--no-first-run',
     '--no-zygote',
     '--disable-extensions',
+    // Reduce Cloudflare bot fingerprinting
+    '--disable-blink-features=AutomationControlled',
+    '--disable-features=IsolateOrigins,site-per-process',
+    '--window-size=1280,800',
+    '--lang=ar-SA',
   ];
 
   if (process.env.PLAYWRIGHT_CHROME_PATH && fs.existsSync(process.env.PLAYWRIGHT_CHROME_PATH)) {

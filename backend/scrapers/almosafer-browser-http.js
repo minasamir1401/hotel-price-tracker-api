@@ -29,7 +29,20 @@ export function createAlmosaferBrowserFetch({ launch = options => chromium.launc
           const context = await browser.newContext({
             userAgent: `Mozilla/5.0 (${platform}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${browser.version()} Safari/537.36`,
             locale: 'ar-SA', viewport: { width: 1280, height: 800 },
+            extraHTTPHeaders: { 'Accept-Language': 'ar-SA,ar;q=0.9,en-US;q=0.8,en;q=0.7' },
           });
+          if (typeof context.addInitScript === 'function') {
+            await context.addInitScript(() => {
+              Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
+              Object.defineProperty(navigator, 'plugins', { get: () => [1, 2, 3, 4, 5] });
+              window.chrome = { runtime: {} };
+              const originalQuery = window.navigator.permissions.query;
+              window.navigator.permissions.query = (parameters) =>
+                parameters.name === 'notifications'
+                  ? Promise.resolve({ state: Notification.permission })
+                  : originalQuery(parameters);
+            });
+          }
           return { browser, context, origin, page: null, token: null, booting: null, active: 0, idle: null };
         } catch (error) { await browser.close().catch(() => {}); throw error; }
       })();

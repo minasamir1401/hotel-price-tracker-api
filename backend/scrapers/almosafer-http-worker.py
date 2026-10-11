@@ -43,7 +43,7 @@ async def main():
                 supplied_cookies = headers.pop("cookie", headers.pop("Cookie", None))
                 if origin not in sessions:
                     sessions[origin] = AsyncSession(
-                        impersonate="chrome124", trust_env=False, verify=True,
+                        impersonate="chrome131", trust_env=False, verify=True,
                         max_clients=8, allow_redirects=False,
                         proxy=os.environ.get("ALMOSAFER_PROXY_URL", "").strip() or None,
                     )
