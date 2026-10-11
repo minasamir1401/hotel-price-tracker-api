@@ -68,6 +68,21 @@ test('Source readiness reflects successful price requests, refusals and untested
   assert.equal(sourceSnapshot('status-test', false).status, 'offline');
 });
 
+test('A challenge with HTTP 200 cannot be parsed as prices or marked as availability', async () => {
+  let calls = 0;
+  const client = createEnigmaClient({ token: 'test', sleep: async () => {}, fetchImpl: async () => {
+    calls++;
+    return new Response('<html>verification</html>', { headers: { 'cf-mitigated': 'challenge' } });
+  } });
+  await assert.rejects(client(payload), error => {
+    assert.equal(error.responseKind, 'challenge');
+    assert.equal(error.code, 'UPSTREAM_ACCESS_DENIED');
+    return true;
+  });
+  assert.equal(calls, 1);
+  assert.equal(sourceSnapshot('almosafer').status, 'blocked');
+});
+
 test('Global hotel links keep their origin through room lookup and reject arbitrary upstream origins', async () => {
   const input = 'https://global.almosafer.com/ar/hotel/details/atg/kingsgate-diyar-1287944';
   const details = await resolveAlmosaferDetails(input);

@@ -1,12 +1,14 @@
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { almosaferOrigin } from './almosafer-origin.js';
+import { almosaferConnection } from './almosafer-connection.js';
+import { isChallengeResponse } from './challenge-response.js';
 
 export const webUserAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
 const workerPath = fileURLToPath(new URL('./almosafer-http-worker.py', import.meta.url));
 
 // One public cookie jar per origin, with concurrent requests and bounded deadlines.
-export function createCurlFetch({ python = process.env.ALMOSAFER_PYTHON || 'python3', spawnImpl = spawn, idleMs = 60000 } = {}) {
+export function createCurlFetch({ python = process.env.ALMOSAFER_PYTHON || 'python3', spawnImpl = spawn, idleMs = 600000 } = {}) {
   let worker, buffer = '', sequence = 0, idleTimer;
   const pending = new Map();
   const fail = () => new Error('تعذر تشغيل اتصال HTTP للمسافر أو انتهت مهلة الاتصال');
@@ -95,28 +97,42 @@ export function createCurlFetch({ python = process.env.ALMOSAFER_PYTHON || 'pyth
   return curlFetch;
 }
 
-let defaultCurl;
-let defaultBrowser;
-const browserOrigins = new Set();
-// Read after server.js has loaded local .env files; Docker also sets this explicitly.
-export async function almosaferFetch(url, options) {
-  const origin = almosaferOrigin(new URL(url).origin);
-  if (browserOrigins.has(origin)) return (await defaultBrowser)(url, options);
-  let response;
-  if (process.env.ALMOSAFER_HTTP_TRANSPORT === 'curl') {
-    defaultCurl ||= createCurlFetch();
-    response = await defaultCurl(url, options);
-  } else response = await fetch(url, options);
-  if (process.env.ALMOSAFER_BROWSER_FALLBACK !== '1' || response.status !== 403) return response;
-  const body = (await response.clone().text()).slice(0, 16384);
-  if (!/challenge-platform|captcha|verify you are human/i.test(body)) return response;
-  defaultBrowser ||= import('./almosafer-browser-http.js').then(module => module.createAlmosaferBrowserFetch());
-  browserOrigins.add(origin);
-  try { return await (await defaultBrowser)(url, options); }
-  catch { browserOrigins.delete(origin); return response; }
+export function createAlmosaferFetch({ env = process.env, nativeFetch = fetch, createCurl = createCurlFetch,
+  createBrowser = async () => (await import('./almosafer-browser-http.js')).createAlmosaferBrowserFetch() } = {}) {
+  let curl, browser;
+  const browserOrigins = new Set();
+  const getBrowser = () => {
+    browser ||= Promise.resolve().then(createBrowser).catch(error => { browser = null; throw error; });
+    return browser;
+  };
+  const transport = async (url, options) => {
+    const origin = almosaferOrigin(new URL(url).origin);
+    const connection = almosaferConnection(env);
+    if (connection.transport === 'browser' || browserOrigins.has(origin)) return (await getBrowser())(url, options);
+    let response;
+    if (connection.transport === 'curl') {
+      curl ||= createCurl();
+      response = await curl(url, options);
+    } else response = await nativeFetch(url, options);
+    if (!connection.browserFallback || !(await isChallengeResponse(response))) return response;
+    try {
+      const result = await (await getBrowser())(url, options);
+      // Stay in this browser even if the source still requires verification.
+      browserOrigins.add(origin);
+      return result;
+    } catch {
+      options?.signal?.throwIfAborted();
+      return response;
+    }
+  };
+  transport.close = async () => {
+    curl?.close(); curl = null;
+    const previous = browser; browser = null;
+    browserOrigins.clear();
+    await previous?.then(client => client.close()).catch(() => {});
+  };
+  return transport;
 }
-almosaferFetch.close = () => {
-  defaultCurl?.close(); defaultCurl = null;
-  defaultBrowser?.then(browser => browser.close()).catch(() => {}); defaultBrowser = null;
-  browserOrigins.clear();
-};
+
+// Configuration is evaluated after server.js loads its local .env files.
+export const almosaferFetch = createAlmosaferFetch();

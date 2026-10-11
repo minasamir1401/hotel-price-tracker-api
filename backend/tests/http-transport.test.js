@@ -2,9 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { EventEmitter } from 'node:events';
 import { PassThrough } from 'node:stream';
-import { createCurlFetch } from '../scrapers/almosafer-http.js';
+import { createCurlFetch, createAlmosaferFetch } from '../scrapers/almosafer-http.js';
 import { createEnigmaClient } from '../scrapers/enigma.js';
 import { createAlmosaferBrowserFetch } from '../scrapers/almosafer-browser-http.js';
+import { almosaferConnection } from '../scrapers/almosafer-connection.js';
+import { isChallengeResponse } from '../scrapers/challenge-response.js';
 
 function mockWorker() {
   const workers = [], requests = [];
@@ -134,4 +136,106 @@ test('A remaining browser challenge never supplies a fallback token or launches 
     await assert.rejects(transport('https://127.0.0.1/api/'));
     assert.equal(mock.browsers.length, 1);
   } finally { await transport.close(); }
+});
+
+test('Browser-first scraping never bootstraps through a separate HTTP connection', async () => {
+  const mock = browserMock();
+  const transport = createAlmosaferFetch({ env: { ALMOSAFER_HTTP_TRANSPORT: 'browser' },
+    nativeFetch: () => { throw new Error('Must stay in browser'); },
+    createCurl: () => { throw new Error('Must stay in browser'); },
+    createBrowser: () => createAlmosaferBrowserFetch({ ...mock, env: {} }) });
+  try {
+    const client = createEnigmaClient({ fetchImpl: transport, token: '', sleep: async () => {} });
+    await client({ hotelId: '1287944', roomsInfo: [{ adultsCount: 2, kidsAges: [] }] }, { maxAttempts: 1 });
+    assert.equal(mock.browsers.length, 1);
+    assert.equal(mock.requests.length, 2);
+  } finally { await transport.close(); }
+});
+
+test('API challenge fallback replaces the old HTTP token with the new browser session token', async () => {
+  const mock = browserMock(), calls = [];
+  const transport = createAlmosaferFetch({ env: { ALMOSAFER_BROWSER_FALLBACK: '1' },
+    nativeFetch: async url => {
+      calls.push(url);
+      return new Response('verification', { status: 403, headers: { 'cf-mitigated': 'challenge' } });
+    }, createBrowser: () => createAlmosaferBrowserFetch({ ...mock, env: {} }) });
+  const url = 'https://www.almosafer.com/api/enigma/v7/packages';
+  try {
+    const options = { method: 'PUT', headers: { token: 'old-http-token', Referer: 'https://www.almosafer.com/ar/hotel/details/atg/hotel-1287944' }, body: '{}' };
+    assert.equal((await transport(url, options)).status, 200);
+    await transport(url, options);
+    assert.equal(calls.length, 1);
+    assert.ok(mock.requests.every(request => request.headers.token === 'actual-public-token'));
+    assert.equal(mock.requests.length, 2);
+  } finally { await transport.close(); }
+});
+
+test('An idle browser restart cannot send a token from the closed session', async () => {
+  const mock = browserMock();
+  const transport = createAlmosaferBrowserFetch({ ...mock, env: {}, idleMs: 5 });
+  const options = { headers: { token: 'token-from-closed-session' } };
+  try {
+    await transport('https://www.almosafer.com/api/enigma/v7/packages', options);
+    await new Promise(resolve => setTimeout(resolve, 25));
+    assert.equal(mock.browsers[0].closed, true);
+    await transport('https://www.almosafer.com/api/enigma/v7/packages', options);
+    assert.equal(mock.browsers.length, 2);
+    assert.ok(mock.requests.every(request => request.headers.token === 'actual-public-token'));
+  } finally { await transport.close(); }
+});
+
+test('Challenges with 200/503 and cf-mitigated activate fallback without switching other origins', async () => {
+  for (const status of [200, 503]) {
+    const nativeCalls = [], browserCalls = [];
+    const browser = async url => { browserCalls.push(url); return new Response('browser result'); };
+    browser.close = async () => {};
+    const transport = createAlmosaferFetch({ env: { ALMOSAFER_BROWSER_FALLBACK: '1' },
+      nativeFetch: async url => {
+        nativeCalls.push(url);
+        return url.includes('global.') ? new Response('global result') :
+          new Response('<html>verification</html>', { status, headers: { 'cf-mitigated': 'challenge' } });
+      }, createBrowser: () => browser });
+    try {
+      assert.equal(await (await transport('https://www.almosafer.com/ar/hotels-home')).text(), 'browser result');
+      await transport('https://www.almosafer.com/api/enigma/autocomplete');
+      assert.equal(await (await transport('https://global.almosafer.com/ar/hotels-home')).text(), 'global result');
+      assert.equal(nativeCalls.length, 2); assert.equal(browserCalls.length, 2);
+    } finally { await transport.close(); }
+  }
+});
+
+test('Normal source pages with CAPTCHA or JavaScript detection do not become challenge pages', async () => {
+  const html = '<html><title>Hotel</title><script src="/cdn-cgi/challenge-platform/scripts/jsd/main.js"></script><div id="captcha"></div></html>';
+  const response = new Response(html, { headers: { 'content-type': 'text/html' } });
+  assert.equal(await isChallengeResponse(response), false);
+  assert.equal(await response.text(), html);
+  for (const status of [200, 503]) assert.equal(await isChallengeResponse(new Response('<html><title>Just a moment...</title>challenge-platform</html>', { status, headers: { 'content-type': 'text/html' } })), true);
+});
+
+test('Browser startup failure preserves the upstream refusal and can retry initialization', async () => {
+  let launches = 0;
+  const browser = async () => new Response('recovered'); browser.close = async () => {};
+  const transport = createAlmosaferFetch({ env: { ALMOSAFER_BROWSER_FALLBACK: '1' },
+    nativeFetch: async () => new Response('challenge-platform', { status: 403 }),
+    createBrowser: () => { if (++launches === 1) throw new Error('startup failed'); return browser; } });
+  try {
+    assert.equal((await transport('https://www.almosafer.com/ar/hotels-home')).status, 403);
+    assert.equal(await (await transport('https://www.almosafer.com/ar/hotels-home')).text(), 'recovered');
+    assert.equal(launches, 2);
+  } finally { await transport.close(); }
+});
+
+test('Explicit outbound proxy config reaches the browser without credentials in the server field', async () => {
+  const env = { ALMOSAFER_HTTP_TRANSPORT: 'browser', ALMOSAFER_PROXY_URL: 'http://user:p%40ss%23word@proxy.example:8080' };
+  const mock = browserMock();
+  const transport = createAlmosaferBrowserFetch({ ...mock, env, launch: async options => {
+    assert.deepEqual(options.proxy, { server: 'http://proxy.example:8080', username: 'user', password: 'p@ss#word' });
+    return mock.launch(options);
+  } });
+  try { await transport('https://www.almosafer.com/ar/hotels-home'); }
+  finally { await transport.close(); }
+  for (const value of ['bad-secret-value', 'ftp://secret@proxy.example', 'http://secret@proxy.example/path', 'socks5://secret:password@proxy.example:1080']) {
+    assert.throws(() => almosaferConnection({ ALMOSAFER_PROXY_URL: value }), error => !error.message.includes('secret'));
+  }
+  assert.throws(() => almosaferConnection({ ...env, ALMOSAFER_HTTP_TRANSPORT: 'native' }), /curl.*browser/);
 });

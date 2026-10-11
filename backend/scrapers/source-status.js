@@ -3,7 +3,7 @@ export function recordSourceSuccess(source) {
   states.set(source, { status: 'ready', checkedAt: new Date().toISOString(), message: null });
 }
 export function recordSourceFailure(source, error) {
-  states.set(source, { status: error?.upstreamStatus === 403 ? 'blocked' : 'error', checkedAt: new Date().toISOString(), message: error.message });
+  states.set(source, { status: error?.upstreamStatus === 403 || error?.responseKind === 'challenge' ? 'blocked' : 'error', checkedAt: new Date().toISOString(), message: error.message });
 }
 export function sourceSnapshot(source, configured = true) {
   if (!configured) return { status: 'offline', checkedAt: null, message: 'إعدادات المصدر غير موجودة على الخادم' };

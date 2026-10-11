@@ -4,6 +4,7 @@ import { upstreamHttpError, UpstreamError } from './upstream-error.js';
 import { recordSourceSuccess, recordSourceFailure } from './source-status.js';
 import { almosaferOrigin } from './almosafer-origin.js';
 import { almosaferFetch } from './almosafer-http.js';
+import { isChallengeResponse } from './challenge-response.js';
 const plans = { RO: 'roomOnly', BB: 'breakfast', HB: 'halfBoard' };
 export const roundMoney = value => Math.round((value + Number.EPSILON) * 100) / 100;
 const localized = value => typeof value === 'string' ? value : value?.ar || value?.en || '';
@@ -80,7 +81,7 @@ export function createEnigmaClient({ fetchImpl = almosaferFetch, sleep = ms => n
     let res;
     try { res = await fetchImpl(url, { headers: requestHeaders, signal: AbortSignal.timeout(Math.min(20000,remaining)), ...options }); }
     catch { throw new UpstreamError('تعذر الاتصال بالمسافر أو انتهت مهلة الطلب', { source: 'almosafer', stage: url.includes('/poll/') ? 'poll' : 'packages', code: 'UPSTREAM_NETWORK_ERROR' }); }
-    if (!res.ok) {
+    if (!res.ok || await isChallengeResponse(res)) {
       if (res.status === 401 || res.status === 403) { overrideRejected = true; getSessionToken.invalidate?.(); }
       throw await upstreamHttpError(res, { stage: url.includes('/poll/') ? 'poll' : 'packages', url });
     }

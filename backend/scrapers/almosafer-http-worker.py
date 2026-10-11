@@ -1,6 +1,7 @@
 """Public Almosafer HTTP transport. IPC only; never prints credentials or bodies to logs."""
 import asyncio
 import json
+import os
 import sys
 import time
 from http.cookies import SimpleCookie
@@ -44,6 +45,7 @@ async def main():
                     sessions[origin] = AsyncSession(
                         impersonate="chrome124", trust_env=False, verify=True,
                         max_clients=8, allow_redirects=False,
+                        proxy=os.environ.get("ALMOSAFER_PROXY_URL", "").strip() or None,
                     )
                     if supplied_cookies:
                         cookies = SimpleCookie()

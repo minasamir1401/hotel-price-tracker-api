@@ -3,6 +3,7 @@ import { almosaferFetch, webUserAgent } from './almosafer-http.js';
 export { webUserAgent } from './almosafer-http.js';
 
 import { upstreamHttpError, UpstreamError } from './upstream-error.js';
+import { isChallengeResponse } from './challenge-response.js';
 
 // Bootstrap the public hotel web session. This is session configuration, never a price source.
 export function createAlmosaferSessionProvider({fetchImpl = almosaferFetch, now = Date.now, cacheTTL = 300000, origin = almosaferOrigin()} = {}) {
@@ -50,7 +51,7 @@ export function createAlmosaferSessionProvider({fetchImpl = almosaferFetch, now 
           signal: AbortSignal.timeout(Math.min(20000, remaining)),
         });
 
-        if (!res.ok) throw await upstreamHttpError(res, { stage: 'session-bootstrap', url: url.href });
+        if (!res.ok || await isChallengeResponse(res)) throw await upstreamHttpError(res, { stage: 'session-bootstrap', url: url.href });
         if (res.ok) {
           const cookies = res.headers?.getSetCookie?.() || [];
           cookieHeader = cookies.map(cookie => cookie.split(';')[0]).join('; ') || null;
