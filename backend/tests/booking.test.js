@@ -42,6 +42,30 @@ const partnerPayload = () => {
   return data;
 };
 
+test('Booking preserves verified source discounts and display policies without applying the discount twice',()=>{
+  const data=payload(),block=data[0].block[0],amount=value=>({currency:'SAR',value});
+  block.product_price_breakdown={net_amount:amount(2000),all_inclusive_amount:amount(2527.9),excluded_amount:amount(527.9),included_taxes_and_charges_amount:amount(0),strikethrough_amount:amount(3000),discounted_amount:amount(1000),items:[{kind:'discount',name:'Late Escape Deal'}]};
+  block.policy_display_details={prepayment:{title_details:{translation:'Pay online'},description_details:{translation:'Charged at booking'}},cancellation:{description_details:{translation:'Non-refundable with one date change'}}};
+  block.nr_one_free_date_change={policy_long:'Can reschedule once before 13 October'};
+  const quote=Object.values(normalizeBookingRooms(data,input))[0].offers.breakfast;
+  assert.equal(quote.price,2527.9);assert.equal(quote.originalPriceBeforeTax,3000);assert.equal(quote.discountAmount,1000);
+  assert.deepEqual(quote.discountLabels,['Late Escape Deal']);assert.equal(quote.paymentLabel,'Pay online');
+  assert.match(quote.reschedulePolicy,/13 October/);assert.match(quote.cancellationDetails,/one date change/);
+  block.product_price_breakdown.discounted_amount=amount(800);
+  const mismatched=Object.values(normalizeBookingRooms(data,input))[0].offers.breakfast;
+  assert.equal(mismatched.originalPriceBeforeTax,null);assert.equal(mismatched.discountAmount,null);assert.equal(mismatched.price,2527.9);
+});
+
+test('Unmapped supplier inventory cannot appear as a verified hotel room or substitute its cheaper price',()=>{
+  for(const mapping of [0,null,999]) {
+    const data=partnerPayload();data[0].tpi_block[0].mapped_booking_room_id=mapping;
+    data[0].tpi_block[0].name='Room Assigned on Arrival';
+    const rooms=Object.values(normalizeBookingRooms(data,input));
+    assert.equal(rooms.length,1);assert.equal(rooms[0].partnerOffer,undefined);
+    assert.equal(rooms[0].offers.breakfast.price,2527.9);
+  }
+});
+
 test('Partner twin offers remain distinct from direct twins with their own taxes, beds and conditions',()=>{
   const rooms=Object.values(normalizeBookingRooms(partnerPayload(),input));
   assert.equal(rooms.length,2);

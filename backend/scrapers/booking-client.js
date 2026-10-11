@@ -61,6 +61,23 @@ function bedsForRoom(room) {
 }
 
 const cents = value => Math.round((value + Number.EPSILON) * 100) / 100;
+function bookingDisplayDetails(block) {
+  const display = block.policy_display_details || {};
+  const translated = item => clean(item?.translation || item?.placeholder_translation) || null;
+  const data = block.product_price_breakdown;
+  const optionalAmount = item => item?.currency==='SAR' && typeof item.value==='number' && Number.isFinite(item.value) && item.value>=0 ? cents(item.value) : null;
+  const original = optionalAmount(data?.strikethrough_amount), discount = optionalAmount(data?.discounted_amount), net = optionalAmount(data?.net_amount);
+  const verifiedDiscount = original!=null && discount>0 && net!=null && Math.abs(original-discount-net)<0.011;
+  return {
+    originalPriceBeforeTax:verifiedDiscount ? original : null,
+    discountAmount:verifiedDiscount ? discount : null,
+    discountLabels:verifiedDiscount ? [...new Set((data.items || []).filter(item=>item.kind==='discount').map(item=>clean(item.name)).filter(Boolean))] : [],
+    paymentLabel:translated(display.prepayment?.title_details),
+    paymentDetails:translated(display.prepayment?.description_details),
+    cancellationDetails:translated(display.cancellation?.description_details),
+    reschedulePolicy:clean(block.nr_one_free_date_change?.policy_long) || translated(display.reschedule?.title_details),
+  };
+}
 export function bookingPriceBreakdown(block, price, sourceField = 'mobile.roomList.block.product_price_breakdown') {
   const data = block.product_price_breakdown;
   if (!data) return null;
@@ -128,6 +145,7 @@ export function normalizeBookingRooms(payload, request) {
       noCreditCard: block.no_cc_object?.key === 'NoCcKey' ? true : null,
       paymentPolicy: clean(block.paymentterms?.prepayment?.description) || null,
       paymentType: block.paymentterms?.prepayment?.type || null,
+      ...bookingDisplayDetails(block),
       mealLabel: ({ roomOnly: 'إقامة فقط', breakfast: 'إقامة وإفطار', halfBoard: 'نصف إقامة' })[plan], mealLabelFromSource: clean(block.mealplan), refundable,
       refundableUntil: block.refundable_until || null,
       cancellationPolicy: refundable ? `إلغاء مجاني حسب شروط العرض${block.refundable_until ? ` حتى ${block.refundable_until}` : ''}` : 'غير قابل للاسترداد',
@@ -140,6 +158,10 @@ export function normalizeBookingRooms(payload, request) {
   // is identical. Keep it separate rather than replacing the direct hotel's rate.
   for (const block of hotel.tpi_block || []) {
     if (Number(block.occupancy) !== adults || Number(block.guest_count) !== adults || Number(block.room_count) !== 1 || Number(block.children_count) !== 0 || !Array.isArray(block.children_ages) || block.children_ages.length) continue;
+    // A supplier's unassigned inventory is not a verified hotel room type.
+    // In particular, mapped_booking_room_id=0 must not become an extra room.
+    const mappedRoomId = String(block.mapped_booking_room_id || '');
+    if (!/^[1-9]\d*$/.test(mappedRoomId) || !hotel.rooms?.[mappedRoomId]) continue;
     assert(block.min_price?.currency === 'SAR', 'عملة عرض الشريك غير مطابقة');
     const rawPrice = Number(block.min_price?.price);
     assert(Number.isFinite(rawPrice) && rawPrice > 0, 'سعر عرض الشريك غير صالح');
@@ -158,7 +180,7 @@ export function normalizeBookingRooms(payload, request) {
       roomAmenities: [...new Set((block.highlights || []).map(item=>clean(item.translated_name)).filter(Boolean))],
       partnerOffer:true, offers:{} };
     const offer = { price, totalPrice:price, packageId:block.block_id, roomId,
-      mappedRoomId:block.mapped_booking_room_id ? String(block.mapped_booking_room_id) : null,
+      mappedRoomId,
       source:'Booking Android app API', priceField:'mobile.roomList.tpi_block.min_price.price',
       priceBasis:'source-display-price-with-requested-taxes', currency:'SAR',
       taxBreakdown:bookingPriceBreakdown(block,price,'mobile.roomList.tpi_block.product_price_breakdown'), partnerOffer:true, partnerConditions:conditions,
@@ -169,6 +191,7 @@ export function normalizeBookingRooms(payload, request) {
       cancellationPolicy:refundable ? 'إلغاء مجاني حسب شروط عرض الشريك' : 'غير قابل للاسترداد',
       paymentType:block.paymentterms?.prepayment?.type || null,
       paymentPolicy:clean(block.paymentterms?.prepayment?.description) || null,
+      ...bookingDisplayDetails(block),
     };
     // Book tokens and rate keys are intentionally never returned to the UI.
     if (!result[key].offers[plan] || price<result[key].offers[plan].price)result[key].offers[plan]=offer;
