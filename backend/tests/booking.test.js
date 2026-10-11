@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { bookingHotelId, normalizeBookingRooms, createBookingClient } from '../scrapers/booking-client.js';
 import { createLiveScraper } from '../scrapers/almosafer-live.js';
 import { executeHotelComparison } from '../scrapers/index.js';
-import { resolveBookingUrl } from '../scrapers/booking-url.js';
+import { resolveBookingUrl, decodedBookingHotelId } from '../scrapers/booking-url.js';
 
 const input = { hotelId: '184752', checkIn: '2026-10-20', checkOut: '2026-10-21', roomsInfo: [{ adultsCount: 2, kidsAges: [] }] };
 const payload = () => [{ hotel_id: 184752, arrival_date: input.checkIn, departure_date: input.checkOut, currency_code: 'SAR', min_room_distribution: { adults: 2, children: [] }, total_blocks: 2,
@@ -44,7 +44,40 @@ test('Booking failures are retriable and completed requests are cached', async (
     return { ok: true, json: async () => payload() };
   } });
   await assert.rejects(client.rooms(input), /HTTP 401/);
-  await client.rooms(input); await client.rooms(input); assert.equal(calls, 2);
+  await client.rooms(input); await client.rooms(input); assert.equal(calls, 3);
+});
+
+test('Booking requests recommended blocks and uses the complete roomList tax-inclusive quote', async () => {
+  const calls = [];
+  const client = createBookingClient({ env: { BOOKING_APP_AUTHORIZATION: 'test', BOOKING_APP_SIGNATURE_SALT: 'test', BOOKING_APP_VERSION: 'test' }, fetchImpl: async url => {
+    const parsed = new URL(url); calls.push(parsed);
+    const data = payload();
+    if (parsed.pathname.endsWith('mobile.hotelPage')) {
+      data[0].total_blocks = 0;
+      data[0].block[0].min_price.price = '143.00';
+      return { ok: true, json: async () => data };
+    }
+    assert.equal(parsed.searchParams.get('block_ids'), 'native-0,native-1');
+    assert.equal(parsed.searchParams.get('include_is_block_fit'), '1');
+    assert.equal(parsed.searchParams.get('move_room_info_from_block_to_room'), '1');
+    data[0].block[0].min_price.price = '168.03';
+    return { ok: true, json: async () => data };
+  } });
+  assert.equal(Object.values(await client.rooms(input))[0].offers.breakfast.price, 168.03);
+  await client.rooms(input);
+  assert.equal(calls.length, 2);
+});
+
+test('Booking does not cache missing recommended offers as unavailable or use hotelPage prices', async () => {
+  let missing = true;
+  const client = createBookingClient({ env: { BOOKING_APP_AUTHORIZATION: 'test', BOOKING_APP_SIGNATURE_SALT: 'test', BOOKING_APP_VERSION: 'test' }, fetchImpl: async url => {
+    const data = payload();
+    if (new URL(url).pathname.endsWith('mobile.roomList') && missing) { data[0].block = []; data[0].total_blocks = 0; }
+    return { ok: true, json: async () => data };
+  } });
+  await assert.rejects(client.rooms(input), /كل العروض المقترحة/);
+  missing = false;
+  assert.equal(Object.values(await client.rooms(input))[0].offers.breakfast.price, 2527.90);
 });
 test('Booking participates in comparison with the right source name and nightly totals', async () => {
   const engine = createLiveScraper(async () => ({ hotelId: '184752', hotelName: 'Al Marwa', baseSlug: 'test' }), async request => normalizeBookingRooms(payload(), request), { source: 'Booking', sourceArabic: 'بوكينج' });
@@ -79,4 +112,36 @@ test('Plain Booking property links require unambiguous metadata and app verifica
   await assert.rejects(resolveBookingUrl(url, input, client, { fetchImpl: async () => ({ status: 200, text: async () => 'b_hotel_id=123456; data-hotelid="987654"' }) }), /بدقة/);
   await assert.rejects(resolveBookingUrl('https://booking.com.evil.test/hotel/sa/a.html?matching_block_id=88951702_1_2_2_0', input, client), /رابط صفحة فندق/);
   assert.equal(calls, 1);
+});
+
+test('Booking Share and property slugs use the app decoder independently of extra room availability', async () => {
+  let calls = 0;
+  const client = {
+    decodeUrl: async url => {
+      calls++; assert.ok(!url.includes('sid='));
+      return { dest_type: 'index', dest_id: 12876423, additional_parameters: { dest_type: 'hotel', dest_id: 12876423 }, booking_url: 'booking://searchresults?dest_type=hotel&dest_id=12876423' };
+    },
+    hotelDetails: async request => {
+      assert.equal(request.hotelId, '12876423'); assert.equal(request.checkIn, input.checkIn);
+      assert.deepEqual(request.roomsInfo, input.roomsInfo);
+      return { hotelId: request.hotelId, hotelName: 'Sama AlMadina Hotel' };
+    },
+    rooms: async () => { throw new Error('Extra offers cannot decide hotel identity'); },
+  };
+  for (const url of ['https://www.booking.com/Share-bhNKPOz', 'https://www.booking.com/hotel/sa/fndq-sm-lmdyn-lmdyn-lmnwr.ar.html?sid=private']) {
+    assert.equal((await resolveBookingUrl(url, input, client)).identityMethod, 'app-link-decoder');
+  }
+  assert.equal(calls, 2);
+  assert.equal(decodedBookingHotelId({ dest_type: 'city', dest_id: 12876423 }), null);
+  assert.equal(decodedBookingHotelId({ dest_type: 'index', dest_id: 12876423 }), null);
+  assert.throws(() => decodedBookingHotelId({ dest_type: 'hotel', dest_id: 1, additional_parameters: { dest_type: 'hotel', dest_id: 2 } }), /متعارضة/);
+});
+
+test('Hotel identity can be verified by recommended property rooms when extra offers are empty', async () => {
+  const client = {
+    hotelDetails: async request => ({ hotelId: request.hotelId, hotelName: 'Hotel', linkedRoomIds: ['1287642305'] }),
+    rooms: async () => { throw new Error('Extra offers not needed for property identity'); },
+  };
+  const result = await resolveBookingUrl('https://www.booking.com/hotel/sa/a.html?matching_block_id=1287642305_401714423_2_0_0', input, client);
+  assert.equal(result.hotelId, '12876423');
 });

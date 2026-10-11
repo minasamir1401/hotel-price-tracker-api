@@ -4,6 +4,7 @@ import { EventEmitter } from 'node:events';
 import { PassThrough } from 'node:stream';
 import { createCurlFetch } from '../scrapers/almosafer-http.js';
 import { createEnigmaClient } from '../scrapers/enigma.js';
+import { createAlmosaferBrowserFetch } from '../scrapers/almosafer-browser-http.js';
 
 function mockWorker() {
   const workers = [], requests = [];
@@ -79,4 +80,58 @@ test('A Cloudflare package challenge cannot trigger repeated session and price a
   } });
   await assert.rejects(client({ hotelId: '1287944' }), error => error.responseKind === 'challenge');
   assert.equal(calls, 1);
+});
+
+function browserMock(blocked = false) {
+  const requests = [], browsers = [];
+  const launch = async options => {
+    assert.equal(options.headless, true);
+    assert.ok(!options.args.includes('--ignore-certificate-errors'));
+    const browser = { version: () => '133.0.0.0', close: async () => { browser.closed = true; }, newContext: async options => {
+      assert.notEqual(options.ignoreHTTPSErrors, true);
+      return { cookies: async () => [{ name: 'session', value: 'private-cookie', path: '/' }], newPage: async () => {
+        const page = new EventEmitter(), frame = {}, response = status => ({ status: () => status, allHeaders: async () => ({ server: 'cloudflare', ':status': String(status), 'set-cookie': 'language=العربية', 'content-encoding': 'br' }), request: () => ({ isNavigationRequest: () => true }), frame: () => frame });
+        page.mainFrame = () => frame;
+        page.goto = async url => { page.href = url; return response(403); };
+        page.url = () => page.href;
+        page.waitForFunction = async () => { if (blocked) throw new Error('Challenge remains'); page.emit('response', response(200)); };
+        page.content = async () => blocked ? '<html>challenge-platform</html>' : '<script id="__NEXT_DATA__">{"props":{"pageProps":{"APIToken":"actual-public-token"}}}</script>';
+        page.close = async () => {};
+        page.evaluate = async (_fn, request) => {
+          requests.push(request);
+          assert.equal(request.headers.token, 'actual-public-token');
+          assert.equal(request.headers.cookie, undefined); assert.equal(request.headers['user-agent'], undefined);
+          const body = request.url.includes('/poll/') ? { hotelId: '1287944', currencyCode: 'SAR', numberOfNights: 1, pollingStatus: 'COMPLETED_SUCCESSFULLY', packagesGroups: [] } : { pId: 'complete-query', hotelId: '1287944' };
+          return { body: JSON.stringify(body), status: 200, headers: {} };
+        };
+        return page;
+      } };
+    } };
+    browsers.push(browser); return browser;
+  };
+  return { launch, requests, browsers };
+}
+
+test('Automatic page JavaScript and API prices use one browser session with real source cookies', async () => {
+  const mock = browserMock(), transport = createAlmosaferBrowserFetch(mock);
+  try {
+    const client = createEnigmaClient({ fetchImpl: transport, token: '', sleep: async () => {} });
+    const payload = { hotelId: '1287944', checkIn: '2026-10-11', checkOut: '2026-10-12', currency: 'SAR', roomsInfo: [{ adultsCount: 2, kidsAges: [] }] };
+    assert.deepEqual(await client(payload, { maxAttempts: 1 }), {});
+    assert.equal(mock.browsers.length, 1); assert.equal(mock.requests.length, 2);
+    assert.deepEqual(JSON.parse(mock.requests[0].body), payload);
+    assert.ok(mock.requests.every(request => new URL(request.url).hostname === 'www.almosafer.com'));
+  } finally { await transport.close(); }
+  assert.ok(mock.browsers.every(browser => browser.closed));
+});
+
+test('A remaining browser challenge never supplies a fallback token or launches a price request', async () => {
+  const mock = browserMock(true), transport = createAlmosaferBrowserFetch(mock);
+  try {
+    const client = createEnigmaClient({ fetchImpl: transport, token: '', sleep: async () => {} });
+    await assert.rejects(client({ hotelId: '1287944', roomsInfo: [{ adultsCount: 2, kidsAges: [] }] }), error => error.upstreamStatus === 403 && error.responseKind === 'challenge');
+    assert.equal(mock.requests.length, 0);
+    await assert.rejects(transport('https://127.0.0.1/api/'));
+    assert.equal(mock.browsers.length, 1);
+  } finally { await transport.close(); }
 });

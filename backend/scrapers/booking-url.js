@@ -14,16 +14,44 @@ function linkedRoomIds(url) {
   return [...new Set(values.flatMap(value => value.split(',')).map(value => value.match(/^([1-9]\d+)_\d+_\d+_\d+_\d+(?:__\d+)?$/)?.[1]).filter(Boolean))];
 }
 
+export function decodedBookingHotelId(decoded) {
+  const ids = [];
+  for (const data of [decoded, decoded?.additional_parameters]) {
+    if (data?.dest_type === 'hotel' && /^[1-9]\d*$/.test(String(data.dest_id || ''))) ids.push(String(data.dest_id));
+  }
+  if (decoded?.booking_url) {
+    try {
+      const link = new URL(decoded.booking_url);
+      if (link.protocol === 'booking:' || (link.protocol === 'https:' && (link.hostname === 'booking.com' || link.hostname.endsWith('.booking.com')))) {
+        if (link.searchParams.get('dest_type') === 'hotel' && /^[1-9]\d*$/.test(link.searchParams.get('dest_id') || '')) ids.push(link.searchParams.get('dest_id'));
+      }
+    } catch { /* Invalid app deeplink cannot identify a property. */ }
+  }
+  const unique = [...new Set(ids)];
+  if (unique.length > 1) throw new Error('Booking: رجع التطبيق معرّفات فنادق متعارضة للرابط');
+  return unique[0] || null;
+}
+
 export async function resolveBookingUrl(input, request, client, { fetchImpl = fetch } = {}) {
   let explicitId;
   try { explicitId = bookingHotelId(input); } catch { /* property links can contain room IDs */ }
   if (explicitId) return client.hotelDetails({ ...request, hotelId: explicitId });
   const url = propertyUrl(input), roomIds = linkedRoomIds(url);
+  // Use the app's own public link decoder for both property slugs and Share links.
+  // No web session, guessed hotel identity, or displayed search-result price is used.
+  if (client.decodeUrl) {
+    const hotelId = decodedBookingHotelId(await client.decodeUrl(url.origin + url.pathname));
+    if (hotelId) return { ...await client.hotelDetails({ ...request, hotelId }), identityMethod: 'app-link-decoder' };
+    throw new Error('Booking: التطبيق لم يحدد فندقًا من الرابط؛ استخدم رابط صفحة الفندق أو رابط Share خاص بالفندق');
+  }
   if (roomIds.length) {
     const candidates = [...new Set(roomIds.map(id => id.slice(0, -2)).filter(id => /^[1-9]\d*$/.test(id)))];
     if (candidates.length === 1) {
       const hotelId = candidates[0];
-      const [details, rates] = await Promise.all([client.hotelDetails({ ...request, hotelId }), client.rooms({ ...request, hotelId })]);
+      const details = await client.hotelDetails({ ...request, hotelId });
+      // Property metadata includes recommended rooms even when roomList has no extra offers.
+      if (roomIds.every(id => details.linkedRoomIds?.includes(id))) return { ...details, bookingUrl: url.origin + url.pathname, identityMethod: 'app-verified-linked-rooms' };
+      const rates = await client.rooms({ ...request, hotelId });
       const returnedIds = new Set(Object.values(rates).flatMap(room => Object.values(room.offers || {}).map(offer => String(offer.roomId))));
       if (roomIds.every(id => returnedIds.has(id))) return { ...details, bookingUrl: url.origin + url.pathname, identityMethod: 'app-verified-linked-rooms' };
       throw new Error('Booking: لم يؤكد التطبيق أن الغرف الموجودة في الرابط تخص هذا الفندق؛ انسخ رابط الفندق الحالي من Booking');

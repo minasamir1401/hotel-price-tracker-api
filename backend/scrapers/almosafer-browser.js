@@ -1,7 +1,7 @@
 import { chromium } from 'playwright';
 import fs from 'node:fs';
 
-function resolveBrowserLaunchOptions() {
+export function resolveBrowserLaunchOptions() {
   const args = [
     '--no-sandbox',
     '--disable-setuid-sandbox',

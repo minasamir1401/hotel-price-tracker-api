@@ -96,10 +96,27 @@ export function createCurlFetch({ python = process.env.ALMOSAFER_PYTHON || 'pyth
 }
 
 let defaultCurl;
+let defaultBrowser;
+const browserOrigins = new Set();
 // Read after server.js has loaded local .env files; Docker also sets this explicitly.
-export function almosaferFetch(url, options) {
-  if (process.env.ALMOSAFER_HTTP_TRANSPORT !== 'curl') return fetch(url, options);
-  defaultCurl ||= createCurlFetch();
-  return defaultCurl(url, options);
+export async function almosaferFetch(url, options) {
+  const origin = almosaferOrigin(new URL(url).origin);
+  if (browserOrigins.has(origin)) return (await defaultBrowser)(url, options);
+  let response;
+  if (process.env.ALMOSAFER_HTTP_TRANSPORT === 'curl') {
+    defaultCurl ||= createCurlFetch();
+    response = await defaultCurl(url, options);
+  } else response = await fetch(url, options);
+  if (process.env.ALMOSAFER_BROWSER_FALLBACK !== '1' || response.status !== 403) return response;
+  const body = (await response.clone().text()).slice(0, 16384);
+  if (!/challenge-platform|captcha|verify you are human/i.test(body)) return response;
+  defaultBrowser ||= import('./almosafer-browser-http.js').then(module => module.createAlmosaferBrowserFetch());
+  browserOrigins.add(origin);
+  try { return await (await defaultBrowser)(url, options); }
+  catch { browserOrigins.delete(origin); return response; }
 }
-almosaferFetch.close = () => { defaultCurl?.close(); defaultCurl = null; };
+almosaferFetch.close = () => {
+  defaultCurl?.close(); defaultCurl = null;
+  defaultBrowser?.then(browser => browser.close()).catch(() => {}); defaultBrowser = null;
+  browserOrigins.clear();
+};

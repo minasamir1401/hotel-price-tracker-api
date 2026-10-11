@@ -5,6 +5,7 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=5000
 ENV ALMOSAFER_HTTP_TRANSPORT=curl
+ENV ALMOSAFER_BROWSER_FALLBACK=1
 ENV ALMOSAFER_PYTHON=/opt/almosafer-http/bin/python
 
 COPY http-requirements.txt /tmp/http-requirements.txt

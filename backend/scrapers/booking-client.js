@@ -121,17 +121,34 @@ export function createBookingClient({ env = process.env, fetchImpl = fetch } = {
     return { hotel_id: input.hotelId, currency_code: 'SAR', arrival_date: input.checkIn, departure_date: input.checkOut, rec_guest_qty: String(adults), rec_room_qty: '1', rec_children_qty: '0', detail_level: '1', include_taxes: '1', show_extra_charges: '1', include_mealplan: '1', show_occupancy_for_price: '1', include_paymentterms: '1', include_detail_mealplan: '1', include_cancellation_timeline: '1', include_sleeping_clarity: '1', no_html: '1' };
   };
   return {
+    async decodeUrl(url) {
+      return request('mobile.decodeUniversalLink', { url });
+    },
     async hotelDetails(input) {
       const hotel = validateBookingHotel(await request('mobile.hotelPage', paramsFor(input)), input);
       assert(clean(hotel.hotel_name), 'اسم الفندق مفقود');
-      return { hotelId: String(hotel.hotel_id), hotelName: clean(hotel.hotel_name), baseSlug: `hotel/${hotel.hotel_id}`, bookingUrl: /^https:\/\/(?:www\.)?booking\.com\//.test(hotel.url || '') ? hotel.url : null };
+      return { hotelId: String(hotel.hotel_id), hotelName: clean(hotel.hotel_name), baseSlug: `hotel/${hotel.hotel_id}`, bookingUrl: /^https:\/\/(?:www\.)?booking\.com\//.test(hotel.url || '') ? hotel.url : null,
+        linkedRoomIds: [...new Set((hotel.block || []).map(block => String(block.room_id)).filter(id => /^[1-9]\d*$/.test(id)))],
+      };
     },
     async rooms(input, { refresh = false } = {}) {
       const params = paramsFor(input), key = JSON.stringify(params), stored = cache.get(key);
       if (!refresh && stored && Date.now() - stored.at < 120000) return stored.value;
       if (pending.has(key)) return pending.get(key);
       const work = (async () => {
-        const value = normalizeBookingRooms(await request('mobile.roomList', params), input);
+        // The app carries hotelPage's recommended blocks into roomList. Without
+        // them, roomList can return only extra offers, or an empty list.
+        const page = validateBookingHotel(await request('mobile.hotelPage', params), input);
+        assert(Array.isArray(page.block), 'قائمة العروض المقترحة مفقودة');
+        const blockIds = [...new Set(page.block.map(block => block.block_id))];
+        assert(blockIds.every(id => typeof id === 'string' && /^[A-Za-z0-9_-]{1,200}$/.test(id)), 'معرّف العرض المقترح غير صالح');
+        const response = await request('mobile.roomList', { ...params,
+          include_is_block_fit: '1', move_room_info_from_block_to_room: '1',
+          ...(blockIds.length ? { block_ids: blockIds.join(',') } : {}),
+        });
+        const hotel = validateBookingHotel(response, input);
+        assert(Array.isArray(hotel.block) && blockIds.every(id => hotel.block.some(block => block.block_id === id)), 'لم يُرجع التطبيق كل العروض المقترحة؛ أعد المحاولة لتحديث التوافر');
+        const value = normalizeBookingRooms(response, input);
         if (cache.size >= 500) cache.delete(cache.keys().next().value);
         cache.set(key, { at: Date.now(), value });
         return value;

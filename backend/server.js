@@ -55,6 +55,7 @@ app.get('/api/system-status', (req, res) => {
   const now = new Date();
   const sourceDetails = Object.fromEntries(['almosafer', 'almatar', 'booking'].map(source => [source, sourceSnapshot(source, source !== 'booking' || bookingConfigured())]));
   sourceDetails.almosafer.transport = process.env.ALMOSAFER_HTTP_TRANSPORT === 'curl' ? 'curl' : 'native';
+  sourceDetails.almosafer.browserFallback = process.env.ALMOSAFER_BROWSER_FALLBACK === '1';
   res.json({
     ...Object.fromEntries(Object.entries(sourceDetails).map(([source, state]) => [source, state.status])),
     sourceDetails,
