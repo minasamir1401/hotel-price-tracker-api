@@ -56,13 +56,21 @@ test('Booking preserves verified source discounts and display policies without a
   assert.equal(mismatched.originalPriceBeforeTax,null);assert.equal(mismatched.discountAmount,null);assert.equal(mismatched.price,2527.9);
 });
 
-test('Unmapped supplier inventory cannot appear as a verified hotel room or substitute its cheaper price',()=>{
+test('Unassigned partner inventory retains its source name and price without replacing a direct hotel room',()=>{
   for(const mapping of [0,null,999]) {
     const data=partnerPayload();data[0].tpi_block[0].mapped_booking_room_id=mapping;
     data[0].tpi_block[0].name='Room Assigned on Arrival';
     const rooms=Object.values(normalizeBookingRooms(data,input));
-    assert.equal(rooms.length,1);assert.equal(rooms[0].partnerOffer,undefined);
-    assert.equal(rooms[0].offers.breakfast.price,2527.9);
+    assert.equal(rooms.length,2);
+    const partner=rooms.find(room=>room.partnerOffer),direct=rooms.find(room=>!room.partnerOffer);
+    assert.equal(partner.name,'Room Assigned on Arrival — عرض شريك');
+    assert.equal(partner.offers.roomOnly.mappedRoomId,null);
+    assert.equal(partner.offers.roomOnly.price,164.73);
+    assert.equal(partner.offers.roomOnly.taxBreakdown.priceBeforeTax,140.2);
+    assert.equal(partner.offers.roomOnly.taxBreakdown.taxesAndFees,24.53);
+    assert.equal(direct.offers.breakfast.price,2527.9);
+    assert.notEqual(partner.offers.roomOnly.packageId,direct.offers.breakfast.packageId);
+    assert.ok(!JSON.stringify(rooms).includes('SECRET'));
   }
 });
 

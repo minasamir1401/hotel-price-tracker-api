@@ -158,10 +158,10 @@ export function normalizeBookingRooms(payload, request) {
   // is identical. Keep it separate rather than replacing the direct hotel's rate.
   for (const block of hotel.tpi_block || []) {
     if (Number(block.occupancy) !== adults || Number(block.guest_count) !== adults || Number(block.room_count) !== 1 || Number(block.children_count) !== 0 || !Array.isArray(block.children_ages) || block.children_ages.length) continue;
-    // A supplier's unassigned inventory is not a verified hotel room type.
-    // In particular, mapped_booking_room_id=0 must not become an extra room.
-    const mappedRoomId = String(block.mapped_booking_room_id || '');
-    if (!/^[1-9]\d*$/.test(mappedRoomId) || !hotel.rooms?.[mappedRoomId]) continue;
+    // Unassigned supplier products have their own source identity and price.
+    // A missing hotel-room mapping must not hide them or merge them into a direct room.
+    const sourceMappedRoomId = String(block.mapped_booking_room_id || '');
+    const mappedRoomId = /^[1-9]\d*$/.test(sourceMappedRoomId) && hotel.rooms?.[sourceMappedRoomId] ? sourceMappedRoomId : null;
     assert(block.min_price?.currency === 'SAR', 'عملة عرض الشريك غير مطابقة');
     const rawPrice = Number(block.min_price?.price);
     assert(Number.isFinite(rawPrice) && rawPrice > 0, 'سعر عرض الشريك غير صالح');
