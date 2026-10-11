@@ -36,6 +36,20 @@ test('Safe upstream diagnostics expose structural evidence without body credenti
   assert.equal(error.upstreamStatus, 403); assert.ok(error.diagnosticId);
   assert.ok(logs[0].includes('access-denied')); assert.ok(!logs[0].includes('secret-token')); assert.ok(!logs[0].includes('private-cookie'));
 });
+
+test('Cloudflare hard block is reported as access denial even when its explanation mentions CAPTCHA', async () => {
+  const logs = [];
+  const error = await upstreamHttpError(new Response('<html><title>Attention Required! | Cloudflare</title><h1>Sorry, you have been blocked</h1><p>CAPTCHA information. private-cookie</p></html>', {
+    status: 403, headers: { server: 'cloudflare', 'content-type': 'text/html' },
+  }), { stage: 'session-bootstrap', url: 'https://www.almosafer.com/ar/hotel/details/atg/hotel-1287944', logger: (...args) => logs.push(args.join(' ')) });
+  assert.equal(error.responseKind, 'access-denied');
+  assert.equal(error.code, 'UPSTREAM_ACCESS_DENIED');
+  assert.match(error.message, /حظر اتصال الخادم/);
+  assert.doesNotMatch(error.message, /تحققًا إضافيًا/);
+  assert.ok(!logs[0].includes('private-cookie'));
+  recordSourceFailure('hard-block-test', error);
+  assert.equal(sourceSnapshot('hard-block-test').status, 'blocked');
+});
 test('Room selector uses the exact first night, all requested rooms and child ages; concurrent duplicates share one request', async () => {
   const requests = [];
   const service = createHotelRoomsService({ resolveAlmosafer: async () => ({ hotelId: '1287944', hotelName: 'Hotel' }), enigmaClient: async request => { requests.push(request); await Promise.resolve(); return { one: { name: 'Twin' } }; } });

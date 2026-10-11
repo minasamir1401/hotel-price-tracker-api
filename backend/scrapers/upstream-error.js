@@ -19,13 +19,17 @@ export async function upstreamHttpError(response, { source = 'almosafer', label 
   let body = '';
   try { body = (await response.text()).slice(0, 16384); } catch { /* diagnostics are best effort */ }
   const headers = Object.fromEntries(['server', 'content-type', 'x-cache', 'retry-after', 'cf-ray', 'cf-mitigated'].map(key => [key, response.headers?.get?.(key)]).filter(([, value]) => value));
-  const kind = challengeEvidence(response.headers, body) ? 'challenge'
+  // Cloudflare's WAF block page can mention CAPTCHA in explanatory text.
+  // Its explicit refusal takes precedence over those generic challenge markers.
+  const hardBlock = response.status === 403 && /sorry[,\s]+you have been blocked/i.test(body);
+  const kind = hardBlock ? 'access-denied' : challengeEvidence(response.headers, body) ? 'challenge'
     : /cloudfront|request blocked|access denied|forbidden/i.test(body) ? 'access-denied'
     : /invalid.?token|unauthori[sz]ed|token.{0,40}expir/i.test(body) ? 'authentication'
     : /<html|<!doctype/i.test(body) ? 'html' : 'unknown';
   const diagnosticId = randomUUID();
   logger('[UPSTREAM FAILURE]', JSON.stringify({ diagnosticId, source, stage, status: response.status, host: new URL(url).hostname, path: new URL(url).pathname, responseKind: kind, headers }));
-  const reason = kind === 'challenge' ? 'المصدر طلب تحققًا إضافيًا من اتصال الخادم'
+  const reason = hardBlock ? 'المصدر حظر اتصال الخادم؛ يلزم اتصال يقبله المصدر أو السماح به من طرفه'
+    : kind === 'challenge' ? 'المصدر طلب تحققًا إضافيًا من اتصال الخادم'
     : kind === 'access-denied' ? 'المصدر رفض الوصول من هذا الاتصال'
     : kind === 'authentication' ? 'المصدر رفض بيانات الجلسة' : 'المصدر رفض الطلب';
   const error = new UpstreamError(`${label} HTTP ${response.status}: ${reason}؛ مرجع التشخيص ${diagnosticId}`, {
