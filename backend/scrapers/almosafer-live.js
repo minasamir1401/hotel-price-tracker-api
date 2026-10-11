@@ -170,6 +170,8 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
       r.mealPlanLabels=Object.fromEntries(['roomOnly','breakfast','halfBoard'].map(plan=>[plan,maps.map(m=>m?.[key]?.offers[plan]?.mealLabel).find(Boolean)]).filter(([,label])=>label));
       r.beddingVerified = sample.beddingVerified;
       r.roomSizeM2 = sample.roomSizeM2 ?? null;
+      r.roomDescription = sample.roomDescription ?? null;
+      r.roomAmenities = sample.roomAmenities || [];
       r.beds=sample.beds || [];
       r.beddingLabel=sample.beddingLabel || 'لم يحدد المصدر';
       r.bedFilterStatus=matchBeds(r.beds,bedFilter);

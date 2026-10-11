@@ -81,6 +81,7 @@ test('Booking requests recommended blocks and uses the complete roomList tax-inc
     assert.equal(parsed.searchParams.get('include_is_block_fit'), '1');
     assert.equal(parsed.searchParams.get('move_room_info_from_block_to_room'), '1');
     assert.equal(parsed.searchParams.get('include_composite_breakdown'), '1');
+    assert.equal(parsed.searchParams.get('dotd'), '2');
     data[0].block[0].min_price.price = '168.03';
     return { ok: true, json: async () => data };
   } });
@@ -99,6 +100,29 @@ test('Booking does not cache missing recommended offers as unavailable or use ho
   await assert.rejects(client.rooms(input), /كل العروض المقترحة/);
   missing = false;
   assert.equal(Object.values(await client.rooms(input))[0].offers.breakfast.price, 2527.90);
+});
+
+test('Android deal mode retains the discounted non-recommended triple rate for two actual guests', async () => {
+  let calls=0;
+  const client=createBookingClient({env:{BOOKING_APP_AUTHORIZATION:'test',BOOKING_APP_SIGNATURE_SALT:'test',BOOKING_APP_VERSION:'test'},fetchImpl:async url=>{
+    calls++;const parsed=new URL(url),data=payload(),hotel=data[0];
+    hotel.block=[hotel.block[0]];hotel.total_blocks=0;hotel.block_count=2;
+    if(parsed.pathname.endsWith('mobile.roomList')) {
+      const discounted=parsed.searchParams.get('dotd')==='2';
+      hotel.rooms['11']=hotel.rooms['10'];
+      hotel.block.push({...hotel.block[0],block_id:'triple',room_id:11,room_name:'Triple Room',nr_adults:3,
+        min_price:{currency:'SAR',price:discounted?'186.12':'423.00'},
+        product_price_breakdown:{net_amount:{currency:'SAR',value:discounted?158.4:360},excluded_amount:{currency:'SAR',value:discounted?27.72:63},included_taxes_and_charges_amount:{currency:'SAR',value:0},all_inclusive_amount:{currency:'SAR',value:discounted?186.12:423},items:[]}});
+      hotel.total_blocks=2;
+    }
+    return {ok:true,json:async()=>data};
+  }});
+  const rooms=Object.values(await client.rooms(input));
+  const triple=rooms.find(r=>r.name==='Triple Room');
+  assert.equal(triple.offers.breakfast.price,186.12);
+  assert.equal(triple.offers.breakfast.taxBreakdown.priceBeforeTax,158.4);
+  assert.equal(triple.offers.breakfast.taxBreakdown.taxesAndFees,27.72);
+  assert.equal(calls,2); // A complete roomList does not require capacity probes.
 });
 
 test('Compact recommendations discover other room types but reprice every offer for the exact party', async () => {

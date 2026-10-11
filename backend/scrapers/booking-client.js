@@ -113,6 +113,8 @@ export function normalizeBookingRooms(payload, request) {
     const key = `booking:${request.hotelId}:${roomId}`;
     result[key] ||= { name, category: name, originalNames: [name], ...bedsForRoom(room),
       roomSizeM2: Number(room.room_surface_in_m2) > 0 ? Number(room.room_surface_in_m2) : null,
+      roomDescription: clean(room.description) || null,
+      roomAmenities: [...new Set((room.highlights || []).map(item=>clean(item.translated_name)).filter(Boolean))],
       offers: {} };
     const refundable = Number(block.refundable) === 1;
     const offer = {
@@ -214,6 +216,9 @@ export function createBookingClient({ env = process.env, fetchImpl = fetch } = {
         const quote = ids => request('mobile.roomList', { ...params,
           include_is_block_fit: '1', move_room_info_from_block_to_room: '1',
           include_composite_breakdown: '1', include_excluded_charges_detail: '1',
+          // RoomSelectionNetworkParams in the Android app uses dotd=2.
+          // Without it, only the recommended room retains Limited-time Deals.
+          dotd: '2',
           ...(ids.length ? { block_ids: ids.join(',') } : {}),
         });
         let response = await quote(blockIds);
