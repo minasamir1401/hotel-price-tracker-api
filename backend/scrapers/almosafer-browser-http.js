@@ -19,8 +19,8 @@ export function createAlmosaferBrowserFetch({ launch = options => chromium.launc
   async function acquire(origin) {
     if (!sessions.has(origin)) {
       const pending = (async () => {
-        const options = resolveBrowserLaunchOptions();
-        const { proxy } = almosaferConnection(env);
+        const { proxy, headless } = almosaferConnection(env);
+        const options = resolveBrowserLaunchOptions({ headless });
         const browser = await launch({ ...options, timeout: 12000,
           ...(proxy ? { proxy } : {}),
           args: [...options.args, '--disable-blink-features=AutomationControlled'] });

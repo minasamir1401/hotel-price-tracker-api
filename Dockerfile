@@ -6,10 +6,11 @@ ENV NODE_ENV=production
 ENV PORT=5000
 ENV ALMOSAFER_HTTP_TRANSPORT=browser
 ENV ALMOSAFER_BROWSER_FALLBACK=1
+ENV ALMOSAFER_BROWSER_HEADLESS=0
 ENV ALMOSAFER_PYTHON=/opt/almosafer-http/bin/python
 
 COPY backend/http-requirements.txt /tmp/http-requirements.txt
-RUN apt-get update && apt-get install -y --no-install-recommends python3-venv \
+RUN apt-get update && apt-get install -y --no-install-recommends python3-venv xvfb xauth \
   && python3 -m venv /opt/almosafer-http \
   && /opt/almosafer-http/bin/pip install --no-cache-dir --only-binary=:all: -r /tmp/http-requirements.txt \
   && rm -rf /var/lib/apt/lists/*
@@ -26,5 +27,5 @@ EXPOSE 5000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD node -e "fetch('http://127.0.0.1:' + (process.env.PORT || 5000) + '/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"
 
-CMD ["node", "server.js"]
+CMD ["xvfb-run", "-a", "--server-args=-screen 0 1280x800x24", "node", "server.js"]
 

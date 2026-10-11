@@ -18,5 +18,6 @@ export function almosaferConnection(env = process.env) {
   const transport = env.ALMOSAFER_HTTP_TRANSPORT || (proxyUrl ? 'browser' : 'native');
   if (!['native', 'curl', 'browser'].includes(transport)) throw new Error('إعداد ALMOSAFER_HTTP_TRANSPORT غير صالح');
   if (proxyUrl && transport === 'native') throw new Error('استخدم curl أو browser مع ALMOSAFER_PROXY_URL؛ الاتصال المباشر لا يدعم هذا البروكسي');
-  return { transport, proxyUrl, proxy, browserFallback: env.ALMOSAFER_BROWSER_FALLBACK === '1', idleMs: 600000 };
+  return { transport, proxyUrl, proxy, headless: env.ALMOSAFER_BROWSER_HEADLESS !== '0',
+    browserFallback: env.ALMOSAFER_BROWSER_FALLBACK === '1', idleMs: 600000 };
 }

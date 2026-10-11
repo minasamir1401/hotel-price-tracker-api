@@ -1,7 +1,7 @@
 import { chromium } from 'playwright';
 import fs from 'node:fs';
 
-export function resolveBrowserLaunchOptions() {
+export function resolveBrowserLaunchOptions({ headless = true } = {}) {
   const args = [
     '--no-sandbox',
     '--disable-setuid-sandbox',
@@ -13,17 +13,17 @@ export function resolveBrowserLaunchOptions() {
   ];
 
   if (process.env.PLAYWRIGHT_CHROME_PATH && fs.existsSync(process.env.PLAYWRIGHT_CHROME_PATH)) {
-    return { executablePath: process.env.PLAYWRIGHT_CHROME_PATH, headless: true, args };
+    return { executablePath: process.env.PLAYWRIGHT_CHROME_PATH, headless, args };
   }
 
   // Common Windows Chrome path
   const winChrome = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
   if (process.platform === 'win32' && fs.existsSync(winChrome)) {
-    return { executablePath: winChrome, headless: true, args };
+    return { executablePath: winChrome, headless, args };
   }
 
   // Default Playwright bundled / system Chromium for Linux / Docker
-  return { headless: true, args };
+  return { headless, args };
 }
 
 const bookingUrlCache = new Map();

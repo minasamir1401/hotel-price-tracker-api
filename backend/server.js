@@ -62,6 +62,7 @@ app.get('/api/system-status', (req, res) => {
   sourceDetails.almosafer.browserFallback = connection.browserFallback;
   sourceDetails.almosafer.proxyConfigured = Boolean(connection.proxyUrl);
   sourceDetails.almosafer.browserPackageVersion = playwrightVersion;
+  sourceDetails.almosafer.headless = connection.headless;
   res.json({
     ...Object.fromEntries(Object.entries(sourceDetails).map(([source, state]) => [source, state.status])),
     sourceDetails,

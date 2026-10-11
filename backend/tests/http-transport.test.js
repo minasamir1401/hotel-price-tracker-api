@@ -84,10 +84,10 @@ test('A Cloudflare package challenge cannot trigger repeated session and price a
   assert.equal(calls, 1);
 });
 
-function browserMock(blocked = false) {
+function browserMock(blocked = false, headless = true) {
   const requests = [], browsers = [];
   const launch = async options => {
-    assert.equal(options.headless, true);
+    assert.equal(options.headless, headless);
     assert.ok(!options.args.includes('--ignore-certificate-errors'));
     const browser = { version: () => '133.0.0.0', close: async () => { browser.closed = true; }, newContext: async options => {
       assert.notEqual(options.ignoreHTTPSErrors, true);
@@ -238,4 +238,15 @@ test('Explicit outbound proxy config reaches the browser without credentials in 
     assert.throws(() => almosaferConnection({ ALMOSAFER_PROXY_URL: value }), error => !error.message.includes('secret'));
   }
   assert.throws(() => almosaferConnection({ ...env, ALMOSAFER_HTTP_TRANSPORT: 'native' }), /curl.*browser/);
+});
+
+test('Docker display mode uses a full browser and retains the same API session', async () => {
+  const mock = browserMock(false, false);
+  const transport = createAlmosaferBrowserFetch({ ...mock, env: { ALMOSAFER_BROWSER_HEADLESS: '0' } });
+  try {
+    await transport('https://www.almosafer.com/ar/hotels-home');
+    await transport('https://www.almosafer.com/api/enigma/v7/packages', { headers: { token: 'old' } });
+    assert.equal(mock.browsers.length, 1);
+    assert.equal(mock.requests.length, 1);
+  } finally { await transport.close(); }
 });
