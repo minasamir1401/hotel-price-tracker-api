@@ -49,7 +49,7 @@ function bedsForRoom(room) {
   const options = [];
   for (const configuration of room.bed_configurations || []) {
     const parts = (configuration.bed_types || []).map(b => {
-      const name = String(b.name || '').toLowerCase();
+      const name = String(b.name || b.name_with_count || '').toLowerCase();
       const type = /super.king|extra.large|king/.test(name) ? 'king' : /queen/.test(name) ? 'queen' : /single|twin/.test(name) ? 'single' : /double/.test(name) ? 'double' : null;
       return { count: Number(b.count), type, label: clean(b.name_with_count || b.name) };
     });
@@ -61,7 +61,7 @@ function bedsForRoom(room) {
 }
 
 const cents = value => Math.round((value + Number.EPSILON) * 100) / 100;
-export function bookingPriceBreakdown(block, price) {
+export function bookingPriceBreakdown(block, price, sourceField = 'mobile.roomList.block.product_price_breakdown') {
   const data = block.product_price_breakdown;
   if (!data) return null;
   const amount = item => {
@@ -79,7 +79,7 @@ export function bookingPriceBreakdown(block, price) {
   const taxesAndFees = cents(price - priceBeforeTax);
   assert(taxesAndFees >= 0 && Math.abs(taxesAndFees - cents(taxes)) < 0.011, 'تفصيل الضرائب لا يطابق إجمالي العرض');
   return { priceBeforeTax, taxesAndFees, totalPrice: price, currency: 'SAR',
-    sourceField: 'mobile.roomList.block.product_price_breakdown',
+    sourceField,
     items: (data.items || []).filter(item => item.kind === 'charge').map(item => ({
       name: clean(item.name), amount: cents(amount(item.item_amount)), inclusion: item.inclusion_type || null,
     })),
@@ -127,6 +127,7 @@ export function normalizeBookingRooms(payload, request) {
       noPrepayment: block.paymentterms?.prepayment?.type === 'no_prepayment' ? true : null,
       noCreditCard: block.no_cc_object?.key === 'NoCcKey' ? true : null,
       paymentPolicy: clean(block.paymentterms?.prepayment?.description) || null,
+      paymentType: block.paymentterms?.prepayment?.type || null,
       mealLabel: ({ roomOnly: 'إقامة فقط', breakfast: 'إقامة وإفطار', halfBoard: 'نصف إقامة' })[plan], mealLabelFromSource: clean(block.mealplan), refundable,
       refundableUntil: block.refundable_until || null,
       cancellationPolicy: refundable ? `إلغاء مجاني حسب شروط العرض${block.refundable_until ? ` حتى ${block.refundable_until}` : ''}` : 'غير قابل للاسترداد',
@@ -134,6 +135,44 @@ export function normalizeBookingRooms(payload, request) {
     // roomList is the displayed taxed price; adding hotelPage taxes doubles them.
     if (!result[key].offers[plan] || price < result[key].offers[plan].price) result[key].offers[plan] = offer;
     if (refundable && (!result[key].offers[`${plan}Flexible`] || price < result[key].offers[`${plan}Flexible`].price)) result[key].offers[`${plan}Flexible`] = offer;
+  }
+  // Partner inventory is a separate booking product, even when its mapped room
+  // is identical. Keep it separate rather than replacing the direct hotel's rate.
+  for (const block of hotel.tpi_block || []) {
+    if (Number(block.occupancy) !== adults || Number(block.guest_count) !== adults || Number(block.room_count) !== 1 || Number(block.children_count) !== 0 || !Array.isArray(block.children_ages) || block.children_ages.length) continue;
+    assert(block.min_price?.currency === 'SAR', 'عملة عرض الشريك غير مطابقة');
+    const rawPrice = Number(block.min_price?.price);
+    assert(Number.isFinite(rawPrice) && rawPrice > 0, 'سعر عرض الشريك غير صالح');
+    assert(['has_breakfast','has_lunch','has_dinner'].every(k=>[0,1].includes(Number(block[k]))), 'بيانات وجبات عرض الشريك غير مكتملة');
+    const cancellationType = block.paymentterms?.cancellation?.type;
+    if (!['non_refundable','free_cancellation'].includes(cancellationType)) continue;
+    if (Number(block.has_lunch) || (Number(block.has_dinner) && !Number(block.has_breakfast))) continue;
+    const plan = Number(block.has_dinner) ? 'halfBoard' : Number(block.has_breakfast) ? 'breakfast' : 'roomOnly';
+    const name = clean(block.name), roomId = String(block.room_id || '');
+    assert(name && /^\d+$/.test(roomId) && /^\d+$/.test(String(block.supplier_id || '')) && /^\d+$/.test(String(block.ws_id || '')) && block.block_id, 'هوية غرفة الشريك غير مكتملة');
+    const key = `booking:${request.hotelId}:partner:${block.ws_id}:${block.supplier_id}:${roomId}`;
+    const price = cents(rawPrice), refundable = cancellationType === 'free_cancellation';
+    const conditions = (block.room_detail_booking_conditions || []).map(item=>clean(item.content)).filter(Boolean);
+    result[key] ||= { name: `${name} — عرض شريك`, category: name, originalNames:[name],
+      ...bedsForRoom(block), roomSizeM2: Number(block.room_surface_in_m2)>0 ? Number(block.room_surface_in_m2) : null,
+      roomAmenities: [...new Set((block.highlights || []).map(item=>clean(item.translated_name)).filter(Boolean))],
+      partnerOffer:true, offers:{} };
+    const offer = { price, totalPrice:price, packageId:block.block_id, roomId,
+      mappedRoomId:block.mapped_booking_room_id ? String(block.mapped_booking_room_id) : null,
+      source:'Booking Android app API', priceField:'mobile.roomList.tpi_block.min_price.price',
+      priceBasis:'source-display-price-with-requested-taxes', currency:'SAR',
+      taxBreakdown:bookingPriceBreakdown(block,price,'mobile.roomList.tpi_block.product_price_breakdown'), partnerOffer:true, partnerConditions:conditions,
+      capacityAdults:adults,
+      roomsLeft:Number.isInteger(Number(block.remaining_rooms)) && block.remaining_rooms!=null ? Number(block.remaining_rooms) : null,
+      mealLabel:({roomOnly:'إقامة فقط',breakfast:'إقامة وإفطار',halfBoard:'نصف إقامة'})[plan],
+      refundable, refundableUntil:null,
+      cancellationPolicy:refundable ? 'إلغاء مجاني حسب شروط عرض الشريك' : 'غير قابل للاسترداد',
+      paymentType:block.paymentterms?.prepayment?.type || null,
+      paymentPolicy:clean(block.paymentterms?.prepayment?.description) || null,
+    };
+    // Book tokens and rate keys are intentionally never returned to the UI.
+    if (!result[key].offers[plan] || price<result[key].offers[plan].price)result[key].offers[plan]=offer;
+    if (refundable && (!result[key].offers[`${plan}Flexible`] || price<result[key].offers[`${plan}Flexible`].price))result[key].offers[`${plan}Flexible`]=offer;
   }
   return result;
 }

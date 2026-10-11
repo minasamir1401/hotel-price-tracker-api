@@ -172,6 +172,7 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
       r.roomSizeM2 = sample.roomSizeM2 ?? null;
       r.roomDescription = sample.roomDescription ?? null;
       r.roomAmenities = sample.roomAmenities || [];
+      r.partnerOffer = sample.partnerOffer || false;
       r.beds=sample.beds || [];
       r.beddingLabel=sample.beddingLabel || 'لم يحدد المصدر';
       r.bedFilterStatus=matchBeds(r.beds,bedFilter);

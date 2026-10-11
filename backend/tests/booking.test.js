@@ -30,6 +30,58 @@ test('Booking keeps displayed taxes once, exact beds, meals, native rate IDs and
   assert.equal(room.offers.roomOnly, undefined);
 });
 
+const partnerPayload = () => {
+  const data=payload(),amount=value=>({currency:'SAR',value});
+  data[0].tpi_block=[{room_id:'10',mapped_booking_room_id:10,block_id:'partner-block',supplier_id:332,ws_id:5,name:'Twin Kaaba view',
+    guest_count:2,occupancy:2,room_count:1,children_count:0,children_ages:[],has_breakfast:0,has_lunch:0,has_dinner:0,
+    bed_configurations:[{bed_types:[{count:2,name_with_count:'2 single beds'}]}],
+    min_price:{currency:'SAR',price:164.72939},remaining_rooms:8,paymentterms:{cancellation:{type:'non_refundable'}},
+    product_price_breakdown:{net_amount:amount(140.20401087),all_inclusive_amount:amount(164.72938432),excluded_amount:amount(24.52537345),included_taxes_and_charges_amount:amount(0),items:[]},
+    room_detail_booking_conditions:[{content:'No modifications'},{content:'Confirmed within 2 minutes'},{content:'Cannot combine with other offers'}],
+    book_token:'SECRET_BOOK_TOKEN',rate_key:'SECRET_RATE_KEY',tpi_block_id:'SECRET_PRIVATE_ID'}];
+  return data;
+};
+
+test('Partner twin offers remain distinct from direct twins with their own taxes, beds and conditions',()=>{
+  const rooms=Object.values(normalizeBookingRooms(partnerPayload(),input));
+  assert.equal(rooms.length,2);
+  const partner=rooms.find(r=>r.partnerOffer),direct=rooms.find(r=>!r.partnerOffer);
+  assert.equal(partner.name,'Twin Kaaba view — عرض شريك');
+  assert.equal(partner.offers.roomOnly.price,164.73);
+  assert.equal(partner.offers.roomOnly.taxBreakdown.priceBeforeTax,140.2);
+  assert.equal(partner.offers.roomOnly.taxBreakdown.taxesAndFees,24.53);
+  assert.match(partner.offers.roomOnly.taxBreakdown.sourceField,/tpi_block/);
+  assert.equal(partner.beds[0].options[0].type,'single');
+  assert.equal(partner.offers.roomOnly.refundable,false);
+  assert.equal(partner.offers.roomOnlyFlexible,undefined);
+  assert.equal(partner.offers.roomOnly.partnerConditions.length,3);
+  assert.equal(direct.offers.breakfast.price,2527.9);
+  assert.ok(!JSON.stringify(rooms).includes('SECRET'));
+});
+
+test('Partner quotes cannot reuse another party, room count, child age or currency',()=>{
+  for(const change of [b=>b.occupancy=3,b=>b.guest_count=1,b=>b.room_count=2,b=>b.children_ages=[7]]) {
+    const data=partnerPayload();change(data[0].tpi_block[0]);
+    assert.equal(Object.values(normalizeBookingRooms(data,input)).filter(r=>r.partnerOffer).length,0);
+  }
+  const data=partnerPayload();data[0].tpi_block[0].min_price.currency='USD';
+  assert.throws(()=>normalizeBookingRooms(data,input),/عملة عرض الشريك/);
+});
+
+test('A partner missing on another night cannot inherit the direct room price',async()=>{
+  const engine=createLiveScraper(async()=>({hotelId:'184752',hotelName:'Al Marwa',baseSlug:'test'}),async request=>{
+    const data=partnerPayload();data[0].arrival_date=request.checkIn;data[0].departure_date=request.checkOut;
+    if(request.checkIn!==input.checkIn)data[0].tpi_block=[];
+    return normalizeBookingRooms(data,request);
+  },{source:'Booking',sourceArabic:'بوكينج'});
+  const rooms=await engine({hotelInput:'booking:184752',checkIn:input.checkIn,checkOut:'2026-10-22',adults:2,rooms:1});
+  const partner=rooms.find(r=>r.partnerOffer);
+  assert.equal(partner.dailyRates[0].roomOnlyPrice,164.73);
+  assert.equal(partner.dailyRates[1].roomOnlyPrice,null);
+  assert.equal(partner.roomOnlyTotalPrice,null);
+  assert.equal(partner.roomOnlyAvailableNights,1);
+});
+
 test('App breakdown separates included and excluded charges without applying discounts twice', () => {
   const amount=value=>({currency:'SAR',value});
   const block={product_price_breakdown:{net_amount:amount(143),all_inclusive_amount:amount(168.025),excluded_amount:amount(25.025),included_taxes_and_charges_amount:amount(0),items:[
