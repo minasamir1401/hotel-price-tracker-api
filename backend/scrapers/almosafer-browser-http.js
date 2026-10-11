@@ -25,7 +25,7 @@ export function createAlmosaferBrowserFetch({ launch = options => chromium.launc
             userAgent: `Mozilla/5.0 (${platform}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${browser.version()} Safari/537.36`,
             locale: 'ar-SA', viewport: { width: 1280, height: 800 },
           });
-          return { browser, context, page: null, booting: null, active: 0, idle: null };
+          return { browser, context, origin, page: null, booting: null, active: 0, idle: null };
         } catch (error) { await browser.close().catch(() => {}); throw error; }
       })();
       sessions.set(origin, pending);
@@ -39,8 +39,13 @@ export function createAlmosaferBrowserFetch({ launch = options => chromium.launc
     // source cookies are obtained from the context's cookie jar below.
     const headers = new Headers(Object.entries(rawHeaders).filter(([name]) =>
       ['content-type', 'server', 'cf-ray'].includes(name.toLowerCase())));
-    const cookies = await entry.context.cookies();
-    for (const cookie of cookies) headers.append('set-cookie', `${cookie.name}=${cookie.value}; Path=${cookie.path || '/'}; Secure`);
+    const cookies = await entry.context.cookies(entry.origin);
+    for (const cookie of cookies) {
+      const value = `${cookie.name}=${cookie.value}; Path=${cookie.path || '/'}; Secure`;
+      // Fetch headers use ByteString; the browser still retains any Unicode
+      // cookie and sends it itself. Never export unrelated third-party cookies.
+      if (/^[\x20-\x7e]+$/.test(value)) headers.append('set-cookie', value);
+    }
     return new Response([204, 205, 304].includes(status) ? null : body, { status, headers });
   }
   async function document(entry, url, deadline) {

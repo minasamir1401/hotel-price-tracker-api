@@ -89,7 +89,7 @@ function browserMock(blocked = false) {
     assert.ok(!options.args.includes('--ignore-certificate-errors'));
     const browser = { version: () => '133.0.0.0', close: async () => { browser.closed = true; }, newContext: async options => {
       assert.notEqual(options.ignoreHTTPSErrors, true);
-      return { cookies: async () => [{ name: 'session', value: 'private-cookie', path: '/' }], newPage: async () => {
+      return { cookies: async origin => { assert.match(origin, /^https:\/\/(?:www|global)\.almosafer\.com$/); return [{ name: 'session', value: 'private-cookie', path: '/' }, { name: 'language', value: 'العربية', path: '/' }]; }, newPage: async () => {
         const page = new EventEmitter(), frame = {}, response = status => ({ status: () => status, allHeaders: async () => ({ server: 'cloudflare', ':status': String(status), 'set-cookie': 'language=العربية', 'content-encoding': 'br' }), request: () => ({ isNavigationRequest: () => true }), frame: () => frame });
         page.mainFrame = () => frame;
         page.goto = async url => { page.href = url; return response(403); };
