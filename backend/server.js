@@ -8,6 +8,8 @@ process.on('unhandledRejection', reason => {
 });
 import fs from 'node:fs';
 import path from 'node:path';
+import { createRequire } from 'node:module';
+const playwrightVersion = createRequire(import.meta.url)('playwright/package.json').version;
 
 // Automatically load local env configuration if present
 for (const envPath of [
@@ -59,6 +61,7 @@ app.get('/api/system-status', (req, res) => {
   sourceDetails.almosafer.transport = connection.transport;
   sourceDetails.almosafer.browserFallback = connection.browserFallback;
   sourceDetails.almosafer.proxyConfigured = Boolean(connection.proxyUrl);
+  sourceDetails.almosafer.browserPackageVersion = playwrightVersion;
   res.json({
     ...Object.fromEntries(Object.entries(sourceDetails).map(([source, state]) => [source, state.status])),
     sourceDetails,
