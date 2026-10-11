@@ -60,6 +60,32 @@ function bedsForRoom(room) {
   return { beds: [{ label, options }], beddingLabel: label || 'لم يحدد المصدر', beddingVerified: options.length > 0 };
 }
 
+const cents = value => Math.round((value + Number.EPSILON) * 100) / 100;
+export function bookingPriceBreakdown(block, price) {
+  const data = block.product_price_breakdown;
+  if (!data) return null;
+  const amount = item => {
+    assert(item?.currency === 'SAR' && item.value !== null && item.value !== undefined && Number.isFinite(Number(item.value)) && Number(item.value) >= 0, 'تفصيل السعر أو الضرائب غير صالح');
+    return Number(item.value);
+  };
+  // Missing breakdowns remain unknown; no tax percentage is inferred.
+  if (!data.net_amount || !data.all_inclusive_amount || !data.excluded_amount || !data.included_taxes_and_charges_amount) return null;
+  const net = amount(data.net_amount), total = amount(data.all_inclusive_amount);
+  const taxes = amount(data.excluded_amount) + amount(data.included_taxes_and_charges_amount);
+  assert(Math.abs(net + taxes - total) < 0.011 && Math.abs(cents(total) - price) < 0.011, 'تفصيل الضرائب لا يطابق إجمالي العرض');
+  const priceBeforeTax = cents(net);
+  // Allocate any sub-cent rounding to the combined charges so visible parts
+  // always add to the exact source total, including across independent nights.
+  const taxesAndFees = cents(price - priceBeforeTax);
+  assert(taxesAndFees >= 0 && Math.abs(taxesAndFees - cents(taxes)) < 0.011, 'تفصيل الضرائب لا يطابق إجمالي العرض');
+  return { priceBeforeTax, taxesAndFees, totalPrice: price, currency: 'SAR',
+    sourceField: 'mobile.roomList.block.product_price_breakdown',
+    items: (data.items || []).filter(item => item.kind === 'charge').map(item => ({
+      name: clean(item.name), amount: cents(amount(item.item_amount)), inclusion: item.inclusion_type || null,
+    })),
+  };
+}
+
 export function normalizeBookingRooms(payload, request) {
   const hotel = validateBookingHotel(payload, request);
   const adults = request.roomsInfo[0].adultsCount;
@@ -85,12 +111,20 @@ export function normalizeBookingRooms(payload, request) {
     const name = clean(block.room_name || block.name_without_policy);
     assert(name, 'اسم الغرفة مفقود');
     const key = `booking:${request.hotelId}:${roomId}`;
-    result[key] ||= { name, category: name, originalNames: [name], ...bedsForRoom(room), offers: {} };
+    result[key] ||= { name, category: name, originalNames: [name], ...bedsForRoom(room),
+      roomSizeM2: Number(room.room_surface_in_m2) > 0 ? Number(room.room_surface_in_m2) : null,
+      offers: {} };
     const refundable = Number(block.refundable) === 1;
     const offer = {
       price, totalPrice: price, packageId: block.block_id, roomId,
       source: 'Booking Android app API', priceField: 'mobile.roomList.block.min_price.price',
       priceBasis: 'source-display-price-with-requested-taxes', currency: 'SAR',
+      taxBreakdown: bookingPriceBreakdown(block, price),
+      capacityAdults: Number(block.nr_adults),
+      roomsLeft: Number.isInteger(Number(block.room_count)) && block.room_count != null ? Number(block.room_count) : null,
+      noPrepayment: block.paymentterms?.prepayment?.type === 'no_prepayment' ? true : null,
+      noCreditCard: block.no_cc_object?.key === 'NoCcKey' ? true : null,
+      paymentPolicy: clean(block.paymentterms?.prepayment?.description) || null,
       mealLabel: ({ roomOnly: 'إقامة فقط', breakfast: 'إقامة وإفطار', halfBoard: 'نصف إقامة' })[plan], mealLabelFromSource: clean(block.mealplan), refundable,
       refundableUntil: block.refundable_until || null,
       cancellationPolicy: refundable ? `إلغاء مجاني حسب شروط العرض${block.refundable_until ? ` حتى ${block.refundable_until}` : ''}` : 'غير قابل للاسترداد',
@@ -179,6 +213,7 @@ export function createBookingClient({ env = process.env, fetchImpl = fetch } = {
         const blockIds = idsFor(page);
         const quote = ids => request('mobile.roomList', { ...params,
           include_is_block_fit: '1', move_room_info_from_block_to_room: '1',
+          include_composite_breakdown: '1', include_excluded_charges_detail: '1',
           ...(ids.length ? { block_ids: ids.join(',') } : {}),
         });
         let response = await quote(blockIds);

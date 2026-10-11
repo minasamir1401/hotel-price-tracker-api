@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { bookingHotelId, normalizeBookingRooms, createBookingClient } from '../scrapers/booking-client.js';
+import { bookingHotelId, normalizeBookingRooms, createBookingClient, bookingPriceBreakdown } from '../scrapers/booking-client.js';
 import { createLiveScraper } from '../scrapers/almosafer-live.js';
 import { executeHotelComparison } from '../scrapers/index.js';
 import { resolveBookingUrl, decodedBookingHotelId } from '../scrapers/booking-url.js';
@@ -28,6 +28,26 @@ test('Booking keeps displayed taxes once, exact beds, meals, native rate IDs and
   assert.equal(room.beds[0].options[0].type, 'single');
   assert.equal(room.beds[0].options[0].count, 2);
   assert.equal(room.offers.roomOnly, undefined);
+});
+
+test('App breakdown separates included and excluded charges without applying discounts twice', () => {
+  const amount=value=>({currency:'SAR',value});
+  const block={product_price_breakdown:{net_amount:amount(143),all_inclusive_amount:amount(168.025),excluded_amount:amount(25.025),included_taxes_and_charges_amount:amount(0),items:[
+    {kind:'charge',name:'City tax',item_amount:amount(3.575),inclusion_type:'excluded'},
+    {kind:'charge',name:'VAT',item_amount:amount(21.45),inclusion_type:'excluded'},
+    {kind:'discount',name:'Limited-time Deal',item_amount:amount(182)},
+  ]}};
+  const parts=bookingPriceBreakdown(block,168.03);
+  assert.equal(parts.priceBeforeTax,143);assert.equal(parts.taxesAndFees,25.03);assert.equal(parts.totalPrice,168.03);
+  assert.deepEqual(parts.items.map(item=>item.amount),[3.58,21.45]);
+  block.product_price_breakdown.excluded_amount=amount(10.025);
+  block.product_price_breakdown.included_taxes_and_charges_amount=amount(15);
+  assert.equal(bookingPriceBreakdown(block,168.03).taxesAndFees,25.03);
+  assert.throws(()=>bookingPriceBreakdown(block,143),/لا يطابق/);
+  block.product_price_breakdown.net_amount.currency='USD';
+  assert.throws(()=>bookingPriceBreakdown(block,168.03),/غير صالح/);
+  assert.equal(bookingPriceBreakdown({},168.03),null);
+  assert.equal(bookingPriceBreakdown({product_price_breakdown:{}},168.03),null);
 });
 test('Booking rejects inconsistent dates, identity, currency, guests and incomplete offers', () => {
   for (const change of [h => h.hotel_id = 99, h => h.arrival_date = '2026-10-19', h => h.currency_code = 'USD', h => h.min_room_distribution.adults = 1, h => h.total_blocks = 3, h => h.block[0].min_price.price = 'NaN', h => h.block[0].min_price.currency = 'USD', h => delete h.block[0].half_board, h => h.block[0].fit_occupancy.nr_adults = 1]) {
@@ -60,6 +80,7 @@ test('Booking requests recommended blocks and uses the complete roomList tax-inc
     assert.equal(parsed.searchParams.get('block_ids'), 'native-0,native-1');
     assert.equal(parsed.searchParams.get('include_is_block_fit'), '1');
     assert.equal(parsed.searchParams.get('move_room_info_from_block_to_room'), '1');
+    assert.equal(parsed.searchParams.get('include_composite_breakdown'), '1');
     data[0].block[0].min_price.price = '168.03';
     return { ok: true, json: async () => data };
   } });
