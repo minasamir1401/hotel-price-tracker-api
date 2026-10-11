@@ -40,7 +40,7 @@ export function createHotelRoomsService({ resolveAlmosafer, enigmaClient, resolv
       if (source === 'almosafer') {
         details = await resolveAlmosafer(hotelInput, params);
         if (!details.hotelId) invalid('رابط المسافر لا يحتوي معرّف الفندق');
-        const rates = await enigmaClient({ hotelId: String(details.hotelId), checkIn, checkOut, roomsInfo: Array.from({ length: rooms }, () => ({ adultsCount: adults, kidsAges: childAges })), currency: 'SAR' }, { refresh: Boolean(body.refresh) });
+        const rates = await enigmaClient({ hotelId: String(details.hotelId), ...(details.sourceOrigin ? { sourceOrigin: details.sourceOrigin } : {}), checkIn, checkOut, roomsInfo: Array.from({ length: rooms }, () => ({ adultsCount: adults, kidsAges: childAges })), currency: 'SAR' }, { refresh: Boolean(body.refresh) });
         names = Object.values(rates).map(room => room.name || room.category);
       } else if (source === 'almatar') {
         details = await resolveAlmatar(hotelInput);

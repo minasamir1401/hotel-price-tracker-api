@@ -300,7 +300,7 @@ app.post('/api/hotel-rooms-list', async (req, res) => {
   try { res.json(await hotelRooms(req.body)); }
   catch (error) {
     console.warn('[HOTEL ROOMS FAILURE]', error.message);
-    res.status(error.status || 502).json({ success: false, message: error.message, source: error.source || detectHotelSource(req.body.hotelInput), upstreamStatus: error.upstreamStatus, code: error.code, diagnosticId: error.diagnosticId });
+    res.status(error.status || 502).json({ success: false, message: error.message, source: error.source || detectHotelSource(req.body.hotelInput), upstreamStatus: error.upstreamStatus, stage: error.stage, upstreamHost: error.upstreamHost, code: error.code, diagnosticId: error.diagnosticId });
   }
 });
 

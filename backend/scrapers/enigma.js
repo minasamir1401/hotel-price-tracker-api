@@ -2,6 +2,7 @@ import {readBedOptions} from './beds.js';
 import {createAlmosaferSessionProvider, webUserAgent} from './almosafer-session.js';
 import { upstreamHttpError, UpstreamError } from './upstream-error.js';
 import { recordSourceSuccess, recordSourceFailure } from './source-status.js';
+import { almosaferOrigin } from './almosafer-origin.js';
 const plans = { RO: 'roomOnly', BB: 'breakfast', HB: 'halfBoard' };
 export const roundMoney = value => Math.round((value + Number.EPSILON) * 100) / 100;
 const localized = value => typeof value === 'string' ? value : value?.ar || value?.en || '';
@@ -57,15 +58,16 @@ export function parsePackages(poll, adults, roomsCount) {
   return result;
 }
 
-export function createEnigmaClient({ fetchImpl = fetch, sleep = ms => new Promise(r => setTimeout(r, ms)), now = Date.now, token = process.env.ALMOSAFER_API_TOKEN?.trim(), cacheTTL = 120000, sessionProvider } = {}) {
+export function createEnigmaClient({ fetchImpl = fetch, sleep = ms => new Promise(r => setTimeout(r, ms)), now = Date.now, token = process.env.ALMOSAFER_API_TOKEN?.trim(), cacheTTL = 120000, sessionProvider, origin = almosaferOrigin() } = {}) {
+  origin = almosaferOrigin(origin);
   const cache = new Map();
   const pending = new Map();
-  const getSessionToken = sessionProvider || createAlmosaferSessionProvider({fetchImpl, now});
+  const getSessionToken = sessionProvider || createAlmosaferSessionProvider({fetchImpl, now, origin});
   let overrideRejected = false;
   const headers = {
     'User-Agent': webUserAgent,
     Accept: 'application/json', 'Content-Type': 'application/json',
-    Origin: 'https://www.almosafer.com',
+    Origin: origin,
     'x-api-key': 'apikey-hotel',
     'x-app-name': 'ct-web-hotels-app', 'x-bt': 'next', 'x-platform': 'web',
     'x-currency': 'SAR', 'x-locale': 'ar',
@@ -90,11 +92,11 @@ export function createEnigmaClient({ fetchImpl = fetch, sleep = ms => new Promis
     const requestHeaders = {
       ...headers,
       token: sessionToken,
-      Referer: `https://www.almosafer.com/ar/hotel/details/atg/hotel-${payload.hotelId}`,
+      Referer: `${origin}/ar/hotel/details/atg/hotel-${payload.hotelId}`,
       'sec-ch-ua-platform': '"Windows"',
       ...(cookieHeader ? { Cookie: cookieHeader } : {}),
     };
-    const init = await json('https://www.almosafer.com/api/enigma/v7/packages', { method: 'PUT', body: JSON.stringify(payload) }, deadline, requestHeaders);
+    const init = await json(`${origin}/api/enigma/v7/packages`, { method: 'PUT', body: JSON.stringify(payload) }, deadline, requestHeaders);
     if (!init.pId) throw new Error('لم يرجع المسافر رقم استعلام صالح');
     if (init.pId.startsWith('no-pkg') && !init.hotelId) {
       getSessionToken.invalidate?.();
@@ -107,7 +109,7 @@ export function createEnigmaClient({ fetchImpl = fetch, sleep = ms => new Promis
       : 800;
     await sleep(waitFirst);
     for (let attempt = 0; attempt < 40; attempt++) {
-      const poll = await json(`https://www.almosafer.com/api/enigma/v7/packages/poll/${encodeURIComponent(init.pId)}`, {}, deadline, requestHeaders);
+      const poll = await json(`${origin}/api/enigma/v7/packages/poll/${encodeURIComponent(init.pId)}`, {}, deadline, requestHeaders);
       if (poll.pollingStatus === 'COMPLETED_SUCCESSFULLY') {
         // An empty transport/session response is not proof that the hotel is sold out.
         if (!poll.hotelId || !poll.currencyCode || !poll.numberOfNights || !Array.isArray(poll.packagesGroups)) {

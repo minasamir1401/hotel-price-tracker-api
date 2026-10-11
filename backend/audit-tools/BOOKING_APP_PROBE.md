@@ -1,11 +1,12 @@
 # Booking Android investigation on Windows
 
 The one-hotel, one-night experiment successfully retrieved and verified native
-Booking room offers from the Android app's API on Windows. It is a local
-prototype and has not been integrated into the website or deployed to Dokploy.
+Booking room offers from the Android app's API on Windows. This report describes
+the initial prototype. The later website integration is documented in
+`backend/BOOKING.md`; production setup is described in `backend/DOKPLOY.md`.
 It uses no emulator or physical phone. All generated files and the downloaded
 APK are in `outputs/booking-app-probe/`, which is ignored by Git and Docker.
-The application server, existing sources, and frontend were not changed.
+The initial experiment did not change the server or frontend.
 
 ## Download and static inspection
 

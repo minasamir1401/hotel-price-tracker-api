@@ -23,8 +23,12 @@ Start the frontend separately with `npm run dev` in `frontend`.
 
 Input supports `booking:184752`, a numeric Booking hotel ID when Booking is
 selected, or a Booking URL containing `hotel_id` or `dest_id` with `dest_type=hotel`.
-City destination IDs are never used as hotel IDs. Slug-only URLs and hotel-name
-resolution are currently unsupported; the backend reports that explicitly.
+City destination IDs are never used as hotel IDs. Full property URLs can also
+resolve through their linked room blocks: a candidate is accepted only when the
+app confirms that all linked room IDs belong to that hotel. Plain property URLs
+use public identity metadata when available, then verify through the app. A
+blocked metadata page or an unconfirmed room is an explicit error; no hotel ID
+or price is invented. Hotel-name-only search is currently unsupported.
 One room without children is supported. Multi-room and child pricing are rejected
 until their API semantics are verified. Adult occupancy is matched against the
 actual returned distribution and every accepted block.

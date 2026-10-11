@@ -23,12 +23,14 @@ export async function upstreamHttpError(response, { source = 'almosafer', label 
     : /invalid.?token|unauthori[sz]ed|token.{0,40}expir/i.test(body) ? 'authentication'
     : /<html|<!doctype/i.test(body) ? 'html' : 'unknown';
   const diagnosticId = randomUUID();
-  logger('[UPSTREAM FAILURE]', JSON.stringify({ diagnosticId, source, stage, status: response.status, path: new URL(url).pathname, responseKind: kind, headers }));
+  logger('[UPSTREAM FAILURE]', JSON.stringify({ diagnosticId, source, stage, status: response.status, host: new URL(url).hostname, path: new URL(url).pathname, responseKind: kind, headers }));
   const reason = kind === 'challenge' ? 'المصدر طلب تحققًا إضافيًا من اتصال الخادم'
     : kind === 'access-denied' ? 'المصدر رفض الوصول من هذا الاتصال'
     : kind === 'authentication' ? 'المصدر رفض بيانات الجلسة' : 'المصدر رفض الطلب';
-  return new UpstreamError(`${label} HTTP ${response.status}: ${reason}؛ مرجع التشخيص ${diagnosticId}`, {
+  const error = new UpstreamError(`${label} HTTP ${response.status}: ${reason}؛ مرجع التشخيص ${diagnosticId}`, {
     source, stage, status: response.status, diagnosticId,
     code: response.status === 403 ? 'UPSTREAM_ACCESS_DENIED' : response.status === 401 ? 'UPSTREAM_AUTH_REJECTED' : 'UPSTREAM_HTTP_ERROR',
   });
+  error.upstreamHost = new URL(url).hostname;
+  return error;
 }

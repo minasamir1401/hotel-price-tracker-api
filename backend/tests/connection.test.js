@@ -5,6 +5,8 @@ import { createAlmosaferSessionProvider } from '../scrapers/almosafer-session.js
 import { createHotelRoomsService, detectHotelSource } from '../hotel-rooms-service.js';
 import { upstreamHttpError, UpstreamError } from '../scrapers/upstream-error.js';
 import { sourceSnapshot, recordSourceSuccess, recordSourceFailure } from '../scrapers/source-status.js';
+import { resolveAlmosaferDetails } from '../scrapers/almosafer.js';
+import { almosaferOrigin, almosaferInputOrigin } from '../scrapers/almosafer-origin.js';
 
 const payload = { hotelId: '1287944', checkIn: '2026-10-11', checkOut: '2026-10-12', currency: 'SAR', roomsInfo: [{ adultsCount: 2, kidsAges: [] }] };
 const body = { hotelInput: 'https://www.almosafer.com/ar/hotel/details/atg/hotel-1287944', checkIn: payload.checkIn, adults: 2, rooms: 1, childAges: [] };
@@ -64,4 +66,37 @@ test('Source readiness reflects successful price requests, refusals and untested
   recordSourceSuccess('status-test'); assert.equal(sourceSnapshot('status-test').status, 'ready');
   recordSourceFailure('status-test', new UpstreamError('denied', { status: 403 })); assert.equal(sourceSnapshot('status-test').status, 'blocked');
   assert.equal(sourceSnapshot('status-test', false).status, 'offline');
+});
+
+test('Global hotel links keep their origin through room lookup and reject arbitrary upstream origins', async () => {
+  const input = 'https://global.almosafer.com/ar/hotel/details/atg/kingsgate-diyar-1287944';
+  const details = await resolveAlmosaferDetails(input);
+  assert.equal(details.sourceOrigin, 'https://global.almosafer.com');
+  assert.equal(almosaferInputOrigin('https://www.almosafer.com/ar/hotels'), 'https://www.almosafer.com');
+  assert.throws(() => almosaferOrigin('https://almosafer.com.evil.test'), /غير مدعوم/);
+  assert.throws(() => createEnigmaClient({ origin: 'http://global.almosafer.com' }), /غير مدعوم/);
+  const service = createHotelRoomsService({ resolveAlmosafer: resolveAlmosaferDetails, enigmaClient: async request => {
+    assert.equal(request.sourceOrigin, 'https://global.almosafer.com');
+    return { one: { name: 'Twin' } };
+  } });
+  assert.deepEqual((await service({ ...body, hotelInput: input })).rooms, ['Twin']);
+});
+
+test('Global bootstrap, packages and poll use the same host, headers and isolated session', async () => {
+  const requests = [];
+  const clients = ['https://www.almosafer.com', 'https://global.almosafer.com'].map(origin => createEnigmaClient({ origin, token: '', sleep: async () => {}, fetchImpl: async (url, options) => {
+    assert.equal(new URL(url).origin, origin);
+    requests.push(url);
+    if (!url.includes('/api/')) return sessionPage(origin);
+    assert.equal(options.headers.token, origin);
+    assert.equal(options.headers.Origin, origin);
+    assert.ok(options.headers.Referer.startsWith(`${origin}/`));
+    if (!url.includes('/poll/')) {
+      assert.equal(JSON.parse(options.body).sourceOrigin, undefined);
+      return { ok: true, json: async () => ({ pId: 'valid', hotelId: payload.hotelId }) };
+    }
+    return { ok: true, json: async () => ({ hotelId: payload.hotelId, currencyCode: 'SAR', numberOfNights: 1, pollingStatus: 'COMPLETED_SUCCESSFULLY', packagesGroups: [] }) };
+  } }));
+  await Promise.all(clients.map(client => client(payload, { maxAttempts: 1 })));
+  assert.equal(requests.length, 6);
 });

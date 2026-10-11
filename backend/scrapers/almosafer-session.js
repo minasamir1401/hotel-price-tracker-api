@@ -1,10 +1,11 @@
-const origin = 'https://www.almosafer.com';
+import { almosaferOrigin } from './almosafer-origin.js';
 export const webUserAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36';
 
 import { upstreamHttpError, UpstreamError } from './upstream-error.js';
 
 // Bootstrap the public hotel web session. This is session configuration, never a price source.
-export function createAlmosaferSessionProvider({fetchImpl = fetch, now = Date.now, cacheTTL = 300000} = {}) {
+export function createAlmosaferSessionProvider({fetchImpl = fetch, now = Date.now, cacheTTL = 300000, origin = almosaferOrigin()} = {}) {
+  origin = almosaferOrigin(origin);
   let cached = null;
   let pending = null;
   async function session(payload, deadline) {

@@ -2,9 +2,11 @@ import { createEnigmaClient } from './enigma.js';
 import { createLiveScraper } from './almosafer-live.js';
 import { createAlmosaferSessionProvider, webUserAgent } from './almosafer-session.js';
 import { upstreamHttpError } from './upstream-error.js';
-const autocompleteSession = createAlmosaferSessionProvider();
+import { almosaferOrigin, almosaferInputOrigin } from './almosafer-origin.js';
+const autocompleteSessions = new Map();
 
 export async function resolveAlmosaferDetails(hotelInput, { checkIn, checkOut, rooms = 1, adults = 2 } = {}) {
+  const sourceOrigin = almosaferInputOrigin(hotelInput);
   let decodedInput = hotelInput || '';
   try { decodedInput = decodeURIComponent(hotelInput); } catch { decodedInput = hotelInput || ''; }
 
@@ -55,6 +57,7 @@ export async function resolveAlmosaferDetails(hotelInput, { checkIn, checkOut, r
       hotelId: extractedId,
       baseSlug: extractedSlug ? `hotel/details/atg/${extractedSlug}` : 'hotels-home',
       customUrl: hotelInput,
+      sourceOrigin,
     };
   }
 
@@ -65,6 +68,7 @@ export async function resolveAlmosaferDetails(hotelInput, { checkIn, checkOut, r
       hotelName: hotelInput,
       hotelId: idMatch[1],
       baseSlug: `hotel/details/atg/${hotelInput}`,
+      sourceOrigin,
     };
   }
 
@@ -72,6 +76,8 @@ export async function resolveAlmosaferDetails(hotelInput, { checkIn, checkOut, r
   try {
     const query = inputLower.replace(/https?:\/\/[^\s]+/g, '').trim() || hotelInput;
     if (query && !/unknown\s*hotel/i.test(query)) {
+      if (!autocompleteSessions.has(sourceOrigin)) autocompleteSessions.set(sourceOrigin, createAlmosaferSessionProvider({ origin: sourceOrigin }));
+      const autocompleteSession = autocompleteSessions.get(sourceOrigin);
       const apiToken = process.env.ALMOSAFER_API_TOKEN?.trim() || await autocompleteSession({ checkIn, checkOut, roomsInfo: Array.from({ length: rooms }, () => ({ adultsCount: adults, kidsAges: [] })) }, Date.now() + 20000);
       const headers = {
         'User-Agent': webUserAgent,
@@ -84,11 +90,11 @@ export async function resolveAlmosaferDetails(hotelInput, { checkIn, checkOut, r
         'x-locale': 'ar',
         ...(autocompleteSession.cookieHeader ? { Cookie: autocompleteSession.cookieHeader } : {}),
       };
-      const res = await fetch(`https://www.almosafer.com/api/enigma/autocomplete?query=${encodeURIComponent(query)}`, {
+      const res = await fetch(`${sourceOrigin}/api/enigma/autocomplete?query=${encodeURIComponent(query)}`, {
         headers,
         signal: AbortSignal.timeout(6000),
       });
-      if (!res.ok) throw await upstreamHttpError(res, { stage: 'autocomplete', url: 'https://www.almosafer.com/api/enigma/autocomplete' });
+      if (!res.ok) throw await upstreamHttpError(res, { stage: 'autocomplete', url: `${sourceOrigin}/api/enigma/autocomplete` });
       if (res.ok) {
         const data = await res.json();
         const firstHotel = data?.hotels?.[0];
@@ -96,6 +102,7 @@ export async function resolveAlmosaferDetails(hotelInput, { checkIn, checkOut, r
           return {
             hotelName: firstHotel.name,
             hotelId: String(firstHotel.hotelId),
+            sourceOrigin,
             baseSlug: `hotel/details/atg/${firstHotel.name.replace(/\s+/g, '-')}-${firstHotel.hotelId}`,
           };
         }
@@ -110,7 +117,12 @@ export async function resolveAlmosaferDetails(hotelInput, { checkIn, checkOut, r
   };
 }
 
-export const almosaferClient = createEnigmaClient();
+const clients = new Map();
+export function almosaferClient({ sourceOrigin, ...payload }, options) {
+  const origin = almosaferOrigin(sourceOrigin);
+  if (!clients.has(origin)) clients.set(origin, createEnigmaClient({ origin }));
+  return clients.get(origin)(payload, options);
+}
 export const scrapeAlmosafer = createLiveScraper(
   resolveAlmosaferDetails,
   almosaferClient

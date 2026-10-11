@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { bookingHotelId, normalizeBookingRooms, createBookingClient } from '../scrapers/booking-client.js';
 import { createLiveScraper } from '../scrapers/almosafer-live.js';
 import { executeHotelComparison } from '../scrapers/index.js';
+import { resolveBookingUrl } from '../scrapers/booking-url.js';
 
 const input = { hotelId: '184752', checkIn: '2026-10-20', checkOut: '2026-10-21', roomsInfo: [{ adultsCount: 2, kidsAges: [] }] };
 const payload = () => [{ hotel_id: 184752, arrival_date: input.checkIn, departure_date: input.checkOut, currency_code: 'SAR', min_room_distribution: { adults: 2, children: [] }, total_blocks: 2,
@@ -52,4 +53,30 @@ test('Booking participates in comparison with the right source name and nightly 
   assert.equal(result.summary.almosaferBreakfast, 2527.90);
   assert.equal(result.data[0].breakfastFlexibleTotalPrice, 2795.36);
   await assert.rejects(executeHotelComparison({ sources: ['booking'] }, { booking: async () => { throw new Error('test failure'); } }), /بوكينج: test failure/);
+});
+
+test('A full Booking property link resolves through app-verified linked rooms, never a city destination ID', async () => {
+  const requests = [];
+  const url = 'https://www.booking.com/hotel/sa/jewar-al-saqefah.ar.html?dest_id=-3092186&dest_type=city&matching_block_id=88951702_269237792_2_2_0&sr_pri_blocks=88951702_269237792_2_2_0__27778';
+  const client = {
+    hotelDetails: async request => { requests.push(request); return { hotelId: request.hotelId, hotelName: 'Kingsgate Hotel Deyar' }; },
+    rooms: async request => { requests.push(request); return { twin: { offers: { breakfast: { roomId: '88951702' } } } }; },
+  };
+  const hotel = await resolveBookingUrl(url, input, client, { fetchImpl: async () => { throw new Error('HTML is unnecessary'); } });
+  assert.equal(hotel.hotelId, '889517'); assert.equal(hotel.identityMethod, 'app-verified-linked-rooms');
+  for (const request of requests) { assert.equal(request.hotelId, '889517'); assert.equal(request.checkIn, input.checkIn); assert.deepEqual(request.roomsInfo, input.roomsInfo); }
+  client.rooms = async () => ({ other: { offers: { breakfast: { roomId: '99999999' } } } });
+  await assert.rejects(resolveBookingUrl(url, input, client), /لم يؤكد التطبيق/);
+});
+
+test('Plain Booking property links require unambiguous metadata and app verification; challenges are errors', async () => {
+  let calls = 0;
+  const client = { hotelDetails: async request => { calls++; return { hotelId: request.hotelId, hotelName: 'Hotel' }; } };
+  const url = 'https://www.booking.com/hotel/sa/example.ar.html?sid=private-value';
+  const metadata = async requestUrl => { assert.equal(requestUrl, 'https://www.booking.com/hotel/sa/example.ar.html'); return { status: 200, text: async () => 'b_hotel_id = 123456; <div data-hotelid="123456">' }; };
+  assert.equal((await resolveBookingUrl(url, input, client, { fetchImpl: metadata })).hotelId, '123456');
+  await assert.rejects(resolveBookingUrl(url, input, client, { fetchImpl: async () => ({ status: 202 }) }), /المصدر لم يسمح/);
+  await assert.rejects(resolveBookingUrl(url, input, client, { fetchImpl: async () => ({ status: 200, text: async () => 'b_hotel_id=123456; data-hotelid="987654"' }) }), /بدقة/);
+  await assert.rejects(resolveBookingUrl('https://booking.com.evil.test/hotel/sa/a.html?matching_block_id=88951702_1_2_2_0', input, client), /رابط صفحة فندق/);
+  assert.equal(calls, 1);
 });
