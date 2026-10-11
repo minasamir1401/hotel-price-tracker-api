@@ -21,7 +21,7 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
     const bedFilter=validateBedFilter(params);
     const details = await resolveDetails(hotelInput, params);
     if (!details.hotelId) throw new Error(`يرجى إدخال رابط الفندق من ${sourceArabic} لتحديد الفندق بدقة`);
-    const maps = [], errors = [];
+    const maps = [], errors = [], failures = new Map();
     const fetchNight = async (dp, force, repair = false) => {
       try {
         const value = await fetchDay({
@@ -34,11 +34,13 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
         }, { refresh: force, maxAttempts: 1 });
         const old = errors.findIndex(e => e.date === dp.date);
         if (old >= 0) errors.splice(old, 1);
+        failures.delete(dp.date);
         return value;
       } catch (error) {
         const old = errors.findIndex(e => e.date === dp.date);
         if (old >= 0) errors.splice(old, 1);
         errors.push({ date: dp.date, message: error.message });
+        failures.set(dp.date, error);
         return null;
       }
     };
@@ -79,7 +81,7 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
         }));
       }
     }
-    if (maps.every(m => m === null)) throw new Error(errors[0]?.message || `تعذر الاتصال بـ${sourceArabic}`);
+    if (maps.every(m => m === null)) throw failures.get(errors[0]?.date) || new Error(`تعذر الاتصال بـ${sourceArabic}`);
     const keys = [...new Set(maps.flatMap(m=>Object.keys(m || {})))];
     const dayNames = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
     const fields = ['roomOnly','breakfast','halfBoard','roomOnlyFlexible','breakfastFlexible','halfBoardFlexible'];
@@ -196,7 +198,7 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
     });
 
     // Empty availability and connection failures must be distinguishable.
-    if (!result.length && errors.length) throw new Error(errors[0].message);
+    if (!result.length && errors.length) throw failures.get(errors[0].date) || new Error(errors[0].message);
     const filtered=result.filter(r=>r.bedFilterStatus!=='mismatch'&&(r.bedFilterStatus!=='unknown'||bedFilter.includeUnknown));
     filtered.filterWarnings=[];
     const unknown=result.filter(r=>r.bedFilterStatus==='unknown').length;

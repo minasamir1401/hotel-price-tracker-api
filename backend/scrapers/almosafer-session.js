@@ -1,74 +1,7 @@
 const origin = 'https://www.almosafer.com';
 export const webUserAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36';
 
-let browserInstance = null;
-let browserInitPromise = null;
-
-async function getChromiumBrowser() {
-  if (browserInstance?.isConnected()) return browserInstance;
-  if (browserInitPromise) return browserInitPromise;
-
-  browserInitPromise = (async () => {
-    const { chromium } = await import('playwright');
-    const args = [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      '--disable-gpu',
-      '--disable-blink-features=AutomationControlled',
-    ];
-    try {
-      browserInstance = await chromium.launch({ headless: true, args });
-    } catch (err) {
-      if (process.platform === 'win32') {
-        browserInstance = await chromium.launch({ headless: true, channel: 'chrome', args });
-      } else {
-        throw err;
-      }
-    }
-    return browserInstance;
-  })().finally(() => {
-    browserInitPromise = null;
-  });
-
-  return browserInitPromise;
-}
-
-async function fetchSessionWithBrowser(targetUrl, timeoutMs = 25000) {
-  const browser = await getChromiumBrowser();
-  const context = await browser.newContext({
-    userAgent: webUserAgent,
-    locale: 'ar-SA',
-    timezoneId: 'Asia/Riyadh',
-    viewport: { width: 1280, height: 800 },
-  });
-  const page = await context.newPage();
-  try {
-    await page.goto(targetUrl, { waitUntil: 'domcontentloaded', timeout: timeoutMs });
-    await page.waitForSelector('#__NEXT_DATA__', { timeout: 10000 }).catch(() => null);
-
-    const token = await page.evaluate(() => {
-      const el = document.getElementById('__NEXT_DATA__');
-      if (!el) return null;
-      try {
-        const json = JSON.parse(el.textContent);
-        return json.props?.pageProps?.APIToken || null;
-      } catch {
-        return null;
-      }
-    });
-
-    const cookies = await context.cookies();
-    const cookieHeader = cookies.map(c => `${c.name}=${c.value}`).join('; ');
-
-    return { token, cookieHeader };
-  } finally {
-    await page.close().catch(() => {});
-    await context.close().catch(() => {});
-  }
-}
-
-export const DEFAULT_ALMOSAFER_TOKEN = 'skdjfh73273$7268u2j89s';
+import { upstreamHttpError, UpstreamError } from './upstream-error.js';
 
 // Bootstrap the public hotel web session. This is session configuration, never a price source.
 export function createAlmosaferSessionProvider({fetchImpl = fetch, now = Date.now, cacheTTL = 300000} = {}) {
@@ -81,11 +14,11 @@ export function createAlmosaferSessionProvider({fetchImpl = fetch, now = Date.no
     }
     if (pending) return pending;
     pending = (async () => {
-      const url = new URL(`/ar/hotel/details/atg/hotel-${encodeURIComponent(payload.hotelId)}`, origin);
+      const url = new URL(payload.hotelId ? `/ar/hotel/details/atg/hotel-${encodeURIComponent(payload.hotelId)}` : '/ar/hotels-home', origin);
       const dmy = iso => iso.split('-').reverse().join('-');
-      url.searchParams.set('checkin', dmy(payload.checkIn));
-      url.searchParams.set('checkout', dmy(payload.checkOut));
-      url.searchParams.set('rooms', payload.roomsInfo.map(r => r.kidsAges.length
+      if (payload.checkIn) url.searchParams.set('checkin', dmy(payload.checkIn));
+      if (payload.checkOut) url.searchParams.set('checkout', dmy(payload.checkOut));
+      url.searchParams.set('rooms', (payload.roomsInfo || [{ adultsCount: 2, kidsAges: [] }]).map(r => r.kidsAges.length
         ? `${r.adultsCount}_adult,${r.kidsAges.length}_child,${r.kidsAges.join('-')}_age`
         : `${r.adultsCount}_adult`).join('*'));
       url.searchParams.set('ncr', '1');
@@ -115,7 +48,10 @@ export function createAlmosaferSessionProvider({fetchImpl = fetch, now = Date.no
           signal: AbortSignal.timeout(Math.min(20000, remaining)),
         });
 
+        if (!res.ok) throw await upstreamHttpError(res, { stage: 'session-bootstrap', url: url.href });
         if (res.ok) {
+          const cookies = res.headers?.getSetCookie?.() || [];
+          cookieHeader = cookies.map(cookie => cookie.split(';')[0]).join('; ') || null;
           const html = await res.text();
           const match = html.match(/<script\b(?=[^>]*\bid=["']__NEXT_DATA__["'])[^>]*>([\s\S]*?)<\/script>/i);
           try {
@@ -123,15 +59,12 @@ export function createAlmosaferSessionProvider({fetchImpl = fetch, now = Date.no
           } catch { /* ignore */ }
         }
       } catch (httpErr) {
-        // Fall through
-      }
-
-      if ((typeof token !== 'string' || !token.trim()) && fetchImpl === fetch) {
-        token = process.env.ALMOSAFER_API_TOKEN || DEFAULT_ALMOSAFER_TOKEN;
+        if (httpErr instanceof UpstreamError) throw httpErr;
+        throw new UpstreamError('تعذر تهيئة جلسة المسافر: فشل الاتصال بالمصدر', { source: 'almosafer', stage: 'session-bootstrap', code: 'UPSTREAM_NETWORK_ERROR' });
       }
 
       if (typeof token !== 'string' || !token.trim()) {
-        throw new Error('لم يرجع موقع المسافر إعداد جلسة ويب صالحًا');
+        throw new UpstreamError('لم يرجع موقع المسافر إعداد جلسة ويب صالحًا', { source: 'almosafer', stage: 'session-bootstrap', code: 'UPSTREAM_SESSION_MISSING' });
       }
 
       session.cookieHeader = cookieHeader;

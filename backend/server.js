@@ -11,10 +11,13 @@ import cors from 'cors';
 import { executeHotelComparison } from './scrapers/index.js';
 import { fetchDailyPricesAlmatar, fetchOneNight } from './daily-prices-almatar.js';
 import { createAlmatarResolver } from './scrapers/almatar.js';
-import { resolveAlmosaferDetails } from './scrapers/almosafer.js';
-import { createEnigmaClient } from './scrapers/enigma.js';
+import { resolveAlmosaferDetails, almosaferClient } from './scrapers/almosafer.js';
+import { bookingConfigured } from './scrapers/booking-client.js';
+import { bookingClient, resolveBookingDetails } from './scrapers/booking.js';
+import { sourceSnapshot } from './scrapers/source-status.js';
+import { createHotelRoomsService, detectHotelSource } from './hotel-rooms-service.js';
 const resolveAlmatar = createAlmatarResolver();
-const enigmaClient = createEnigmaClient({ token: process.env.ALMOSAFER_API_TOKEN || 'skdjfh73273$7268u2j89s' });
+const enigmaClient = almosaferClient;
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -34,13 +37,15 @@ app.get('/health', (req, res) => {
 // System status for scrapers and export engine
 app.get('/api/system-status', (req, res) => {
   const now = new Date();
+  const sourceDetails = Object.fromEntries(['almosafer', 'almatar', 'booking'].map(source => [source, sourceSnapshot(source, source !== 'booking' || bookingConfigured())]));
   res.json({
-    almosafer: 'ready',
-    almatar: 'ready',
+    ...Object.fromEntries(Object.entries(sourceDetails).map(([source, state]) => [source, state.status])),
+    sourceDetails,
+    backend: 'ready',
     excelExport: 'ready',
     lastSearch: now.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }),
     activeProxies: 0,
-    errors: [],
+    errors: Object.entries(sourceDetails).filter(([, state]) => state.message).map(([source, state]) => `${source}: ${state.message}`),
   });
 });
 
@@ -74,14 +79,24 @@ app.post('/api/search-hotel-prices', async (req, res) => {
 
     let effectiveCheckIn = checkIn;
     let effectiveCheckOut = checkOut;
-    let effectiveAdults = Number(adults) || 2;
-    let effectiveRooms = Number(rooms) || 1;
+    let effectiveAdults = Number(adults);
+    let effectiveRooms = Number(rooms);
+    let effectiveChildren = Number(children);
     let effectiveSources = Array.isArray(sources) && sources.length > 0 ? sources : ['almosafer', 'almatar'];
+    if (req.body.sources === undefined && (/^booking:/i.test(effectiveHotel) || /^https:\/\/(?:[^/]+\.)?booking\.com\//i.test(effectiveHotel))) effectiveSources = ['booking'];
+    if (req.body.sources === undefined && detectHotelSource(effectiveHotel)) effectiveSources = [detectHotelSource(effectiveHotel)];
 
     // If hotelInput is a URL, parse dates and platform if not already set
     if (effectiveHotel.startsWith('http')) {
       try {
         const parsedUrl = new URL(effectiveHotel);
+        if (parsedUrl.hostname === 'booking.com' || parsedUrl.hostname.endsWith('.booking.com')) {
+          if (req.body.rooms == null && parsedUrl.searchParams.has('no_rooms')) effectiveRooms = Number(parsedUrl.searchParams.get('no_rooms'));
+          const totalAdults = parsedUrl.searchParams.get('group_adults') || parsedUrl.searchParams.get('req_adults');
+          if (req.body.adults == null && totalAdults) effectiveAdults = Number(totalAdults) / effectiveRooms;
+          const totalChildren = parsedUrl.searchParams.get('group_children') || parsedUrl.searchParams.get('req_children');
+          if (req.body.children == null && totalChildren) effectiveChildren = Number(totalChildren) / effectiveRooms;
+        }
         if (effectiveHotel.includes('almosafer.com') && (!sources || sources.length === 0)) {
           effectiveSources = ['almosafer'];
         } else if (effectiveHotel.includes('almatar.com') && (!sources || sources.length === 0)) {
@@ -142,7 +157,7 @@ app.post('/api/search-hotel-prices', async (req, res) => {
         try { res.write(': ping\n\n'); } catch {}
       }, 10000);
 
-      req.on('close', () => {
+      res.once('close', () => {
         if (pingTimer) clearInterval(pingTimer);
       });
     }
@@ -152,7 +167,7 @@ app.post('/api/search-hotel-prices', async (req, res) => {
       checkIn: effectiveCheckIn,
       checkOut: effectiveCheckOut,
       adults: effectiveAdults,
-      children,
+      children: effectiveChildren,
       rooms: effectiveRooms,
       roomNotes,
       refresh,
@@ -180,13 +195,13 @@ app.post('/api/search-hotel-prices', async (req, res) => {
   } catch (error) {
     console.error('Error during hotel search execution:', error);
     if (Boolean(req.headers?.accept?.includes('text/event-stream'))) {
-      res.write(`data: ${JSON.stringify({ type: 'error', message: error.message })}\n\n`);
+      res.write(`data: ${JSON.stringify({ type: 'error', message: error.message, code: error.code, diagnosticId: error.diagnosticId })}\n\n`);
       return res.end();
     }
-    res.status(500).json({
+    res.status(error.status || (error.source ? 502 : 500)).json({
       success: false,
-      message: 'حدث خطأ في الخادم أثناء معالجة استعلام الأسعار',
-      error: error.message,
+      message: error.message,
+      upstreamStatus: error.upstreamStatus, code: error.code, diagnosticId: error.diagnosticId,
     });
   }
 });
@@ -231,7 +246,7 @@ app.post('/api/daily-prices', async (req, res) => {
         try { res.write(': ping\n\n'); } catch {}
       }, 10000);
 
-      req.on('close', () => {
+      res.once('close', () => {
         if (pingTimer) clearInterval(pingTimer);
       });
     }
@@ -242,7 +257,7 @@ app.post('/api/daily-prices', async (req, res) => {
       hotelInput,
       checkIn,
       checkOut,
-      adults: Number(adults) || 2,
+      adults: Number(adults),
       childAges: Array.isArray(childAges) ? childAges : [],
       roomKeywords: Array.isArray(roomKeywords) ? roomKeywords : (roomKeywords ? [roomKeywords] : []),
       concurrency: Math.min(6, Math.max(1, Number(concurrency) || 4)),
@@ -272,165 +287,20 @@ app.post('/api/daily-prices', async (req, res) => {
   } catch (error) {
     console.error('Error in /api/daily-prices:', error);
     if (isStream) {
-      res.write(`data: ${JSON.stringify({ type: 'error', message: error.message })}\n\n`);
+      res.write(`data: ${JSON.stringify({ type: 'error', message: error.message, code: error.code, diagnosticId: error.diagnosticId })}\n\n`);
       return res.end();
     }
     res.status(500).json({ success: false, message: error.message });
   }
 });
 
-const hotelRoomsCache = new Map();
-
-// Endpoint to fetch available rooms for a specific date (used for the dropdown)
+const hotelRooms = createHotelRoomsService({ resolveAlmosafer: resolveAlmosaferDetails, enigmaClient, resolveAlmatar, fetchOneNight, resolveBooking: resolveBookingDetails, bookingClient });
+app.get('/api/hotel-rooms-list', (req, res) => res.status(405).set('Allow', 'POST').json({ success: false, message: 'هذا المسار يستقبل POST من زر تحديث الغرف داخل الموقع' }));
 app.post('/api/hotel-rooms-list', async (req, res) => {
-  try {
-    const { hotelInput, checkIn, adults = 2, childAges = [] } = req.body;
-
-    if (!hotelInput) {
-      return res.status(400).json({ success: false, message: 'hotelInput مطلوب' });
-    }
-
-    const isAlmosafer = hotelInput.includes('almosafer.com') || (!hotelInput.includes('almatar.com') && /atg\//i.test(hotelInput));
-    if (isAlmosafer) {
-      const resolved = await resolveAlmosaferDetails(hotelInput);
-      const hotelId = resolved.hotelId;
-      if (!hotelId) throw new Error('رابط المسافر لا يحتوي معرّف الفندق');
-
-      const today = new Date().toISOString().slice(0, 10);
-      const effectiveIn = (checkIn && checkIn >= today) ? checkIn : today;
-
-      const cacheKey = `almosafer_${hotelId}_${adults}_${(childAges || []).join('-')}_${effectiveIn}`;
-      const cached = hotelRoomsCache.get(cacheKey);
-      if (cached && Date.now() - cached.timestamp < 300000 && !req.body.refresh) {
-        return res.json({
-          success: true,
-          rooms: cached.rooms,
-          hotelName: resolved.hotelName,
-          hotelNameEn: resolved.hotelNameEn || resolved.hotelName,
-          hotelId,
-          source: 'almosafer',
-        });
-      }
-
-      let resPackages = {};
-      let attempts = 0;
-      let currentDate = effectiveIn;
-      let connectionError = null;
-
-      while (attempts < 4) {
-        const nextDate = new Date(Date.parse(`${currentDate}T12:00:00Z`) + 86400000).toISOString().slice(0, 10);
-        try {
-          const res = await enigmaClient({
-            hotelId: String(hotelId),
-            checkIn: currentDate,
-            checkOut: nextDate,
-            roomsInfo: [{ adultsCount: Number(adults) || 2, kidsAges: Array.isArray(childAges) ? childAges : [] }],
-            currency: 'SAR',
-          });
-          if (res && Object.keys(res).length > 0) {
-            resPackages = res;
-            break;
-          }
-        } catch (err) {
-          console.warn(`[ALMOSAFER ROOMS] Attempt failed for ${currentDate}:`, err.message);
-          if (/جلسة|403|401|انتهت مهلة|fetch failed|econnrefused/i.test(err.message)) {
-            connectionError = err.message;
-            break;
-          }
-        }
-        currentDate = new Date(Date.parse(`${currentDate}T12:00:00Z`) + 86400000).toISOString().slice(0, 10);
-        attempts++;
-      }
-
-      if (connectionError && Object.keys(resPackages).length === 0) {
-        return res.status(502).json({
-          success: false,
-          message: `تعذر الاتصال بالمسافر: ${connectionError}`,
-          hotelName: resolved.hotelName,
-          hotelId,
-          source: 'almosafer',
-        });
-      }
-
-      const roomNames = [...new Set(
-        Object.values(resPackages)
-          .map(r => r.name || r.category)
-          .filter(Boolean)
-      )];
-
-      if (roomNames.length > 0) {
-        hotelRoomsCache.set(cacheKey, { rooms: roomNames, timestamp: Date.now() });
-      }
-
-      return res.json({
-        success: true,
-        rooms: roomNames,
-        hotelName: resolved.hotelName,
-        hotelNameEn: resolved.hotelNameEn || resolved.hotelName,
-        hotelId,
-        source: 'almosafer',
-      });
-    }
-
-    const resolved = await resolveAlmatar(hotelInput);
-    const profile = resolved.hotelProfileKey;
-    const hotelId = resolved.hotelId;
-    if (!profile || !hotelId) throw new Error('رابط المطار لا يحتوي معرّف الفندق');
-
-    const effectiveIn = checkIn || new Date(Date.now() + 86400000).toISOString().slice(0, 10);
-    const nextD = new Date(Date.parse(`${effectiveIn}T12:00:00Z`) + 86400000);
-    const effectiveOut = nextD.toISOString().slice(0, 10);
-
-    const cacheKey = `${hotelId}_${adults}_${(childAges || []).join('-')}_${effectiveIn}`;
-    const cached = hotelRoomsCache.get(cacheKey);
-    if (cached && Date.now() - cached.timestamp < 300000 && !req.body.refresh) {
-      return res.json({
-        success: true,
-        rooms: cached.rooms,
-        hotelName: resolved.hotelName,
-        hotelNameEn: resolved.hotelNameEn || resolved.hotelName,
-        hotelId,
-      });
-    }
-
-    const countryCode = resolved.countryCode || (/mecca|makkah|jeddah|riyadh|medina/i.test(hotelInput) ? 'SA' : '');
-
-    const data = await fetchOneNight({
-      hotelId,
-      hotelProfileKey: profile,
-      countryCode,
-      checkIn: effectiveIn,
-      checkOut: effectiveOut,
-      adults: Number(adults) || 2,
-      childAges: Array.isArray(childAges) ? childAges : [],
-      fastRoomsOnly: true,
-    });
-
-    if (!data.available) {
-      return res.json({
-        success: true,
-        rooms: [],
-        hotelName: resolved.hotelName,
-        hotelNameEn: resolved.hotelNameEn || resolved.hotelName,
-        hotelId,
-      });
-    }
-
-    // Extract unique room names
-    const roomNames = [...new Set((data.rooms || []).map(r => r.roomName).filter(Boolean))];
-    if (roomNames.length > 0) {
-      hotelRoomsCache.set(cacheKey, { rooms: roomNames, timestamp: Date.now() });
-    }
-    res.json({
-      success: true,
-      rooms: roomNames,
-      hotelName: resolved.hotelName,
-      hotelNameEn: resolved.hotelNameEn || resolved.hotelName,
-      hotelId,
-    });
-  } catch (error) {
-    console.error('Error in /api/hotel-rooms-list:', error);
-    res.status(500).json({ success: false, message: error.message });
+  try { res.json(await hotelRooms(req.body)); }
+  catch (error) {
+    console.warn('[HOTEL ROOMS FAILURE]', error.message);
+    res.status(error.status || 502).json({ success: false, message: error.message, source: error.source || detectHotelSource(req.body.hotelInput), upstreamStatus: error.upstreamStatus, code: error.code, diagnosticId: error.diagnosticId });
   }
 });
 

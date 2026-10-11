@@ -31,3 +31,5 @@ almatar-raw.json
 check_kingsgate.js
 test_math.js
 frontend/
+__pycache__/
+*.py[cod]

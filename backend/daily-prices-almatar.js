@@ -6,12 +6,12 @@ const resolve = createAlmatarResolver();
 const DAY_NAMES = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
 const normalize = value => String(value || '').normalize('NFKC').replace(/\s+/g, ' ').trim();
 
-export async function fetchOneNight({ hotelId, hotelProfileKey, countryCode = 'SA', checkIn, checkOut, adults = 2, childAges = [], rooms = 1, fastRoomsOnly = false }, queryImpl = query) {
+export async function fetchOneNight({ hotelId, hotelProfileKey, countryCode = 'SA', checkIn, checkOut, adults = 2, childAges = [], rooms = 1, fastRoomsOnly = false, refresh = !fastRoomsOnly }, queryImpl = query) {
   const groups = await queryImpl({
     hotelId, hotelProfileKey, countryCode, checkIn, checkOut, currency: 'SAR',
     roomsInfo: Array.from({ length: rooms }, () => ({ adultsCount: adults, kidsAges: childAges })),
     fastRoomsOnly,
-  }, { refresh: !fastRoomsOnly });
+  }, { refresh });
   const offers = [];
   for (const group of Object.values(groups)) {
     for (const [field, offer] of Object.entries(group.offers)) {

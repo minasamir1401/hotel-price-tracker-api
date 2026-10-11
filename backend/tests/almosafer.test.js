@@ -2,7 +2,6 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createEnigmaClient,parsePackages} from '../scrapers/enigma.js';
 import {createLiveScraper,datePairs} from '../scrapers/almosafer-live.js';
-import {resolveAlmosaferDetails} from '../scrapers/almosafer.js';
 import {buildComparison} from '../scrapers/index.js';
 import {readBedOptions,matchBeds,validateBedFilter} from '../scrapers/beds.js';
 import {createAlmosaferSessionProvider} from '../scrapers/almosafer-session.js';
@@ -10,6 +9,8 @@ const payload={hotelId:'1287944',checkIn:'2026-10-25',checkOut:'2026-10-26',curr
 const offer=(basis,total,flex=false,name='غرفة ستاندرد',roomCount=1)=>({bookable:true,packageId:`${basis}-${total}`,rooms:Array.from({length:roomCount},()=>({roomName:{ar:name},roomBasis:basis})),packageRateInfo:{total,currency:'SAR'},cancellationPolicy:{hasFreeCancellation:flex}});
 const poll=(packages,status='COMPLETED_SUCCESSFULLY')=>({hotelId:1287944,currencyCode:'SAR',numberOfNights:1,pollingStatus:status,packagesGroups:[{title:{ar:'غرفة ستاندرد'},packages}]});
 const response=data=>({ok:true,json:async()=>data});
+// These price aggregation tests isolate the resolver; they never call the live autocomplete API.
+const fixtureResolver=async input=>({hotelId:input==='Unknown Hotel'?null:'1287944',hotelName:'كينجزجيت ديار',baseSlug:'hotel/details/atg/hotel-1287944'});
 
 const sessionPage = token => ({ok:true,text:async()=>`<script type="application/json" id="__NEXT_DATA__">${JSON.stringify({props:{pageProps:{APIToken:token}}})}</script>`});
 
@@ -190,7 +191,7 @@ test('A poll that never completes is bounded and cannot produce a price',async()
 });
 test('Each night and exact room is independent; missing breakfast/room/error remain null through summary',async()=>{
   const params={hotelInput:'كينجزجيت ديار',checkIn:'2026-10-23',checkOut:'2026-10-27',adults:2,rooms:1};
-  const scraper=createLiveScraper(resolveAlmosaferDetails,async p=>{
+  const scraper=createLiveScraper(fixtureResolver,async p=>{
     if(p.checkIn==='2026-10-26') throw new Error('network timeout');
     if(p.checkIn==='2026-10-24') return parsePackages(poll([offer('RO',400,false,'غرفة أخرى')]),2,1);
     return parsePackages(poll([offer('RO',p.checkIn==='2026-10-23'?200:714.4),...(p.checkIn==='2026-10-23'?[offer('BB',300)]:[])]),2,1);
@@ -206,7 +207,7 @@ test('Each night and exact room is independent; missing breakfast/room/error rem
   assert.equal(result.summary.almosaferBreakfast,null);
 });
 test('Correct decimal totals for variable nightly prices and multiple rooms',async()=>{
-  const scraper=createLiveScraper(resolveAlmosaferDetails,async p=>parsePackages(poll([offer('RO',p.checkIn==='2026-10-01'?460.22:500.44,false,'غرفة ستاندرد',2)]),2,2));
+  const scraper=createLiveScraper(fixtureResolver,async p=>parsePackages(poll([offer('RO',p.checkIn==='2026-10-01'?460.22:500.44,false,'غرفة ستاندرد',2)]),2,2));
   const [room]=await scraper({hotelInput:'كينجزجيت ديار',checkIn:'2026-10-01',checkOut:'2026-10-03',adults:2,rooms:2});
   assert.equal(room.roomOnlyTotalPrice,960.66);
   assert.equal(room.roomOnlyPricePerNight,240.17);
@@ -214,14 +215,14 @@ test('Correct decimal totals for variable nightly prices and multiple rooms',asy
   assert.equal(new URL(room.bookingUrl).searchParams.get('checkin'),'01-10-2026');assert.equal(new URL(room.bookingUrl).searchParams.get('rooms'),'2_adult*2_adult');
 });
 test('Odd package cents stay exact when split across multiple rooms',async()=>{
-  const scraper=createLiveScraper(resolveAlmosaferDetails,async()=>parsePackages(poll([offer('RO',460.23,false,'غرفة ستاندرد',2)]),2,2));
+  const scraper=createLiveScraper(fixtureResolver,async()=>parsePackages(poll([offer('RO',460.23,false,'غرفة ستاندرد',2)]),2,2));
   const [room]=await scraper({hotelInput:'كينجزجيت ديار',checkIn:'2026-10-01',checkOut:'2026-10-03',adults:2,rooms:2});
   assert.equal(room.roomOnlyTotalPrice,920.46);
 });
 test('Invalid dates, unresolved hotels and children without ages are rejected',async()=>{
   assert.throws(()=>datePairs('2026-02-30','2026-03-05'));
   assert.throws(()=>datePairs('2026-10-25','2026-10-25'));
-  const scraper=createLiveScraper(resolveAlmosaferDetails,async()=>assert.fail('must not request'));
+  const scraper=createLiveScraper(fixtureResolver,async()=>assert.fail('must not request'));
   await assert.rejects(scraper({hotelInput:'Unknown Hotel',checkIn:'2026-10-25',checkOut:'2026-10-26'}),/رابط الفندق/);
   await assert.rejects(scraper({hotelInput:'كينجزجيت',checkIn:'2026-10-25',checkOut:'2026-10-26',children:1}),/أعمار الأطفال/);
 });
@@ -253,13 +254,13 @@ test('Exact bed count/type are filtered, and unknown beds require an explicit ch
   const twin=offer('RO',500);twin.rooms[0].rmsDetail={locale:{ar:{bedding:'٢ سرير فردي'}}};
   const king=offer('RO',400);king.rooms[0].rmsDetail={locale:{ar:{bedding:'١ سرير كينج'}}};
   const unknown=offer('RO',300,false,'غرفة سوبيريور');
-  const scraper=createLiveScraper(resolveAlmosaferDetails,async()=>parsePackages(poll([twin,king,unknown]),2,1));
+  const scraper=createLiveScraper(fixtureResolver,async()=>parsePackages(poll([twin,king,unknown]),2,1));
   const params={hotelInput:'كينجزجيت',checkIn:'2026-10-25',checkOut:'2026-10-26',bedCount:2,bedType:'single'};
   const exact=await scraper(params);assert.equal(exact.length,1);assert.equal(exact[0].bedFilterStatus,'matched');assert.equal(exact[0].roomOnlyTotalPrice,500);
   const include=await scraper({...params,includeUnknownBeds:true});assert.equal(include.length,2);assert.equal(include.find(r=>r.roomName==='غرفة سوبيريور').bedFilterStatus,'unknown');
 });
 test('Supplier template changes do not create missing nights for the same explicitly described beds',async()=>{
-  const scraper=createLiveScraper(resolveAlmosaferDetails,async p=>{
+  const scraper=createLiveScraper(fixtureResolver,async p=>{
     const pkg=offer('RO',p.checkIn==='2026-10-01'?100:120);pkg.rooms[0]={...pkg.rooms[0],originalRoomName:p.checkIn==='2026-10-01'?'Twin Room':'Standard Twin Room',templateId:p.checkIn==='2026-10-01'?11:12,rmsDetail:{locale:{ar:{bedding:'٢ سرير فردي'}}}};
     return parsePackages(poll([pkg]),2,1);
   });
@@ -268,7 +269,7 @@ test('Supplier template changes do not create missing nights for the same explic
 });
 test('Fresh repair recovers empty and failed nights without copying another date',async()=>{
   const calls=new Map();
-  const scraper=createLiveScraper(resolveAlmosaferDetails,async(p,options)=>{
+  const scraper=createLiveScraper(fixtureResolver,async(p,options)=>{
     const n=(calls.get(p.checkIn)||0)+1;calls.set(p.checkIn,n);
     if(n===1&&p.checkIn==='2026-10-02')return {};
     if(n===1&&p.checkIn==='2026-10-03')throw new Error('temporary timeout');

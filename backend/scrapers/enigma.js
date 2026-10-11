@@ -1,5 +1,7 @@
 import {readBedOptions} from './beds.js';
 import {createAlmosaferSessionProvider, webUserAgent} from './almosafer-session.js';
+import { upstreamHttpError, UpstreamError } from './upstream-error.js';
+import { recordSourceSuccess, recordSourceFailure } from './source-status.js';
 const plans = { RO: 'roomOnly', BB: 'breakfast', HB: 'halfBoard' };
 export const roundMoney = value => Math.round((value + Number.EPSILON) * 100) / 100;
 const localized = value => typeof value === 'string' ? value : value?.ar || value?.en || '';
@@ -55,10 +57,11 @@ export function parsePackages(poll, adults, roomsCount) {
   return result;
 }
 
-export function createEnigmaClient({ fetchImpl = fetch, sleep = ms => new Promise(r => setTimeout(r, ms)), now = Date.now, token, cacheTTL = 120000, sessionProvider } = {}) {
+export function createEnigmaClient({ fetchImpl = fetch, sleep = ms => new Promise(r => setTimeout(r, ms)), now = Date.now, token = process.env.ALMOSAFER_API_TOKEN?.trim(), cacheTTL = 120000, sessionProvider } = {}) {
   const cache = new Map();
   const pending = new Map();
   const getSessionToken = sessionProvider || createAlmosaferSessionProvider({fetchImpl, now});
+  let overrideRejected = false;
   const headers = {
     'User-Agent': webUserAgent,
     Accept: 'application/json', 'Content-Type': 'application/json',
@@ -71,16 +74,18 @@ export function createEnigmaClient({ fetchImpl = fetch, sleep = ms => new Promis
   async function json(url, options, deadline, requestHeaders) {
     const remaining = deadline - now();
     if (remaining <= 0) throw new Error('انتهت مهلة استعلام هذه الليلة');
-    const res = await fetchImpl(url, { headers: requestHeaders, signal: AbortSignal.timeout(Math.min(20000,remaining)), ...options });
+    let res;
+    try { res = await fetchImpl(url, { headers: requestHeaders, signal: AbortSignal.timeout(Math.min(20000,remaining)), ...options }); }
+    catch { throw new UpstreamError('تعذر الاتصال بالمسافر أو انتهت مهلة الطلب', { source: 'almosafer', stage: url.includes('/poll/') ? 'poll' : 'packages', code: 'UPSTREAM_NETWORK_ERROR' }); }
     if (!res.ok) {
-      if (!token && (res.status === 401 || res.status === 403)) getSessionToken.invalidate?.();
-      throw new Error(`المسافر HTTP ${res.status}`);
+      if (res.status === 401 || res.status === 403) { overrideRejected = true; getSessionToken.invalidate?.(); }
+      throw await upstreamHttpError(res, { stage: url.includes('/poll/') ? 'poll' : 'packages', url });
     }
     return res.json();
   }
   async function query(payload, deadline) {
     // Use the public web token; the injected placeholder general-key changes the offer pool.
-    const sessionToken = token || await getSessionToken(payload, deadline);
+    const sessionToken = token && !overrideRejected ? token : await getSessionToken(payload, deadline);
     const cookieHeader = getSessionToken?.cookieHeader;
     const requestHeaders = {
       ...headers,
@@ -92,7 +97,7 @@ export function createEnigmaClient({ fetchImpl = fetch, sleep = ms => new Promis
     const init = await json('https://www.almosafer.com/api/enigma/v7/packages', { method: 'PUT', body: JSON.stringify(payload) }, deadline, requestHeaders);
     if (!init.pId) throw new Error('لم يرجع المسافر رقم استعلام صالح');
     if (init.pId.startsWith('no-pkg') && !init.hotelId) {
-      if (!token) getSessionToken.invalidate?.();
+      getSessionToken.invalidate?.();
       throw new Error('تعذر تأكيد توفر هذه الليلة: المسافر لم ينشئ استعلام عروض صالحًا');
     }
     if (String(init.hotelId) !== String(payload.hotelId)) throw new Error('المسافر رجع عروض فندق مختلف');
@@ -106,7 +111,7 @@ export function createEnigmaClient({ fetchImpl = fetch, sleep = ms => new Promis
       if (poll.pollingStatus === 'COMPLETED_SUCCESSFULLY') {
         // An empty transport/session response is not proof that the hotel is sold out.
         if (!poll.hotelId || !poll.currencyCode || !poll.numberOfNights || !Array.isArray(poll.packagesGroups)) {
-          if (!token) getSessionToken.invalidate?.();
+          getSessionToken.invalidate?.();
           throw new Error('تعذر تأكيد توفر هذه الليلة: بيانات نتيجة المسافر غير مكتملة');
         }
         if (String(poll.hotelId) !== String(payload.hotelId)) throw new Error('نتيجة الاستعلام تخص فندقًا مختلفًا');
@@ -137,17 +142,18 @@ export function createEnigmaClient({ fetchImpl = fetch, sleep = ms => new Promis
           const value = await query(payload, deadline);
           if (Object.keys(value).length || attempt === maxAttempts - 1) return value;
         } catch (error) {
-          if (attempt === maxAttempts - 1 || error.message.includes('400') || error.message.includes('404')) throw error;
+          if (attempt === maxAttempts - 1 || error.upstreamStatus === 400 || error.upstreamStatus === 404 || error.stage === 'session-bootstrap') throw error;
         }
         await sleep(Math.max(300, 400 * (attempt + 1)));
       }
     })().then(value => {
+      recordSourceSuccess('almosafer');
       // Limit storage and cache only final responses; failed/partial polls never persist.
       for (const [k, entry] of cache) if (entry.expires <= now()) cache.delete(k);
       if (cache.size >= 1000) cache.delete(cache.keys().next().value);
       cache.set(key, { value, expires: now() + (Object.keys(value).length ? cacheTTL : 5000) });
       return value;
-    }).finally(() => pending.delete(key));
+    }).catch(error => { recordSourceFailure('almosafer', error); throw error; }).finally(() => pending.delete(key));
     pending.set(key, promise);
     return promise;
   };

@@ -1,7 +1,9 @@
 import { scrapeAlmosafer } from './almosafer.js';
 import { scrapeAlmatar } from './almatar.js';
+import { scrapeBooking } from './booking.js';
 import { datePairs } from './almosafer-live.js';
 import { roundMoney } from './enigma.js';
+import { recordSourceSuccess, recordSourceFailure } from './source-status.js';
 
 const plans = ['roomOnly','breakfast','halfBoard'];
 export function buildComparison(searchParams, allRooms, warnings = []) {
@@ -63,18 +65,19 @@ export function buildComparison(searchParams, allRooms, warnings = []) {
   return {success:true,data:allRooms,summary,warnings};
 }
 
-export async function executeHotelComparison(searchParams, engines={almosafer:scrapeAlmosafer,almatar:scrapeAlmatar}) {
+export async function executeHotelComparison(searchParams, engines={almosafer:scrapeAlmosafer,almatar:scrapeAlmatar,booking:scrapeBooking}) {
   const sources=searchParams.sources || ['almosafer'];
   const warnings=[];
   let allRooms=[];
   const selected=sources.filter(source=>engines[source]);
+  if (!selected.length || selected.length !== sources.length) { const error = new Error('مصادر البحث غير صالحة'); error.status = 400; throw error; }
   const outcomes=await Promise.allSettled(selected.map(source=>engines[source](searchParams)));
   for(let i=0;i<outcomes.length;i++) {
     const outcome=outcomes[i];
-    if(outcome.status==='fulfilled'){allRooms.push(...outcome.value);warnings.push(...(outcome.value.filterWarnings || []));}
-    else warnings.push(`${selected[i]==='almatar'?'المطار':'المسافر'}: ${outcome.reason.message}`);
+    if(outcome.status==='fulfilled'){recordSourceSuccess(selected[i]);allRooms.push(...outcome.value);warnings.push(...(outcome.value.filterWarnings || []));}
+    else { recordSourceFailure(selected[i], outcome.reason); warnings.push(`${({almatar:'المطار',almosafer:'المسافر',booking:'بوكينج'})[selected[i]] || selected[i]}: ${outcome.reason.message}`); }
   }
-  if(outcomes.length&&outcomes.every(x=>x.status==='rejected'))throw new Error(warnings.join(' • '));
+  if(outcomes.length&&outcomes.every(x=>x.status==='rejected')) { const error = outcomes[0].reason; error.message = warnings.join(' • '); throw error; }
   for(const room of allRooms) for(const warning of room.warnings || []) {
     const text=`${warning.date}: ${warning.message}`;
     if(!warnings.includes(text)) warnings.push(text);
