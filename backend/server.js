@@ -6,12 +6,28 @@ process.on('uncaughtException', err => {
 process.on('unhandledRejection', reason => {
   console.error('[UNHANDLED REJECTION]', reason);
 });
+import fs from 'node:fs';
+import path from 'node:path';
+
+// Automatically load local env configuration if present
+for (const envPath of [
+  path.resolve(process.cwd(), '.env'),
+  path.resolve(process.cwd(), '../.env'),
+  path.resolve(process.cwd(), '../outputs/booking-app-probe/server.env'),
+  path.resolve(process.cwd(), 'outputs/booking-app-probe/server.env'),
+]) {
+  if (fs.existsSync(envPath) && typeof process.loadEnvFile === 'function') {
+    try { process.loadEnvFile(envPath); } catch {}
+  }
+}
+
 import express from 'express';
 import cors from 'cors';
 import { executeHotelComparison } from './scrapers/index.js';
 import { fetchDailyPricesAlmatar, fetchOneNight } from './daily-prices-almatar.js';
 import { createAlmatarResolver } from './scrapers/almatar.js';
 import { resolveAlmosaferDetails, almosaferClient } from './scrapers/almosafer.js';
+import { startAlmosaferTokenScheduler } from './scrapers/almosafer-browser.js';
 import { bookingConfigured } from './scrapers/booking-client.js';
 import { bookingClient, resolveBookingDetails } from './scrapers/booking.js';
 import { sourceSnapshot } from './scrapers/source-status.js';
@@ -313,6 +329,7 @@ app.use((err, req, res, next) => {
 
 const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`Backend server running on port ${PORT}`);
+  startAlmosaferTokenScheduler();
 });
 server.timeout = 600000;
 server.keepAliveTimeout = 610000;

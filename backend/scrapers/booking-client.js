@@ -14,10 +14,15 @@ export function bookingHotelId(input) {
   try {
     const url = new URL(text);
     assert(url.hostname === 'booking.com' || url.hostname.endsWith('.booking.com'), 'استخدم رابط Booking أو booking: ثم رقم الفندق');
-    const id = url.searchParams.get('hotel_id') || url.searchParams.get('hotelId') || (url.searchParams.get('dest_type') === 'hotel' ? url.searchParams.get('dest_id') : null);
+    const id = url.searchParams.get('hotel_id') ||
+      url.searchParams.get('hotelId') ||
+      url.searchParams.get('sr_hotel_id') ||
+      (url.searchParams.get('dest_type') === 'hotel' ? url.searchParams.get('dest_id') : null) ||
+      url.pathname.match(/-(\d{5,})\.[a-z]{2,5}$/)?.[1] ||
+      url.pathname.match(/\/hotel\/(\d{5,})/)?.[1];
     if (/^[1-9]\d*$/.test(id || '')) return id;
   } catch (error) { if (error.message.startsWith('Booking:')) throw error; }
-  fail('يلزم معرّف الفندق: booking:184752 مثلًا، أو رابط Booking يحتوي hotel_id أو dest_id مع dest_type=hotel. رابط الاسم وحده غير مدعوم حاليًا.');
+  fail('يلزم معرّف الفندق: booking:184752 مثلًا، أو رابط Booking يحتوي hotel_id أو dest_id مع dest_type=hotel.');
 }
 
 export function validateBookingOccupancy(roomsInfo) {
@@ -67,7 +72,7 @@ export function normalizeBookingRooms(payload, request) {
     if (Number(block.is_block_fit) !== 1 || Number(block.nr_adults) !== adults || Number(block.nr_children) !== 0) continue;
     assert(Number(block.fit_occupancy?.nr_adults) === adults && Array.isArray(block.fit_occupancy?.children_ages) && block.fit_occupancy.children_ages.length === 0, 'إشغال العرض غير مطابق');
     assert(block.min_price?.currency === 'SAR', 'عملة العرض غير مطابقة');
-    const price = Number(block.min_price.price);
+    const price = Number(block.min_price?.price);
     assert(Number.isFinite(price) && price > 0, 'سعر العرض غير صالح');
     assert(['breakfast_included', 'half_board', 'full_board', 'all_inclusive'].every(k => [0, 1].includes(Number(block[k]))), 'بيانات الوجبات غير مكتملة');
     assert([0, 1].includes(Number(block.refundable)), 'بيانات الإلغاء غير مكتملة');

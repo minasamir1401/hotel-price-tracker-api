@@ -1,4 +1,5 @@
 import { almosaferOrigin } from './almosafer-origin.js';
+import { getAlmosaferSession } from './almosafer-browser.js';
 export const webUserAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36';
 
 import { upstreamHttpError, UpstreamError } from './upstream-error.js';
@@ -60,8 +61,27 @@ export function createAlmosaferSessionProvider({fetchImpl = fetch, now = Date.no
           } catch { /* ignore */ }
         }
       } catch (httpErr) {
-        if (httpErr instanceof UpstreamError) throw httpErr;
-        throw new UpstreamError('تعذر تهيئة جلسة المسافر: فشل الاتصال بالمصدر', { source: 'almosafer', stage: 'session-bootstrap', code: 'UPSTREAM_NETWORK_ERROR' });
+        if (fetchImpl === fetch) {
+          try {
+            const browserSession = await getAlmosaferSession({ hotelId: payload.hotelId, origin, forceRefresh: true });
+            token = browserSession.token;
+            cookieHeader = browserSession.cookieHeader || cookieHeader;
+          } catch {
+            if (httpErr instanceof UpstreamError) throw httpErr;
+            throw new UpstreamError('تعذر تهيئة جلسة المسافر: فشل الاتصال بالمصدر', { source: 'almosafer', stage: 'session-bootstrap', code: 'UPSTREAM_NETWORK_ERROR' });
+          }
+        } else {
+          if (httpErr instanceof UpstreamError) throw httpErr;
+          throw new UpstreamError('تعذر تهيئة جلسة المسافر: فشل الاتصال بالمصدر', { source: 'almosafer', stage: 'session-bootstrap', code: 'UPSTREAM_NETWORK_ERROR' });
+        }
+      }
+
+      if ((typeof token !== 'string' || !token.trim()) && fetchImpl === fetch) {
+        try {
+          const browserSession = await getAlmosaferSession({ hotelId: payload.hotelId, origin, forceRefresh: true });
+          token = browserSession.token;
+          cookieHeader = browserSession.cookieHeader || cookieHeader;
+        } catch { /* ignore */ }
       }
 
       if (typeof token !== 'string' || !token.trim()) {
@@ -78,6 +98,9 @@ export function createAlmosaferSessionProvider({fetchImpl = fetch, now = Date.no
   session.invalidate = () => {
     cached = null;
     session.cookieHeader = null;
+    if (fetchImpl === fetch) {
+      getAlmosaferSession({ forceRefresh: true }).catch(() => {});
+    }
   };
   return session;
 }

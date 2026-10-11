@@ -33,3 +33,4 @@ test_math.js
 frontend/
 __pycache__/
 *.py[cod]
+.audio-tools/

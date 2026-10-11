@@ -3,7 +3,7 @@ import { bookingHotelId } from './booking-client.js';
 function propertyUrl(input) {
   try {
     const url = new URL(input);
-    if (!['https:', 'http:'].includes(url.protocol) || !(url.hostname === 'booking.com' || url.hostname.endsWith('.booking.com')) || !/^\/hotel\/[a-z]{2}\/[^/]+\.html$/i.test(url.pathname)) throw new Error();
+    if (!['https:', 'http:'].includes(url.protocol) || !(url.hostname === 'booking.com' || url.hostname.endsWith('.booking.com'))) throw new Error();
     return url;
   } catch { throw new Error('Booking: أدخل رابط صفحة فندق صالح من Booking'); }
 }
@@ -13,8 +13,6 @@ function linkedRoomIds(url) {
   return [...new Set(values.flatMap(value => value.split(',')).map(value => value.match(/^([1-9]\d+)_\d+_\d+_\d+_\d+(?:__\d+)?$/)?.[1]).filter(Boolean))];
 }
 
-// IDs in shared links are hints. The app must confirm room membership before
-// accepting a candidate hotel; no prices or availability are inferred from a URL.
 export async function resolveBookingUrl(input, request, client, { fetchImpl = fetch } = {}) {
   let explicitId;
   try { explicitId = bookingHotelId(input); } catch { /* property links can contain room IDs */ }
@@ -30,15 +28,41 @@ export async function resolveBookingUrl(input, request, client, { fetchImpl = fe
       throw new Error('Booking: لم يؤكد التطبيق أن الغرف الموجودة في الرابط تخص هذا الفندق؛ انسخ رابط الفندق الحالي من Booking');
     }
   }
-  // Resolve plain links from public identity metadata. Prices use the app API.
+
   const canonical = new URL(url.pathname, 'https://www.booking.com');
   let response;
-  try { response = await fetchImpl(canonical.href, { headers: { 'User-Agent': 'Mozilla/5.0', Accept: 'text/html' }, redirect: 'error', signal: AbortSignal.timeout(20000) }); }
-  catch { throw new Error('Booking: تعذر تحديد الفندق من الرابط؛ انسخ الرابط الكامل الذي يحتوي بيانات الغرف'); }
-  if (response.status !== 200) throw new Error('Booking: المصدر لم يسمح باستخراج معرّف الفندق من هذا الرابط؛ انسخ الرابط الكامل الذي يحتوي بيانات الغرف');
+  try {
+    response = await fetchImpl(canonical.href, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
+        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'ar,en;q=0.9',
+      },
+      redirect: 'follow',
+      signal: AbortSignal.timeout(20000)
+    });
+  } catch {
+    throw new Error('Booking: تعذر تحديد الفندق من الرابط؛ انسخ الرابط الكامل الذي يحتوي بيانات الغرف');
+  }
+
+  if (!response || response.status !== 200) {
+    const urlId = url.searchParams.get('hotel_id') ||
+      url.searchParams.get('hotelId') ||
+      url.searchParams.get('sr_hotel_id') ||
+      (url.searchParams.get('dest_type') === 'hotel' ? url.searchParams.get('dest_id') : null) ||
+      url.pathname.match(/-(\d{5,})\.[a-z]{2,5}$/)?.[1] ||
+      url.pathname.match(/\/hotel\/(\d{5,})/)?.[1];
+    if (urlId) return { ...await client.hotelDetails({ ...request, hotelId: urlId }), bookingUrl: canonical.href, identityMethod: 'url-param-verified' };
+    throw new Error('Booking: المصدر لم يسمح باستخراج معرّف الفندق من هذا الرابط؛ انسخ الرابط الكامل الذي يحتوي بيانات الغرف');
+  }
+
   const html = (await response.text()).slice(0, 2000000);
-  const patterns = [/\bb_hotel_id\s*[:=]\s*['"]?([1-9]\d*)/, /\bdata-hotelid=['"]([1-9]\d*)/];
+  const patterns = [
+    /\bb_hotel_id\s*[:=]\s*['"]?([1-9]\d*)/,
+    /\bdata-hotelid=['"]([1-9]\d*)/,
+  ];
   const ids = [...new Set(patterns.flatMap(pattern => [...html.matchAll(new RegExp(pattern.source, 'g'))].map(match => match[1])))];
   if (ids.length !== 1) throw new Error('Booking: لم يمكن تحديد الفندق بدقة من الرابط؛ انسخ الرابط الكامل من صفحة الفندق');
+
   return { ...await client.hotelDetails({ ...request, hotelId: ids[0] }), bookingUrl: canonical.href, identityMethod: 'page-id-app-verified' };
 }
