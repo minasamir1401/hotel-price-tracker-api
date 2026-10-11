@@ -39,7 +39,7 @@ export function createAlmosaferSessionProvider({fetchImpl = almosaferFetch, now 
             'Accept-Language': 'ar,en-US;q=0.9,en;q=0.8',
             'Accept-Encoding': 'gzip, deflate, br',
             'Cache-Control': 'max-age=0',
-            'sec-ch-ua': '"Chromium";v="124", "Not-A.Brand";v="99", "Google Chrome";v="124"',
+            'sec-ch-ua': '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
             'sec-ch-ua-mobile': '?0',
             'sec-ch-ua-platform': '"Windows"',
             'sec-fetch-dest': 'document',

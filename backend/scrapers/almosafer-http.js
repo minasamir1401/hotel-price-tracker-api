@@ -4,7 +4,7 @@ import { almosaferOrigin } from './almosafer-origin.js';
 import { almosaferConnection } from './almosafer-connection.js';
 import { isChallengeResponse } from './challenge-response.js';
 
-export const webUserAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
+export const webUserAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36';
 const workerPath = fileURLToPath(new URL('./almosafer-http-worker.py', import.meta.url));
 
 // One public cookie jar per origin, with concurrent requests and bounded deadlines.
