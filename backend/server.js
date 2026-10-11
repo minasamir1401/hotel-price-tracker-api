@@ -27,7 +27,7 @@ import { executeHotelComparison } from './scrapers/index.js';
 import { fetchDailyPricesAlmatar, fetchOneNight } from './daily-prices-almatar.js';
 import { createAlmatarResolver } from './scrapers/almatar.js';
 import { resolveAlmosaferDetails, almosaferClient } from './scrapers/almosafer.js';
-import { startAlmosaferTokenScheduler } from './scrapers/almosafer-browser.js';
+import { almosaferFetch } from './scrapers/almosafer-http.js';
 import { bookingConfigured } from './scrapers/booking-client.js';
 import { bookingClient, resolveBookingDetails } from './scrapers/booking.js';
 import { sourceSnapshot } from './scrapers/source-status.js';
@@ -54,6 +54,7 @@ app.get('/health', (req, res) => {
 app.get('/api/system-status', (req, res) => {
   const now = new Date();
   const sourceDetails = Object.fromEntries(['almosafer', 'almatar', 'booking'].map(source => [source, sourceSnapshot(source, source !== 'booking' || bookingConfigured())]));
+  sourceDetails.almosafer.transport = process.env.ALMOSAFER_HTTP_TRANSPORT === 'curl' ? 'curl' : 'native';
   res.json({
     ...Object.fromEntries(Object.entries(sourceDetails).map(([source, state]) => [source, state.status])),
     sourceDetails,
@@ -329,7 +330,6 @@ app.use((err, req, res, next) => {
 
 const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`Backend server running on port ${PORT}`);
-  startAlmosaferTokenScheduler();
 });
 server.timeout = 600000;
 server.keepAliveTimeout = 610000;
@@ -338,6 +338,7 @@ server.requestTimeout = 600000;
 
 const shutdown = (signal) => {
   console.log(`[SHUTDOWN] Received ${signal}, closing server...`);
+  almosaferFetch.close();
   server.close(() => {
     console.log('[SHUTDOWN] Server closed cleanly.');
     process.exit(0);

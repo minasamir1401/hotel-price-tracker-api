@@ -32,5 +32,6 @@ export async function upstreamHttpError(response, { source = 'almosafer', label 
     code: response.status === 403 ? 'UPSTREAM_ACCESS_DENIED' : response.status === 401 ? 'UPSTREAM_AUTH_REJECTED' : 'UPSTREAM_HTTP_ERROR',
   });
   error.upstreamHost = new URL(url).hostname;
+  error.responseKind = kind;
   return error;
 }

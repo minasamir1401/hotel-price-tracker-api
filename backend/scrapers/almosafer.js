@@ -3,6 +3,7 @@ import { createLiveScraper } from './almosafer-live.js';
 import { createAlmosaferSessionProvider, webUserAgent } from './almosafer-session.js';
 import { upstreamHttpError } from './upstream-error.js';
 import { almosaferOrigin, almosaferInputOrigin } from './almosafer-origin.js';
+import { almosaferFetch } from './almosafer-http.js';
 const autocompleteSessions = new Map();
 
 export async function resolveAlmosaferDetails(hotelInput, { checkIn, checkOut, rooms = 1, adults = 2 } = {}) {
@@ -90,7 +91,7 @@ export async function resolveAlmosaferDetails(hotelInput, { checkIn, checkOut, r
         'x-locale': 'ar',
         ...(autocompleteSession.cookieHeader ? { Cookie: autocompleteSession.cookieHeader } : {}),
       };
-      const res = await fetch(`${sourceOrigin}/api/enigma/autocomplete?query=${encodeURIComponent(query)}`, {
+      const res = await almosaferFetch(`${sourceOrigin}/api/enigma/autocomplete?query=${encodeURIComponent(query)}`, {
         headers,
         signal: AbortSignal.timeout(6000),
       });

@@ -4,3 +4,4 @@ import './almatar.test.js';
 import './daily-prices.test.js';
 import './booking.test.js';
 import './connection.test.js';
+import './http-transport.test.js';

@@ -3,6 +3,7 @@ import {createAlmosaferSessionProvider, webUserAgent} from './almosafer-session.
 import { upstreamHttpError, UpstreamError } from './upstream-error.js';
 import { recordSourceSuccess, recordSourceFailure } from './source-status.js';
 import { almosaferOrigin } from './almosafer-origin.js';
+import { almosaferFetch } from './almosafer-http.js';
 const plans = { RO: 'roomOnly', BB: 'breakfast', HB: 'halfBoard' };
 export const roundMoney = value => Math.round((value + Number.EPSILON) * 100) / 100;
 const localized = value => typeof value === 'string' ? value : value?.ar || value?.en || '';
@@ -58,7 +59,7 @@ export function parsePackages(poll, adults, roomsCount) {
   return result;
 }
 
-export function createEnigmaClient({ fetchImpl = fetch, sleep = ms => new Promise(r => setTimeout(r, ms)), now = Date.now, token = process.env.ALMOSAFER_API_TOKEN?.trim(), cacheTTL = 120000, sessionProvider, origin = almosaferOrigin() } = {}) {
+export function createEnigmaClient({ fetchImpl = almosaferFetch, sleep = ms => new Promise(r => setTimeout(r, ms)), now = Date.now, token = process.env.ALMOSAFER_API_TOKEN?.trim(), cacheTTL = 120000, sessionProvider, origin = almosaferOrigin() } = {}) {
   origin = almosaferOrigin(origin);
   const cache = new Map();
   const pending = new Map();
@@ -93,7 +94,10 @@ export function createEnigmaClient({ fetchImpl = fetch, sleep = ms => new Promis
       ...headers,
       token: sessionToken,
       Referer: `${origin}/ar/hotel/details/atg/hotel-${payload.hotelId}`,
+      'sec-ch-ua': '"Chromium";v="124", "Not-A.Brand";v="99", "Google Chrome";v="124"',
+      'sec-ch-ua-mobile': '?0',
       'sec-ch-ua-platform': '"Windows"',
+      'sec-fetch-site': 'same-origin', 'sec-fetch-mode': 'cors', 'sec-fetch-dest': 'empty',
       ...(cookieHeader ? { Cookie: cookieHeader } : {}),
     };
     const init = await json(`${origin}/api/enigma/v7/packages`, { method: 'PUT', body: JSON.stringify(payload) }, deadline, requestHeaders);
@@ -144,7 +148,7 @@ export function createEnigmaClient({ fetchImpl = fetch, sleep = ms => new Promis
           const value = await query(payload, deadline);
           if (Object.keys(value).length || attempt === maxAttempts - 1) return value;
         } catch (error) {
-          if (attempt === maxAttempts - 1 || error.upstreamStatus === 400 || error.upstreamStatus === 404 || error.stage === 'session-bootstrap') throw error;
+          if (attempt === maxAttempts - 1 || error.upstreamStatus === 400 || error.upstreamStatus === 404 || error.stage === 'session-bootstrap' || error.responseKind === 'challenge') throw error;
         }
         await sleep(Math.max(300, 400 * (attempt + 1)));
       }
