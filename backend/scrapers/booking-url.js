@@ -1,4 +1,5 @@
 import { bookingHotelId } from './booking-client.js';
+import { resolveBookingHotelIdViaBrowser } from './almosafer-browser.js';
 
 function propertyUrl(input) {
   try {
@@ -53,6 +54,14 @@ export async function resolveBookingUrl(input, request, client, { fetchImpl = fe
       url.pathname.match(/-(\d{5,})\.[a-z]{2,5}$/)?.[1] ||
       url.pathname.match(/\/hotel\/(\d{5,})/)?.[1];
     if (urlId) return { ...await client.hotelDetails({ ...request, hotelId: urlId }), bookingUrl: canonical.href, identityMethod: 'url-param-verified' };
+
+    if (fetchImpl === fetch) {
+      const browserId = await resolveBookingHotelIdViaBrowser(canonical.href);
+      if (browserId) {
+        return { ...await client.hotelDetails({ ...request, hotelId: browserId }), bookingUrl: canonical.href, identityMethod: 'browser-resolved' };
+      }
+    }
+
     throw new Error('Booking: المصدر لم يسمح باستخراج معرّف الفندق من هذا الرابط؛ انسخ الرابط الكامل الذي يحتوي بيانات الغرف');
   }
 
@@ -62,7 +71,15 @@ export async function resolveBookingUrl(input, request, client, { fetchImpl = fe
     /\bdata-hotelid=['"]([1-9]\d*)/,
   ];
   const ids = [...new Set(patterns.flatMap(pattern => [...html.matchAll(new RegExp(pattern.source, 'g'))].map(match => match[1])))];
-  if (ids.length !== 1) throw new Error('Booking: لم يمكن تحديد الفندق بدقة من الرابط؛ انسخ الرابط الكامل من صفحة الفندق');
+  if (ids.length !== 1) {
+    if (fetchImpl === fetch) {
+      const browserId = await resolveBookingHotelIdViaBrowser(canonical.href);
+      if (browserId) {
+        return { ...await client.hotelDetails({ ...request, hotelId: browserId }), bookingUrl: canonical.href, identityMethod: 'browser-resolved' };
+      }
+    }
+    throw new Error('Booking: لم يمكن تحديد الفندق بدقة من الرابط؛ انسخ الرابط الكامل من صفحة الفندق');
+  }
 
   return { ...await client.hotelDetails({ ...request, hotelId: ids[0] }), bookingUrl: canonical.href, identityMethod: 'page-id-app-verified' };
 }
