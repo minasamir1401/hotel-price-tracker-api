@@ -311,3 +311,31 @@ test('Hotel identity can be verified by recommended property rooms when extra of
   const result = await resolveBookingUrl('https://www.booking.com/hotel/sa/a.html?matching_block_id=1287642305_401714423_2_0_0', input, client);
   assert.equal(result.hotelId, '12876423');
 });
+
+test('Booking price breakdown exactly matches native source net, taxes and deals', () => {
+  const data = payload(), block = data[0].block[0], amount = value => ({ currency: 'SAR', value });
+  block.min_price.price = '78.90';
+  block.product_price_breakdown = {
+    net_amount: amount(61.88),
+    all_inclusive_amount: amount(78.90),
+    excluded_amount: amount(17.02),
+    included_taxes_and_charges_amount: amount(0),
+    strikethrough_amount: amount(165),
+    discounted_amount: amount(103.12),
+    items: [
+      { kind: 'charge', name: 'VAT', item_amount: amount(9.28) },
+      { kind: 'charge', name: 'Cleaning fee', item_amount: amount(6.19) },
+      { kind: 'charge', name: 'Municipality fee', item_amount: amount(1.55) },
+      { kind: 'discount', name: 'Mobile-only price' },
+    ],
+  };
+
+  const quote = Object.values(normalizeBookingRooms(data, input))[0].offers.breakfast;
+  assert.equal(quote.price, 78.90);
+  assert.equal(quote.taxBreakdown.priceBeforeTax, 61.88);
+  assert.equal(quote.taxBreakdown.taxesAndFees, 17.02);
+  assert.equal(quote.originalPriceBeforeTax, 165);
+  assert.equal(quote.discountAmount, 103.12);
+  assert.deepEqual(quote.discountLabels, ['Mobile-only price']);
+});
+

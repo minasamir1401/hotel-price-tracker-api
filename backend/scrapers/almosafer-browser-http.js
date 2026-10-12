@@ -37,9 +37,9 @@ export function createAlmosaferBrowserFetch({ launch = options => chromium.launc
           } catch (error) {
             await browser?.close().catch(()=>{});
             const status=error.message?.match(/\b(401|403|407|429|503)\b/)?.[1];
-            console.warn('[BRIGHT DATA CONNECTION]',JSON.stringify({status:status || null,reason:error.message?.match(/net::ERR_[A-Z_]+|ECONN[A-Z]+|ETIMEDOUT/)?.[0]||'CONNECT_FAILED',detail:safeDetail(error)}));
-            throw new UpstreamError(status==='407'?'Bright Data: بيانات مصادقة Browser API غير صحيحة؛ راجع كلمة مرور المنطقة':'تعذر الاتصال بـ Bright Data؛ راجع بيانات Browser API ورصيد الخدمة',
-              {source:'almosafer',stage:'browser-connect',code:status==='407'?'BRIGHTDATA_AUTH_FAILED':'BRIGHTDATA_CONNECTION_FAILED',status:503});
+            console.warn('[REMOTE BROWSER CONNECTION]',JSON.stringify({status:status || null,reason:error.message?.match(/net::ERR_[A-Z_]+|ECONN[A-Z]+|ETIMEDOUT/)?.[0]||'CONNECT_FAILED',detail:safeDetail(error)}));
+            throw new UpstreamError(status==='407'?'بيانات مصادقة المتصفح البعيد غير صحيحة':'تعذر الاتصال بالمتصفح البعيد؛ راجع إعدادات الاتصال',
+              {source:'almosafer',stage:'browser-connect',code:status==='407'?'BROWSER_AUTH_FAILED':'BROWSER_CONNECTION_FAILED',status:503});
           }
         }
         const options = resolveBrowserLaunchOptions({ headless });

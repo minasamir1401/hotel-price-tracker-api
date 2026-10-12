@@ -9,15 +9,19 @@ const assert = (ok, message) => { if (!ok) fail(message); };
 const clean = value => String(value || '').replace(/<[^>]*>/g, '').trim();
 
 export function bookingHotelId(input) {
-  const text = String(input || '').trim();
+  let text = String(input || '').trim();
   if (/^(?:booking:)?[1-9]\d*$/i.test(text)) return text.replace(/^booking:/i, '');
+  if (!text.startsWith('http://') && !text.startsWith('https://') && /^(?:www\.)?booking\.com/i.test(text)) {
+    text = 'https://' + text;
+  }
   try {
     const url = new URL(text);
     assert(url.hostname === 'booking.com' || url.hostname.endsWith('.booking.com'), 'استخدم رابط Booking أو booking: ثم رقم الفندق');
     const id = url.searchParams.get('hotel_id') ||
       url.searchParams.get('hotelId') ||
       url.searchParams.get('sr_hotel_id') ||
-      (url.searchParams.get('dest_type') === 'hotel' ? url.searchParams.get('dest_id') : null) ||
+      url.searchParams.get('highlighted_hotels') ||
+      (url.searchParams.get('dest_type') === 'hotel' || url.searchParams.get('source') === 'hotel' ? url.searchParams.get('dest_id') : null) ||
       url.pathname.match(/-(\d{5,})\.[a-z]{2,5}$/)?.[1] ||
       url.pathname.match(/\/hotel\/(\d{5,})/)?.[1];
     if (/^[1-9]\d*$/.test(id || '')) return id;
@@ -50,7 +54,16 @@ function bedsForRoom(room) {
   for (const configuration of room.bed_configurations || []) {
     const parts = (configuration.bed_types || []).map(b => {
       const name = String(b.name || b.name_with_count || '').toLowerCase();
-      const type = /super.king|extra.large|king/.test(name) ? 'king' : /queen/.test(name) ? 'queen' : /single|twin/.test(name) ? 'single' : /double/.test(name) ? 'double' : null;
+      const bedTypeNum = Number(b.bed_type);
+      const type = bedTypeNum === 1 || /فردي|single|twin/i.test(name)
+        ? 'single'
+        : bedTypeNum === 2 || /مزدوج|دبل|double/i.test(name)
+        ? 'double'
+        : /super.king|extra.large|king|كينج|كبير/i.test(name)
+        ? 'king'
+        : /queen|كوين/i.test(name)
+        ? 'queen'
+        : null;
       return { count: Number(b.count), type, label: clean(b.name_with_count || b.name) };
     });
     if (!parts.length || parts.some(p => !p.type || !Number.isInteger(p.count) || p.count < 1)) continue;
@@ -134,9 +147,11 @@ export function normalizeBookingRooms(payload, request) {
       roomAmenities: [...new Set((room.highlights || []).map(item=>clean(item.translated_name)).filter(Boolean))],
       offers: {} };
     const refundable = Number(block.refundable) === 1;
+    // Account discounts must already be in Booking's quote; a local flag cannot change prices or taxes.
     const offer = {
       price, totalPrice: price, packageId: block.block_id, roomId,
-      source: 'Booking Android app API', priceField: 'mobile.roomList.block.min_price.price',
+      source: 'Booking Android app API',
+      priceField: 'mobile.roomList.block.min_price.price',
       priceBasis: 'source-display-price-with-requested-taxes', currency: 'SAR',
       taxBreakdown: bookingPriceBreakdown(block, price),
       capacityAdults: Number(block.nr_adults),
@@ -147,7 +162,6 @@ export function normalizeBookingRooms(payload, request) {
       paymentType: block.paymentterms?.prepayment?.type || null,
       ...bookingDisplayDetails(block),
       mealLabel: ({ roomOnly: 'إقامة فقط', breakfast: 'إقامة وإفطار', halfBoard: 'نصف إقامة' })[plan], mealLabelFromSource: clean(block.mealplan), refundable,
-    // Account discounts must already be in Booking's quote; a local flag cannot change prices or taxes.
       refundableUntil: block.refundable_until || null,
       cancellationPolicy: refundable ? `إلغاء مجاني حسب شروط العرض${block.refundable_until ? ` حتى ${block.refundable_until}` : ''}` : 'غير قابل للاسترداد',
     };
@@ -206,11 +220,27 @@ export function createBookingClient({ env = process.env, fetchImpl = fetch } = {
   const cache = new Map(), pending = new Map(), catalogs = new Map(), catalogPending = new Map();
   async function request(endpoint, params) {
     assert(bookingConfigured(env), 'إعدادات الاتصال بالتطبيق غير موجودة على الخادم');
-    const query = new URLSearchParams({ user_version: `${env.BOOKING_APP_VERSION}-android`, languagecode: 'en-gb', user_os: '15', device_id: deviceId, network_type: 'wifi', display: 'normal_xxhdpi', ...params }).toString();
+    const query = new URLSearchParams({
+      user_version: `${env.BOOKING_APP_VERSION}-android`,
+      languagecode: env.BOOKING_LANGUAGE || 'ar',
+      user_os: '15',
+      device_id: deviceId,
+      network_type: 'wifi',
+      display: 'normal_xxhdpi',
+      ...(env.BOOKING_AUTH_TOKEN ? { auth_token: env.BOOKING_AUTH_TOKEN } : {}),
+      ...params,
+    }).toString();
     let response;
     try {
       response = await fetchImpl(`https://mobile-apps.booking.com/json/${endpoint}?${query}`, {
-        headers: { Authorization: env.BOOKING_APP_AUTHORIZATION, 'B-S': `1,${createHash('sha1').update(query + env.BOOKING_APP_SIGNATURE_SALT).digest('hex')}`, Accept: 'application/json', 'X-LIBRARY': 'okhttp+network-api', 'User-Agent': `Booking.com Android App ${env.BOOKING_APP_VERSION} (OS: 15; Type: mobile; AppStore: google; Brand: Google; Model: Pixel 8;)` },
+        headers: {
+          Authorization: env.BOOKING_APP_AUTHORIZATION,
+          'B-S': `1,${createHash('sha1').update(query + env.BOOKING_APP_SIGNATURE_SALT).digest('hex')}`,
+          Accept: 'application/json',
+          'X-LIBRARY': 'okhttp+network-api',
+          'User-Agent': `Booking.com Android App ${env.BOOKING_APP_VERSION} (OS: 15; Type: mobile; AppStore: google; Brand: Google; Model: Pixel 8;)`,
+          ...(env.BOOKING_AUTH_TOKEN ? { 'X-Access-Token': env.BOOKING_AUTH_TOKEN } : {}),
+        },
         signal: AbortSignal.timeout(25000), redirect: 'error',
       });
     } catch { throw new UpstreamError('Booking: تعذر الاتصال بواجهة التطبيق أو انتهت مهلة الطلب', { source: 'booking', stage: endpoint, code: 'UPSTREAM_NETWORK_ERROR' }); }
@@ -219,7 +249,18 @@ export function createBookingClient({ env = process.env, fetchImpl = fetch } = {
   }
   const paramsFor = input => {
     const adults = validateBookingOccupancy(input.roomsInfo);
-    return { hotel_id: input.hotelId, currency_code: 'SAR', arrival_date: input.checkIn, departure_date: input.checkOut, rec_guest_qty: String(adults), rec_room_qty: '1', rec_children_qty: '0', detail_level: '1', include_taxes: '1', show_extra_charges: '1', include_mealplan: '1', show_occupancy_for_price: '1', include_paymentterms: '1', include_detail_mealplan: '1', include_cancellation_timeline: '1', include_sleeping_clarity: '1', no_html: '1' };
+    return {
+      hotel_id: input.hotelId, currency_code: 'SAR', arrival_date: input.checkIn, departure_date: input.checkOut,
+      rec_guest_qty: String(adults), rec_room_qty: '1', rec_children_qty: '0', detail_level: '1', include_taxes: '1',
+      show_extra_charges: '1', include_mealplan: '1', show_occupancy_for_price: '1', include_paymentterms: '1',
+      include_detail_mealplan: '1', include_cancellation_timeline: '1', include_sleeping_clarity: '1', no_html: '1',
+      show_deals: 'flash,lastm,smart,genius',
+      include_badges_in_price_breakdown: '1',
+      include_genius_badge: '1',
+      include_genius_benefits_per_placement: '1',
+      add_genius_percentage_value: '1',
+      show_genius_free_breakfast: '1',
+    };
   };
   const idsFor = page => {
     assert(Array.isArray(page.block), 'قائمة العروض المقترحة مفقودة');

@@ -32,6 +32,7 @@ import { resolveAlmosaferDetails, almosaferClient } from './scrapers/almosafer.j
 import { almosaferFetch } from './scrapers/almosafer-http.js';
 import { almosaferConnection } from './scrapers/almosafer-connection.js';
 import { bookingConfigured } from './scrapers/booking-client.js';
+import { requestOtp, verifyOtp, clearBookingSession, getBookingSessionData, isBookingSessionActive } from './scrapers/booking-session-store.js';
 import { bookingClient, resolveBookingDetails } from './scrapers/booking.js';
 import { sourceSnapshot } from './scrapers/source-status.js';
 import { createHotelRoomsService, detectHotelSource } from './hotel-rooms-service.js';
@@ -98,6 +99,9 @@ app.post('/api/search-hotel-prices', async (req, res) => {
     } = req.body;
 
     let effectiveHotel = (hotelInput || '').trim();
+    if (!effectiveHotel.startsWith('http://') && !effectiveHotel.startsWith('https://') && /^(?:www\.)?booking\.com/i.test(effectiveHotel)) {
+      effectiveHotel = 'https://' + effectiveHotel;
+    }
     if (!effectiveHotel) {
       return res.json({
         success: true,
@@ -240,13 +244,13 @@ app.post('/api/search-hotel-prices', async (req, res) => {
   }
 });
 
+// Daily prices endpoint - fetches real prices per night from Almatar with streaming support
 app.get('/api/search-jobs/:id',(req,res)=>{
   const job=searchJobs.get(req.params.id);
   if(!job)return res.status(404).json({success:false,message:'المهمة غير موجودة أو انتهت صلاحيتها؛ ابدأ استعلامًا جديدًا'});
   res.set('Cache-Control','no-store').json(job);
 });
 
-// Daily prices endpoint - fetches real prices per night from Almatar with streaming support
 app.post('/api/daily-prices', async (req, res) => {
   req.setTimeout(600000);
   res.setTimeout(600000);
@@ -337,11 +341,43 @@ app.post('/api/daily-prices', async (req, res) => {
 const hotelRooms = createHotelRoomsService({ resolveAlmosafer: resolveAlmosaferDetails, enigmaClient, resolveAlmatar, fetchOneNight, resolveBooking: resolveBookingDetails, bookingClient });
 app.get('/api/hotel-rooms-list', (req, res) => res.status(405).set('Allow', 'POST').json({ success: false, message: 'هذا المسار يستقبل POST من زر تحديث الغرف داخل الموقع' }));
 app.post('/api/hotel-rooms-list', async (req, res) => {
+  console.log('[HOTEL-ROOMS-LIST BODY]', JSON.stringify(req.body));
   try { res.json(await hotelRooms(req.body)); }
   catch (error) {
-    console.warn('[HOTEL ROOMS FAILURE]', error.message);
+    console.warn('[HOTEL ROOMS FAILURE]', error.message, error.diagnosticId);
     res.status(error.status || 502).json({ success: false, message: error.message, source: error.source || detectHotelSource(req.body.hotelInput), upstreamStatus: error.upstreamStatus, stage: error.stage, upstreamHost: error.upstreamHost, code: error.code, diagnosticId: error.diagnosticId });
   }
+});
+
+// Booking account passwordless OTP session management
+app.post('/api/booking-request-otp', (req, res) => {
+  const { email } = req.body || {};
+  const result = requestOtp(email);
+  if (!result.success) return res.status(400).json(result);
+  res.json(result);
+});
+
+app.post('/api/booking-verify-otp', (req, res) => {
+  const { email, code } = req.body || {};
+  const result = verifyOtp(email, code);
+  if (!result.success) return res.status(400).json(result);
+  res.json(result);
+});
+
+app.post('/api/booking-disconnect', (req, res) => {
+  clearBookingSession();
+  console.log('[BOOKING SESSION] Session cleared');
+  res.json({ success: true, message: 'تم إلغاء ربط الحساب بنجاح' });
+});
+
+app.get('/api/booking-session', (req, res) => {
+  const data = getBookingSessionData();
+  res.json({
+    connected: isBookingSessionActive(),
+    email: data?.email || null,
+    geniusLevel: data?.geniusLevel || null,
+    verifiedAt: data?.verifiedAt || null,
+  });
 });
 
 app.use((err, req, res, next) => {

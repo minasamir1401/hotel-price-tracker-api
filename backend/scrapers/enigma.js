@@ -150,7 +150,7 @@ export function createEnigmaClient({ fetchImpl = almosaferFetch, sleep = ms => n
     const promise = (async () => {
       // A slow first poll must not consume the retry's own timeout budget.
       for (let attempt = 0; attempt < maxAttempts; attempt++) {
-        const deadline = now() + (almosaferConnection().transport === 'brightdata' ? 150000 : 45000);
+        const deadline = now() + (almosaferConnection().remote ? 150000 : 45000);
         try {
           const value = await query(payload, deadline);
           if (Object.keys(value).length || attempt === maxAttempts - 1) return value;

@@ -2,8 +2,12 @@ import { bookingHotelId } from './booking-client.js';
 import { resolveBookingHotelIdViaBrowser } from './almosafer-browser.js';
 
 function propertyUrl(input) {
+  let text = String(input || '').trim();
+  if (!text.startsWith('http://') && !text.startsWith('https://') && /^(?:www\.)?booking\.com/i.test(text)) {
+    text = 'https://' + text;
+  }
   try {
-    const url = new URL(input);
+    const url = new URL(text);
     if (!['https:', 'http:'].includes(url.protocol) || !(url.hostname === 'booking.com' || url.hostname.endsWith('.booking.com'))) throw new Error();
     return url;
   } catch { throw new Error('Booking: أدخل رابط صفحة فندق صالح من Booking'); }

@@ -40,11 +40,11 @@ test('Jobs reject invalid inputs before paid execution and enforce the active jo
 test('Failure diagnostics survive polling and completed jobs expire without running work being cancelled',async()=>{
   let time=0;
   const jobs=createSearchJobs({now:()=>time,ttlMs:100,execute:async()=>{
-    throw Object.assign(new Error('Browser connection refused'),{code:'BRIGHTDATA_AUTH_FAILED',diagnosticId:'test-reference'});
+    throw Object.assign(new Error('Browser connection refused'),{code:'BROWSER_AUTH_FAILED',diagnosticId:'test-reference'});
   }});
   const job=jobs.start(month);await flush();
   assert.equal(jobs.get(job.id).status,'failed');
-  assert.deepEqual(jobs.get(job.id).error,{message:'Browser connection refused',code:'BRIGHTDATA_AUTH_FAILED',diagnosticId:'test-reference'});
+  assert.deepEqual(jobs.get(job.id).error,{message:'Browser connection refused',code:'BROWSER_AUTH_FAILED',diagnosticId:'test-reference'});
   time=101;assert.equal(jobs.get(job.id),null);
   assert.equal(jobs.get('missing'),null);
   const failedResult=createSearchJobs({execute:async()=>({success:false,message:'No valid source response'})});

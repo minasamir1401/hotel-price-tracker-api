@@ -67,8 +67,8 @@ test('Invalid payloads, wrong origins and aborts do not trigger paid price retri
   assert.equal(mock.requests.length,1);
 });
 
-test('Bright Data routing supports direct-after-bootstrap and an explicit browser-only override',async()=>{
-  const env={ALMOSAFER_HTTP_TRANSPORT:'brightdata',ALMOSAFER_HANDOFF_HTTP_TRANSPORT:'native',ALMOSAFER_BROWSER_WS_ENDPOINT:'wss://test:password@brd.superproxy.io:9222'};
+test('Remote browser routing supports direct-after-bootstrap and an explicit browser-only override',async()=>{
+  const env={ALMOSAFER_HTTP_TRANSPORT:'browser',ALMOSAFER_HANDOFF_HTTP_TRANSPORT:'native',ALMOSAFER_BROWSER_WS_ENDPOINT:'wss://test:password@remote.example:9222'};
   for(const disabled of [false,true]){
     const mock=mockBrowser();let calls=0;
     const transport=createAlmosaferFetch({env:{...env,...(disabled?{ALMOSAFER_DIRECT_AFTER_BOOTSTRAP:'0'}:{})},createBrowser:()=>mock.browserFetch,nativeFetch:async()=>{calls++;return Response.json({pId:'native',hotelId:'1287944'});}});
@@ -79,9 +79,9 @@ test('Bright Data routing supports direct-after-bootstrap and an explicit browse
   }
 });
 
-test('Bright Data defaults to direct curl with the configured Python and closes its worker',async()=>{
+test('Remote browser defaults to direct curl with the configured Python and closes its worker',async()=>{
   const mock=mockBrowser();let calls=0,closed=0;
-  const env={ALMOSAFER_HTTP_TRANSPORT:'brightdata',ALMOSAFER_BROWSER_WS_ENDPOINT:'wss://test:password@brd.superproxy.io:9222',ALMOSAFER_PYTHON:'configured-python'};
+  const env={ALMOSAFER_HTTP_TRANSPORT:'browser',ALMOSAFER_BROWSER_WS_ENDPOINT:'wss://test:password@remote.example:9222',ALMOSAFER_PYTHON:'configured-python'};
   const curl=async()=>{calls++;return Response.json({pId:'curl-price',hotelId:'1287944'});};
   curl.close=()=>{closed++;};
   const transport=createAlmosaferFetch({env,createBrowser:()=>mock.browserFetch,createCurl:options=>{

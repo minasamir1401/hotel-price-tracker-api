@@ -35,3 +35,9 @@ __pycache__/
 *.py[cod]
 .audio-tools/
 .booking-session.json
+backend/*.mjs
+backend/roomList_full.json
+change-network-temporarily.ps1
+restore-network.ps1
+network-original.txt
+

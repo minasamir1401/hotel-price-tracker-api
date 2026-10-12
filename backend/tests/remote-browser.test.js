@@ -9,19 +9,19 @@ import {almosaferInputOrigin} from '../scrapers/almosafer-origin.js';
 import {createAlmosaferClient} from '../scrapers/almosafer.js';
 import {createEnigmaClient} from '../scrapers/enigma.js';
 
-const endpoint='wss://test-zone:test-password@brd.superproxy.io:9222';
-const env={ALMOSAFER_HTTP_TRANSPORT:'brightdata',ALMOSAFER_BROWSER_WS_ENDPOINT:endpoint};
+const endpoint='wss://test-user:test-password@remote.example:9222';
+const env={ALMOSAFER_HTTP_TRANSPORT:'browser',ALMOSAFER_BROWSER_WS_ENDPOINT:endpoint};
 const origin='https://global.almosafer.com';
 
-test('Bright Data configuration accepts only authenticated Browser API WSS and keeps failures private',()=>{
+test('Remote browser configuration accepts authenticated WebSocket endpoint and keeps failures private',()=>{
   const config=almosaferConnection(env);
-  assert.equal(config.transport,'brightdata');assert.equal(config.proxy,undefined);
+  assert.equal(config.transport,'browser');assert.equal(config.remote,true);assert.equal(config.proxy,undefined);
   assert.equal(config.concurrency,2);assert.equal(config.browserFallback,false);
-  assert.equal(almosaferConnection({ALMOSAFER_BROWSER_WS_ENDPOINT:endpoint}).transport,'brightdata');
+  assert.equal(almosaferConnection({ALMOSAFER_BROWSER_WS_ENDPOINT:endpoint}).remote,true);
   assert.equal(almosaferInputOrigin(origin+'/ar/hotels',{...env,ALMOSAFER_BROWSER_ORIGIN:'https://www.almosafer.com'}),'https://www.almosafer.com');
   assert.equal(almosaferInputOrigin(origin+'/ar/hotels',{}),origin);
   assert.throws(()=>almosaferInputOrigin(origin+'/ar/hotels',{...env,ALMOSAFER_BROWSER_ORIGIN:'https://evil.example'}));
-  for(const url of [endpoint.replace('wss:','https:'),endpoint.replace('9222','9515'),endpoint.replace('brd.superproxy.io','evil.example'),endpoint+'?secret=test-password',endpoint+'/path','invalid-test-password'])
+  for(const url of [endpoint.replace('wss:','https:'),endpoint+'?secret=test-password',endpoint+'#hash','invalid-test-password'])
     assert.throws(()=>almosaferConnection({...env,ALMOSAFER_BROWSER_WS_ENDPOINT:url}),error=>!error.message.includes('test-password'));
 });
 
@@ -76,7 +76,7 @@ test('A first-party redirect retains its cookies and API origin while unrelated 
 test('Cached web tokens do not shorten remote browser startup to a 20-second API deadline',async()=>{
   const oldEndpoint=process.env.ALMOSAFER_BROWSER_WS_ENDPOINT,oldTransport=process.env.ALMOSAFER_HTTP_TRANSPORT;
   const originalTimeout=AbortSignal.timeout,timeouts=[];
-  process.env.ALMOSAFER_HTTP_TRANSPORT='brightdata';process.env.ALMOSAFER_BROWSER_WS_ENDPOINT=endpoint;
+  process.env.ALMOSAFER_HTTP_TRANSPORT='browser';process.env.ALMOSAFER_BROWSER_WS_ENDPOINT=endpoint;
   AbortSignal.timeout=ms=>{timeouts.push(ms);return new AbortController().signal;};
   try{
     const client=createEnigmaClient({token:'cached-public-token',sleep:async()=>{},fetchImpl:async url=>new Response(JSON.stringify(url.includes('/poll/')?
@@ -92,14 +92,14 @@ test('Cached web tokens do not shorten remote browser startup to a 20-second API
 
 test('407 diagnostics conceal credentials and a failed month stops after the initial bounded batch',async()=>{
   const transport=createAlmosaferBrowserFetch({env,connect:async()=>{throw new Error(`WebSocket error ${endpoint} 407 Auth Failed (wrong_password)`);}});
-  try{await assert.rejects(transport(origin+'/ar/hotels-home'),error=>error.code==='BRIGHTDATA_AUTH_FAILED'&&!error.message.includes('test-password'));}
+  try{await assert.rejects(transport(origin+'/ar/hotels-home'),error=>error.code==='BROWSER_AUTH_FAILED'&&!error.message.includes('test-password'));}
   finally{await transport.close();}
   const previous=process.env.ALMOSAFER_BROWSER_WS_ENDPOINT;
   process.env.ALMOSAFER_BROWSER_WS_ENDPOINT=endpoint;
   try{
     let calls=0;
-    const scrape=createLiveScraper(async()=>({hotelId:'1287944'}),async()=>{calls++;throw new UpstreamError('Auth failed',{stage:'browser-connect',source:'almosafer',code:'BRIGHTDATA_AUTH_FAILED'});});
-    await assert.rejects(scrape({hotelInput:'hotel',checkIn:'2026-10-20',checkOut:'2026-11-19'}),error=>error.code==='BRIGHTDATA_AUTH_FAILED');
+    const scrape=createLiveScraper(async()=>({hotelId:'1287944'}),async()=>{calls++;throw new UpstreamError('Auth failed',{stage:'browser-connect',source:'almosafer',code:'BROWSER_AUTH_FAILED'});});
+    await assert.rejects(scrape({hotelInput:'hotel',checkIn:'2026-10-20',checkOut:'2026-11-19'}),error=>error.code==='BROWSER_AUTH_FAILED');
     assert.equal(calls,2);
     let blockedCalls=0;
     const blocked=createLiveScraper(async()=>({hotelId:'1287944'}),async()=>{

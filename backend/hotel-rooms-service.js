@@ -1,11 +1,16 @@
 import { datePairs } from './scrapers/almosafer-live.js';
 import { recordSourceSuccess, recordSourceFailure } from './scrapers/source-status.js';
+import { isBookingSessionActive } from './scrapers/booking-session-store.js';
 
 const invalid = message => { const error = new Error(message); error.status = 400; throw error; };
 export function detectHotelSource(input) {
-  if (/^booking:/i.test(input || '')) return 'booking';
+  let text = String(input || '').trim();
+  if (/^booking:/i.test(text)) return 'booking';
+  if (!text.startsWith('http://') && !text.startsWith('https://') && /^(?:www\.)?booking\.com/i.test(text)) {
+    return 'booking';
+  }
   try {
-    const host = new URL(input).hostname;
+    const host = new URL(text).hostname;
     return ['almosafer', 'almatar', 'booking'].find(source => host === `${source}.com` || host.endsWith(`.${source}.com`)) || null;
   } catch { return null; }
 }
@@ -13,8 +18,11 @@ export function detectHotelSource(input) {
 export function createHotelRoomsService({ resolveAlmosafer, enigmaClient, resolveAlmatar, fetchOneNight, resolveBooking, bookingClient, now = Date.now }) {
   const cache = new Map(), pending = new Map();
   return async function hotelRooms(body) {
-    const hotelInput = String(body.hotelInput || '').trim();
+    let hotelInput = String(body.hotelInput || '').trim();
     if (!hotelInput) invalid('hotelInput مطلوب');
+    if (!hotelInput.startsWith('http://') && !hotelInput.startsWith('https://') && /^(?:www\.)?booking\.com/i.test(hotelInput)) {
+      hotelInput = 'https://' + hotelInput;
+    }
     const detected = detectHotelSource(hotelInput), source = body.source || detected;
     if (!['almosafer', 'almatar', 'booking'].includes(source)) invalid('يرجى تحديد المصدر أو إدخال رابط فندق صالح');
     if (detected && source !== detected) invalid('مصدر البحث لا يطابق رابط الفندق');
@@ -30,7 +38,7 @@ export function createHotelRoomsService({ resolveAlmosafer, enigmaClient, resolv
       datePairs(checkIn, checkOut);
     } catch { invalid('تاريخ الوصول غير صالح'); }
     // Only the requested first night is used for the room selector, never a later date.
-    const params = { checkIn, checkOut, adults, rooms, children, childAges };
+    const params = { checkIn, checkOut, adults, rooms, children, childAges, ...(source === 'booking' ? { geniusActive: isBookingSessionActive() } : {}) };
     const key = JSON.stringify({ source, hotelInput, ...params });
     const cached = cache.get(key);
     if (!body.refresh && cached && cached.expires > now()) return cached.value;
@@ -49,7 +57,7 @@ export function createHotelRoomsService({ resolveAlmosafer, enigmaClient, resolv
         names = (data.rooms || []).map(room => room.roomName);
       } else {
         details = await resolveBooking(hotelInput, params);
-        const rates = await bookingClient.rooms({ hotelId: details.hotelId, checkIn, checkOut, roomsInfo: [{ adultsCount: adults, kidsAges: childAges }] }, { refresh: Boolean(body.refresh) });
+        const rates = await bookingClient.rooms({ hotelId: details.hotelId, checkIn, checkOut, roomsInfo: [{ adultsCount: adults, kidsAges: childAges }], geniusActive: isBookingSessionActive() }, { refresh: Boolean(body.refresh) });
         names = Object.values(rates).map(room => room.name);
       }
       recordSourceSuccess(source);

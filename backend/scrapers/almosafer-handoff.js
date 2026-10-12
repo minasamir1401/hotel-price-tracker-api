@@ -1,7 +1,7 @@
 import {almosaferOrigin} from './almosafer-origin.js';
 import {isChallengeResponse} from './challenge-response.js';
 
-// Bright Data bootstraps the guest session; price traffic first tries the local
+// Browser session bootstraps the guest session; price traffic first tries the direct
 // HTTP connection. A refusal disables that path for the lifetime of the session.
 // No browser cookies, tokens, endpoint credentials or response bodies are logged.
 export function createAlmosaferHandoff({browserFetch,directFetch=fetch,directTransport='native',now=Date.now,ttlMs=300000}={}) {

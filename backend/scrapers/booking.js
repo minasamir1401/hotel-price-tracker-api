@@ -1,6 +1,7 @@
 import { createLiveScraper, datePairs } from './almosafer-live.js';
 import { createBookingClient, validateBookingOccupancy } from './booking-client.js';
 import { resolveBookingUrl } from './booking-url.js';
+import { isBookingSessionActive } from './booking-session-store.js';
 
 export const bookingClient = createBookingClient();
 export async function resolveBookingDetails(input, params) {
@@ -9,7 +10,13 @@ export async function resolveBookingDetails(input, params) {
   const first = datePairs(params.checkIn, params.checkOut)[0];
   return resolveBookingUrl(input, { checkIn: first.date, checkOut: first.nextDate, roomsInfo }, bookingClient);
 }
-export const scrapeBooking = createLiveScraper(resolveBookingDetails, (input, options) => bookingClient.rooms(input, options), {
+export const scrapeBooking = createLiveScraper(
+  resolveBookingDetails,
+  (input, options) => bookingClient.rooms({
+    ...input,
+    geniusActive: Boolean(options?.geniusActive ?? isBookingSessionActive()),
+  }, options),
+  {
   source: 'Booking', sourceArabic: 'بوكينج',
   bookingURL(details, { checkIn, checkOut, adults }) {
     const url = new URL(details.bookingUrl || 'https://www.booking.com/searchresults.html');

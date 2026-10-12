@@ -123,7 +123,7 @@ export function createAlmosaferClient({createClient=createEnigmaClient,createFet
   const clients = new Map();
   return async function client({ sourceOrigin, ...payload }, options) {
     const origin = almosaferOrigin(sourceOrigin);
-    if(options?.freshSession && almosaferConnection(env).transport==='brightdata') {
+    if(options?.freshSession && almosaferConnection(env).remote) {
       // Only failed nights get a separate, short-lived session. Other jobs keep
       // their shared browser; never close a browser underneath their requests.
       const transport=createFetch({env});

@@ -98,8 +98,13 @@ export function createCurlFetch({ python = process.env.ALMOSAFER_PYTHON || 'pyth
 }
 
 export function createAlmosaferFetch({ env = process.env, nativeFetch = fetch, createCurl = createCurlFetch,
-  createBrowser = async () => (await import('./almosafer-browser-http.js')).createAlmosaferBrowserFetch({env}) } = {}) {
-  let curl, browser, handoff, handoffPending;
+  createBrowser = async () => (await import('./almosafer-browser-http.js')).createAlmosaferBrowserFetch({env}),
+  createScrapingAnt = async () => {
+    const { createScrapingAntFetch } = await import('./scrapingant-fetch.js');
+    const { createKeyPool } = await import('./scrapingant-keys.js');
+    return createScrapingAntFetch({ keyPool: createKeyPool({ env }) });
+  } } = {}) {
+  let curl, browser, handoff, handoffPending, scrapingAnt;
   const browserOrigins = new Set();
   const getBrowser = () => {
     browser ||= Promise.resolve().then(createBrowser).catch(error => { browser = null; throw error; });
@@ -108,7 +113,11 @@ export function createAlmosaferFetch({ env = process.env, nativeFetch = fetch, c
   const transport = async (url, options) => {
     const origin = almosaferOrigin(new URL(url).origin);
     const connection = almosaferConnection(env);
-    if(connection.transport==='brightdata' && env.ALMOSAFER_DIRECT_AFTER_BOOTSTRAP!=='0') {
+    if (connection.transport === 'scrapingant') {
+      scrapingAnt ||= await createScrapingAnt();
+      return scrapingAnt(url, options);
+    }
+    if(connection.remote && env.ALMOSAFER_DIRECT_AFTER_BOOTSTRAP!=='0') {
       handoffPending ||= Promise.resolve().then(async()=>{
         const {createAlmosaferHandoff}=await import('./almosafer-handoff.js');
         // Docker already provides curl_cffi. Use its browser TLS/HTTP2 profile
@@ -122,7 +131,7 @@ export function createAlmosaferFetch({ env = process.env, nativeFetch = fetch, c
       }).catch(error=>{handoffPending=null;throw error;});
       return (await handoffPending)(url,options);
     }
-    if (['browser','brightdata'].includes(connection.transport) || browserOrigins.has(origin)) return (await getBrowser())(url, options);
+    if (connection.transport === 'browser' || browserOrigins.has(origin)) return (await getBrowser())(url, options);
     let response;
     if (connection.transport === 'curl') {
       curl ||= createCurl();
@@ -142,11 +151,18 @@ export function createAlmosaferFetch({ env = process.env, nativeFetch = fetch, c
   transport.close = async () => {
     handoff?.clear();handoff=null;handoffPending=null;
     curl?.close(); curl = null;
+    await scrapingAnt?.close?.(); scrapingAnt = null;
     const previous = browser; browser = null;
     browserOrigins.clear();
     await previous?.then(client => client.close()).catch(() => {});
   };
-  transport.diagnostics=()=>handoff?.snapshot() || {directAfterBootstrap:almosaferConnection(env).transport==='brightdata' && env.ALMOSAFER_DIRECT_AFTER_BOOTSTRAP!=='0',directTransport:env.ALMOSAFER_HANDOFF_HTTP_TRANSPORT || 'curl',state:'unchecked',reason:null,bootstrapRequests:0,directRequests:0,browserApiRequests:0};
+  transport.diagnostics=()=>{
+    const conn=almosaferConnection(env);
+    if(conn.transport==='scrapingant') {
+      return { transport: 'scrapingant', ...(scrapingAnt?.keyPool?.diagnostics?.() || {}) };
+    }
+    return handoff?.snapshot() || {directAfterBootstrap:Boolean(conn.remote) && env.ALMOSAFER_DIRECT_AFTER_BOOTSTRAP!=='0',directTransport:env.ALMOSAFER_HANDOFF_HTTP_TRANSPORT || 'curl',state:'unchecked',reason:null,bootstrapRequests:0,directRequests:0,browserApiRequests:0};
+  };
   return transport;
 }
 

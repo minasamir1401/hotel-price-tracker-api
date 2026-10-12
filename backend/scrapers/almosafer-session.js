@@ -59,8 +59,12 @@ export function createAlmosaferSessionProvider({fetchImpl = almosaferFetch, now 
           const html = await res.text();
           const match = html.match(/<script\b(?=[^>]*\bid=["']__NEXT_DATA__["'])[^>]*>([\s\S]*?)<\/script>/i);
           try {
-            token = match && JSON.parse(match[1]).props?.pageProps?.APIToken;
+            token = match && (JSON.parse(match[1]).props?.pageProps?.APIToken || JSON.parse(match[1]).props?.pageProps?.responseData?.APIToken);
           } catch { /* ignore */ }
+          if (!token) {
+            const tokenMatch = html.match(/"APIToken"\s*:\s*"([^"]+)"/);
+            if (tokenMatch) token = tokenMatch[1];
+          }
         }
       } catch (httpErr) {
         if (httpErr instanceof UpstreamError) throw httpErr;
