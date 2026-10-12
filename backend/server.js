@@ -40,7 +40,9 @@ import {createSearchJobs} from './search-jobs.js';
 const resolveAlmatar = createAlmatarResolver();
 const enigmaClient = almosaferClient;
 const app = express();
-const searchJobs=createSearchJobs({execute:executeHotelComparison});
+const searchJobs=createSearchJobs({execute:async params => params.kind === 'daily-prices'
+  ? { success: true, ...await fetchDailyPricesAlmatar(params) }
+  : executeHotelComparison(params)});
 const PORT = process.env.PORT || 5000;
 
 app.use(cors());
@@ -255,7 +257,8 @@ app.post('/api/daily-prices', async (req, res) => {
   req.setTimeout(600000);
   res.setTimeout(600000);
 
-  const isStream = Boolean(req.headers.accept?.includes('text/event-stream'));
+  const isStream = req.body.background !== true && Boolean(req.headers.accept?.includes('text/event-stream'));
+  let pingTimer = null;
 
   try {
     const {
@@ -278,7 +281,20 @@ app.post('/api/daily-prices', async (req, res) => {
       return res.status(400).json({ success: false, message: 'hotelInput, checkIn, checkOut مطلوبة' });
     }
 
-    let pingTimer = null;
+    const dailyParams = {
+      kind: 'daily-prices', sources: ['almatar'], hotelInput, checkIn, checkOut,
+      adults: Number(adults), rooms: Number(rooms),
+      childAges: Array.isArray(childAges) ? childAges : [],
+      roomKeywords: Array.isArray(roomKeywords) ? roomKeywords : (roomKeywords ? [roomKeywords] : []),
+      concurrency: Math.min(6, Math.max(1, Number(concurrency) || 4)),
+      roomName, bedCount: Number(bedCount), bedType,
+      includeUnknownBeds: Boolean(req.body.includeUnknownBeds), mealPlan,
+    };
+    if (req.body.background === true) {
+      const job = searchJobs.start(dailyParams);
+      return res.status(202).set('Cache-Control', 'no-store').json({ success: true, jobId: job.id, status: job.status });
+    }
+
     if (isStream) {
       res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
       res.setHeader('Cache-Control', 'no-cache, no-transform');
@@ -298,16 +314,7 @@ app.post('/api/daily-prices', async (req, res) => {
     console.log(`[SCRAPE START] Hotel: ${hotelInput}, Room: ${roomName || 'All'}, Dates: ${checkIn} -> ${checkOut}, Stream: ${isStream}`);
 
     const data = await fetchDailyPricesAlmatar({
-      hotelInput,
-      checkIn,
-      checkOut,
-      adults: Number(adults),
-      childAges: Array.isArray(childAges) ? childAges : [],
-      roomKeywords: Array.isArray(roomKeywords) ? roomKeywords : (roomKeywords ? [roomKeywords] : []),
-      concurrency: Math.min(6, Math.max(1, Number(concurrency) || 4)),
-      rooms: Number(rooms), roomName, bedCount: Number(bedCount), bedType,
-      includeUnknownBeds: Boolean(req.body.includeUnknownBeds),
-      mealPlan,
+      ...dailyParams,
       onProgress: (p) => {
         const percent = p.total > 0 ? Math.round((p.completed / p.total) * 100) : 0;
         console.log(`[SCRAPE PROGRESS] ${p.completed}/${p.total} (${percent}%) - ${p.currentDay || ''}`);
@@ -329,12 +336,13 @@ app.post('/api/daily-prices', async (req, res) => {
 
     res.json({ success: true, ...data });
   } catch (error) {
+    if (pingTimer) clearInterval(pingTimer);
     console.error('Error in /api/daily-prices:', error);
     if (isStream) {
       res.write(`data: ${JSON.stringify({ type: 'error', message: error.message, code: error.code, diagnosticId: error.diagnosticId })}\n\n`);
       return res.end();
     }
-    res.status(500).json({ success: false, message: error.message });
+    res.status(error.status || 500).json({ success: false, message: error.message, code: error.code, diagnosticId: error.diagnosticId });
   }
 });
 
@@ -387,7 +395,7 @@ app.use((err, req, res, next) => {
   }
 });
 
-const server = app.listen(PORT, '0.0.0.0', () => {
+export const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`Backend server running on port ${PORT}`);
 });
 server.timeout = 600000;

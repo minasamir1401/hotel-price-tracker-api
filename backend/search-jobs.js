@@ -27,7 +27,10 @@ export function createSearchJobs({execute,now=Date.now,maxActive=2,ttlMs=1800000
       }
       const j={id:randomUUID(),key,status:'running',createdAt:now(),updatedAt:now(),progress:{completed:0,total:nights,percent:0},result:null,error:null};
       jobs.set(j.id,j);
-      Promise.resolve().then(()=>execute({...input,onProgress:p=>{j.progress=p;j.updatedAt=now();}})).then(result=>{
+      Promise.resolve().then(()=>execute({...input,onProgress:p=>{
+        j.progress={...p,percent:p.percent ?? (p.total>0 ? Math.round(p.completed/p.total*100) : 0)};
+        j.updatedAt=now();
+      }})).then(result=>{
         j.result=result;j.status=result.success===false?'failed':'completed';
         if(j.status==='failed')j.error={message:result.message||result.error||'فشل الاستعلام',code:result.code,diagnosticId:result.diagnosticId};
       }).catch(error=>{
