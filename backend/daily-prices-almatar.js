@@ -1,10 +1,10 @@
 import { createAlmatarClient } from './scrapers/almatar-client.js';
 import { createAlmatarResolver } from './scrapers/almatar.js';
+import { normalizeArabicText, roomNameMatches } from './scrapers/arabic-norm.js';
 
 const query = createAlmatarClient();
 const resolve = createAlmatarResolver();
 const DAY_NAMES = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
-const normalize = value => String(value || '').normalize('NFKC').replace(/\s+/g, ' ').trim();
 
 export async function fetchOneNight({ hotelId, hotelProfileKey, countryCode = 'SA', checkIn, checkOut, adults = 2, childAges = [], rooms = 1, fastRoomsOnly = false, refresh = !fastRoomsOnly }, queryImpl = query) {
   const groups = await queryImpl({
@@ -47,8 +47,11 @@ export function createDailyPricesFetcher({ queryImpl = query, resolveImpl = reso
         const pool = data.rooms.filter(offer => {
           const basePlan = offer.plan.replace(/Flexible$/, '');
           const names = offer.originalNames || [offer.roomName];
-          const matchesName = !roomName || names.some(name => normalize(name) === normalize(roomName));
-          const matchesKeywords = roomKeywords.length === 0 || roomKeywords.every(word => normalize(offer.roomName).includes(normalize(word)));
+          const matchesName = !roomName || names.some(name => roomNameMatches(name, roomName));
+          const matchesKeywords = roomKeywords.length === 0 || roomKeywords.every(word => {
+            const wNorm = normalizeArabicText(word);
+            return normalizeArabicText(offer.roomName).includes(wNorm);
+          });
           const matchesMeal = !mealPlan || basePlan === mealPlan;
           const matchesBeds = Boolean(roomName) || (!bedCount && bedType === 'any') || (includeUnknownBeds && (!offer.beds || !offer.beds.length)) || offer.beds?.some(bed => bed.options?.some(option => (!bedCount || option.count === bedCount) && (bedType === 'any' || option.type === bedType)));
           return matchesName && matchesKeywords && matchesMeal && matchesBeds;

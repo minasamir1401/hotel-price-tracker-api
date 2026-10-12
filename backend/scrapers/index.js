@@ -4,6 +4,7 @@ import { scrapeBooking } from './booking.js';
 import { datePairs } from './almosafer-live.js';
 import { roundMoney } from './enigma.js';
 import { recordSourceSuccess, recordSourceFailure } from './source-status.js';
+import { roomNameMatches } from './arabic-norm.js';
 
 const plans = ['roomOnly','breakfast','halfBoard'];
 export function buildComparison(searchParams, allRooms, warnings = []) {
@@ -12,10 +13,31 @@ export function buildComparison(searchParams, allRooms, warnings = []) {
   const selectedRoomName = searchParams.roomName || searchParams.roomKeywords?.[0];
   let match = null;
   if (selectedRoomName) {
-    match = allRooms.find(r => r.roomName && (r.roomName === selectedRoomName || r.roomName.includes(selectedRoomName)));
+    const candidates = allRooms.filter(r => r.roomName && (
+      r.roomName === selectedRoomName ||
+      r.roomName.includes(selectedRoomName) ||
+      roomNameMatches(r.roomName, selectedRoomName)
+    ));
+    if (candidates.length > 0) {
+      candidates.sort((a, b) => {
+        const aAvail = Math.max(a.breakfastAvailableNights || 0, a.roomOnlyAvailableNights || 0, a.halfBoardAvailableNights || 0);
+        const bAvail = Math.max(b.breakfastAvailableNights || 0, b.roomOnlyAvailableNights || 0, b.halfBoardAvailableNights || 0);
+        if (bAvail !== aAvail) return bAvail - aAvail;
+        const pA = a.pricePerNight ?? 999999;
+        const pB = b.pricePerNight ?? 999999;
+        return pA - pB;
+      });
+      match = candidates[0];
+    }
   }
   if (!match) {
-    match = allRooms.find(r => r.capacityAdults === adults) || allRooms[0];
+    const sorted = [...allRooms].sort((a, b) => {
+      const aAvail = Math.max(a.breakfastAvailableNights || 0, a.roomOnlyAvailableNights || 0, a.halfBoardAvailableNights || 0);
+      const bAvail = Math.max(b.breakfastAvailableNights || 0, b.roomOnlyAvailableNights || 0, b.halfBoardAvailableNights || 0);
+      if (bAvail !== aAvail) return bAvail - aAvail;
+      return (a.pricePerNight ?? 999999) - (b.pricePerNight ?? 999999);
+    });
+    match = sorted.find(r => r.capacityAdults === adults) || sorted[0];
   }
   if (!allRooms.length) return { success:true, data:[], summary:null, warnings };
   const dayNames = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];

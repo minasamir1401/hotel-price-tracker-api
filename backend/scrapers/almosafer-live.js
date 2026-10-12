@@ -1,6 +1,7 @@
 import { roundMoney } from './enigma.js';
 import {validateBedFilter,matchBeds} from './beds.js';
 import { almosaferConnection } from './almosafer-connection.js';
+import { roomNameMatches } from './arabic-norm.js';
 
 export function datePairs(checkIn, checkOut) {
   const start = Date.parse(`${checkIn}T12:00:00Z`);
@@ -135,10 +136,38 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
       return candidates[0];
     }
 
+    function findSameNameRoom(dayMap, sampleRoom) {
+      if (!dayMap || !sampleRoom) return null;
+      const candidates = Object.values(dayMap).filter(cand => cand && cand.offers && Object.keys(cand.offers).length > 0 && roomNameMatches(cand.name, sampleRoom.name));
+      if (!candidates.length) return null;
+      const sampleBedType = sampleRoom?.beds?.[0]?.options?.[0]?.type;
+      const sampleBedCount = sampleRoom?.beds?.[0]?.options?.[0]?.count;
+
+      candidates.sort((a, b) => {
+        const aBedType = a.beds?.[0]?.options?.[0]?.type;
+        const aBedCount = a.beds?.[0]?.options?.[0]?.count;
+        const bBedType = b.beds?.[0]?.options?.[0]?.type;
+        const bBedCount = b.beds?.[0]?.options?.[0]?.count;
+
+        const aBedMatch = (sampleBedType && aBedType === sampleBedType ? 3 : 0) + (sampleBedCount && aBedCount === sampleBedCount ? 2 : 0);
+        const bBedMatch = (sampleBedType && bBedType === sampleBedType ? 3 : 0) + (sampleBedCount && bBedCount === sampleBedCount ? 2 : 0);
+        if (bBedMatch !== aBedMatch) return bBedMatch - aBedMatch;
+
+        const priceA = a.offers.breakfast?.price ?? a.offers.roomOnly?.price ?? a.offers.halfBoard?.price ?? 999999;
+        const priceB = b.offers.breakfast?.price ?? b.offers.roomOnly?.price ?? b.offers.halfBoard?.price ?? 999999;
+        return priceA - priceB;
+      });
+
+      return candidates[0];
+    }
+
     const result = keys.map((key, index) => {
       const sample = maps.find(m=>m?.[key])?.[key];
       const dailyRates = pairs.map((dp,i) => {
-        const room = maps[i]?.[key];
+        let room = maps[i]?.[key];
+        if (!room && maps[i]) {
+          room = findSameNameRoom(maps[i], sample);
+        }
         const alt = (!room && maps[i] && Object.keys(maps[i]).length > 0) ? findBestAlternative(maps[i], sample) : null;
         const d = {
           dayNumber:i+1,
@@ -149,7 +178,7 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
           isWeekend:dp.day===5||dp.day===6,
           availability:maps[i]===null?'error':room?'available':alt?'available_alternative':'unavailable',
           error:errors.find(e=>e.date===dp.date)?.message || null,
-          offers:room?.offers || {},
+          offers:room?.offers || alt?.offers || {},
           isAlternative:Boolean(!room && alt),
           alternativeRoomName:alt?.name || null,
           alternativeOffers:alt?.offers || {}
