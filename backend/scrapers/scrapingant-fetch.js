@@ -87,7 +87,7 @@ export function createScrapingAntFetch({
     const isHtml = isHtmlRequest(targetUrl, options.headers || {});
     const method = (options.method || 'GET').toUpperCase();
     const availableKeys = keyPool.getKeys();
-    const maxRetries = Math.max(1, availableKeys.length);
+    const maxRetries = Math.max(availableKeys.length * 3, 6);
 
     let lastError = null;
 
@@ -121,6 +121,19 @@ export function createScrapingAntFetch({
           stage: isHtml ? 'session-bootstrap' : 'api',
           code: 'SCRAPINGANT_NETWORK_ERROR',
         });
+        continue;
+      }
+
+      if (res.status === 409) {
+        await new Promise(r => setTimeout(r, 600 + Math.random() * 400));
+        lastError = new UpstreamError(
+          `تم تجاوز حد التزامن في ScrapingAnt (${keyPool.maskKey(apiKey)}) بحالة 409، جاري التبديل للمفتاح التالي`,
+          {
+            source: 'almosafer',
+            stage: isHtml ? 'session-bootstrap' : 'api',
+            code: 'SCRAPINGANT_CONCURRENCY_LIMIT',
+          }
+        );
         continue;
       }
 

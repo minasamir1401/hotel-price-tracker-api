@@ -188,7 +188,7 @@ app.post('/api/search-hotel-prices', async (req, res) => {
 
       pingTimer = setInterval(() => {
         try { res.write(': ping\n\n'); } catch {}
-      }, 10000);
+      }, 2500);
 
       res.once('close', () => {
         if (pingTimer) clearInterval(pingTimer);
@@ -288,7 +288,7 @@ app.post('/api/daily-prices', async (req, res) => {
 
       pingTimer = setInterval(() => {
         try { res.write(': ping\n\n'); } catch {}
-      }, 10000);
+      }, 2500);
 
       res.once('close', () => {
         if (pingTimer) clearInterval(pingTimer);

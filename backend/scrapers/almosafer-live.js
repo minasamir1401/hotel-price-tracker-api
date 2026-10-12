@@ -1,5 +1,6 @@
 import { roundMoney } from './enigma.js';
 import {validateBedFilter,matchBeds} from './beds.js';
+import { almosaferConnection } from './almosafer-connection.js';
 
 export function datePairs(checkIn, checkOut) {
   const start = Date.parse(`${checkIn}T12:00:00Z`);
@@ -59,11 +60,17 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
       }
     };
     reportProgress(pairs[0]?.date);
-    const remoteBrowser = source === 'Almosafer' && Boolean(process.env.ALMOSAFER_BROWSER_WS_ENDPOINT);
-    const BATCH_SIZE = remoteBrowser ? 2 : 8;
+    const isAlmosafer = source === 'Almosafer';
+    const connection = isAlmosafer ? almosaferConnection() : null;
+    const isScrapingAnt = connection?.transport === 'scrapingant';
+    const remoteBrowser = isAlmosafer && Boolean(connection?.browserEndpoint);
+    const BATCH_SIZE = remoteBrowser ? 2 : (isScrapingAnt ? 2 : 8);
     for (let offset = 0; offset < pairs.length; offset += BATCH_SIZE) {
       const slice = pairs.slice(offset, offset + BATCH_SIZE);
       await Promise.all(slice.map(async (dp, idx) => {
+        if (isScrapingAnt && idx > 0) {
+          await new Promise(r => setTimeout(r, idx * 300));
+        }
         const val = await fetchNight(dp, refresh);
         maps[offset + idx] = val;
         reportProgress(dp.date);
@@ -87,7 +94,7 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
       return maps[i] === null || (!remoteBrowser && !Object.keys(maps[i] || {}).length);
     });
     if (repair.length > 0) {
-      const REPAIR_BATCH = remoteBrowser ? 1 : 4;
+      const REPAIR_BATCH = remoteBrowser ? 1 : (isScrapingAnt ? 1 : 4);
       for (let offset = 0; offset < repair.length; offset += REPAIR_BATCH) {
         await Promise.all(repair.slice(offset, offset + REPAIR_BATCH).map(async ({ dp, i }) => {
           const val = await fetchNight(dp, true, true);
