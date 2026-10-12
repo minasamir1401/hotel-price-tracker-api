@@ -147,6 +147,7 @@ export function normalizeBookingRooms(payload, request) {
       paymentType: block.paymentterms?.prepayment?.type || null,
       ...bookingDisplayDetails(block),
       mealLabel: ({ roomOnly: 'إقامة فقط', breakfast: 'إقامة وإفطار', halfBoard: 'نصف إقامة' })[plan], mealLabelFromSource: clean(block.mealplan), refundable,
+    // Account discounts must already be in Booking's quote; a local flag cannot change prices or taxes.
       refundableUntil: block.refundable_until || null,
       cancellationPolicy: refundable ? `إلغاء مجاني حسب شروط العرض${block.refundable_until ? ` حتى ${block.refundable_until}` : ''}` : 'غير قابل للاسترداد',
     };

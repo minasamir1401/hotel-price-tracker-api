@@ -34,3 +34,4 @@ frontend/
 __pycache__/
 *.py[cod]
 .audio-tools/
+.booking-session.json
