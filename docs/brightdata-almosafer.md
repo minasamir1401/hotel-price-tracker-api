@@ -7,6 +7,7 @@ ALMOSAFER_HTTP_TRANSPORT=brightdata
 ALMOSAFER_BROWSER_WS_ENDPOINT=wss://ZONE_USERNAME:ZONE_PASSWORD@brd.superproxy.io:9222
 ALMOSAFER_BROWSER_ORIGIN=https://www.almosafer.com
 ALMOSAFER_DIRECT_AFTER_BOOTSTRAP=1
+ALMOSAFER_HANDOFF_HTTP_TRANSPORT=curl
 ALMOSAFER_API_TOKEN=
 ALMOSAFER_PROXY_URL=
 ```
@@ -41,6 +42,8 @@ A local Windows comparison after closing the remote browser returned identical r
 For Cloudflare access denial, inspect the diagnostic ID, source host and stage before retrying. `BRIGHTDATA_AUTH_FAILED` is a zone credential problem; a source HTTP 403 after connection is a separate refusal. Resource blocking can be disabled through the transport factory for a bounded diagnostic test; it is not an automatic paid retry loop.
 
 ## Verification
+
+Direct handoff defaults to `curl_cffi` with the nearest supported Chrome TLS/HTTP2 profile matching the exported browser user agent. Guest cookies are replaced when the source session renews. Set `ALMOSAFER_HANDOFF_HTTP_TRANSPORT=native` to use the previous Node HTTP client. This can resolve a protocol fingerprint mismatch; it cannot guarantee acceptance of a different outbound server IP. Source polling now respects the advertised delays (bounded to 0.5–10 seconds) rather than polling early; partial replies remain unverified until completion. Run `python backend/tests/http-worker.test.py` with the pinned HTTP dependencies to verify profile selection and guest cookie renewal.
 
 A live 30-night job for hotel `1287944`, 20 October–19 November 2026, two adults and one room, completed in approximately 185 seconds and returned four source room variants, 30 dated rows per variant and SAR currency. There were confirmed responses for 29 nights; 15 November was explicitly reported as an invalid source query, without a substitute price. Retrying that night with a fresh session succeeded and returned three source rooms. Availability differs by room and date. Backend tests cover shared bootstrap, remote-only connections, privacy, cost-saving failure stops and background job deduplication; frontend tests cover job polling and source diagnostics.
 

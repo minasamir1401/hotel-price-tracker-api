@@ -111,7 +111,13 @@ export function createAlmosaferFetch({ env = process.env, nativeFetch = fetch, c
     if(connection.transport==='brightdata' && env.ALMOSAFER_DIRECT_AFTER_BOOTSTRAP!=='0') {
       handoffPending ||= Promise.resolve().then(async()=>{
         const {createAlmosaferHandoff}=await import('./almosafer-handoff.js');
-        handoff=createAlmosaferHandoff({browserFetch:await getBrowser(),directFetch:nativeFetch});
+        // Docker already provides curl_cffi. Use its browser TLS/HTTP2 profile
+        // with the exported guest cookies instead of Node's TLS fingerprint.
+        const directTransport=env.ALMOSAFER_HANDOFF_HTTP_TRANSPORT || 'curl';
+        if(!['curl','native'].includes(directTransport))throw new Error('إعداد ALMOSAFER_HANDOFF_HTTP_TRANSPORT غير صالح');
+        const directFetch=directTransport==='curl'
+          ? (curl ||= createCurl({python:env.ALMOSAFER_PYTHON || undefined})) : nativeFetch;
+        handoff=createAlmosaferHandoff({browserFetch:await getBrowser(),directFetch,directTransport});
         return handoff;
       }).catch(error=>{handoffPending=null;throw error;});
       return (await handoffPending)(url,options);
@@ -140,7 +146,7 @@ export function createAlmosaferFetch({ env = process.env, nativeFetch = fetch, c
     browserOrigins.clear();
     await previous?.then(client => client.close()).catch(() => {});
   };
-  transport.diagnostics=()=>handoff?.snapshot() || {directAfterBootstrap:almosaferConnection(env).transport==='brightdata' && env.ALMOSAFER_DIRECT_AFTER_BOOTSTRAP!=='0',state:'unchecked',reason:null,bootstrapRequests:0,directRequests:0,browserApiRequests:0};
+  transport.diagnostics=()=>handoff?.snapshot() || {directAfterBootstrap:almosaferConnection(env).transport==='brightdata' && env.ALMOSAFER_DIRECT_AFTER_BOOTSTRAP!=='0',directTransport:env.ALMOSAFER_HANDOFF_HTTP_TRANSPORT || 'curl',state:'unchecked',reason:null,bootstrapRequests:0,directRequests:0,browserApiRequests:0};
   return transport;
 }
 

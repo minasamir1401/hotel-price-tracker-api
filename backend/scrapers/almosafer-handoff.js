@@ -4,7 +4,7 @@ import {isChallengeResponse} from './challenge-response.js';
 // Bright Data bootstraps the guest session; price traffic first tries the local
 // HTTP connection. A refusal disables that path for the lifetime of the session.
 // No browser cookies, tokens, endpoint credentials or response bodies are logged.
-export function createAlmosaferHandoff({browserFetch,directFetch=fetch,now=Date.now,ttlMs=300000}={}) {
+export function createAlmosaferHandoff({browserFetch,directFetch=fetch,directTransport='native',now=Date.now,ttlMs=300000}={}) {
   const states=new Map(),pending=new Map();
   const counters={bootstrapRequests:0,directRequests:0,browserApiRequests:0};
   let last={state:'unchecked',reason:null,lastDirectSuccessAt:null};
@@ -71,6 +71,8 @@ export function createAlmosaferHandoff({browserFetch,directFetch=fetch,now=Date.
     }
     const version=entry.userAgent.match(/Chrome\/(\d+)/)?.[1];
     if(version)headers.set('sec-ch-ua',`"Google Chrome";v="${version}", "Chromium";v="${version}", "Not_A Brand";v="24"`);
+    const platform=/Windows/.test(entry.userAgent)?'Windows':/Macintosh/.test(entry.userAgent)?'macOS':/Android/.test(entry.userAgent)?'Android':'Linux';
+    headers.set('sec-ch-ua-platform',`"${platform}"`);
     const signal=AbortSignal.any([...(options.signal?[options.signal]:[]),AbortSignal.timeout(20000)]);
     try {
       const response=await directFetch(new URL(parsed.pathname+parsed.search,entry.origin).href,{...options,headers,signal,redirect:'error'});
@@ -117,7 +119,7 @@ export function createAlmosaferHandoff({browserFetch,directFetch=fetch,now=Date.
     counters.browserApiRequests++;
     return browserFetch(url,options);
   }
-  handoff.snapshot=()=>({directAfterBootstrap:true,...last,...counters});
+  handoff.snapshot=()=>({directAfterBootstrap:true,directTransport,...last,...counters});
   handoff.clear=()=>{states.clear();pending.clear();last={state:'unchecked',reason:null,lastDirectSuccessAt:null};};
   return handoff;
 }

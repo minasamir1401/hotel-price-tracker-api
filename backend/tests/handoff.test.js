@@ -68,7 +68,7 @@ test('Invalid payloads, wrong origins and aborts do not trigger paid price retri
 });
 
 test('Bright Data routing supports direct-after-bootstrap and an explicit browser-only override',async()=>{
-  const env={ALMOSAFER_HTTP_TRANSPORT:'brightdata',ALMOSAFER_BROWSER_WS_ENDPOINT:'wss://test:password@brd.superproxy.io:9222'};
+  const env={ALMOSAFER_HTTP_TRANSPORT:'brightdata',ALMOSAFER_HANDOFF_HTTP_TRANSPORT:'native',ALMOSAFER_BROWSER_WS_ENDPOINT:'wss://test:password@brd.superproxy.io:9222'};
   for(const disabled of [false,true]){
     const mock=mockBrowser();let calls=0;
     const transport=createAlmosaferFetch({env:{...env,...(disabled?{ALMOSAFER_DIRECT_AFTER_BOOTSTRAP:'0'}:{})},createBrowser:()=>mock.browserFetch,nativeFetch:async()=>{calls++;return Response.json({pId:'native',hotelId:'1287944'});}});
@@ -77,4 +77,26 @@ test('Bright Data routing supports direct-after-bootstrap and an explicit browse
       assert.equal(transport.diagnostics().directAfterBootstrap,!disabled);
     }finally{await transport.close();}
   }
+});
+
+test('Bright Data defaults to direct curl with the configured Python and closes its worker',async()=>{
+  const mock=mockBrowser();let calls=0,closed=0;
+  const env={ALMOSAFER_HTTP_TRANSPORT:'brightdata',ALMOSAFER_BROWSER_WS_ENDPOINT:'wss://test:password@brd.superproxy.io:9222',ALMOSAFER_PYTHON:'configured-python'};
+  const curl=async()=>{calls++;return Response.json({pId:'curl-price',hotelId:'1287944'});};
+  curl.close=()=>{closed++;};
+  const transport=createAlmosaferFetch({env,createBrowser:()=>mock.browserFetch,createCurl:options=>{
+    assert.equal(options.python,'configured-python');return curl;
+  },nativeFetch:()=>{throw new Error('Must use curl');}});
+  assert.equal((await(await transport(api,options)).json()).pId,'curl-price');
+  assert.equal(calls,1);assert.equal(transport.diagnostics().directTransport,'curl');
+  await transport.close();assert.equal(closed,1);
+});
+
+test('Source polling waits the advertised delay and returns only the complete final inventory',async()=>{
+  const {createEnigmaClient}=await import('../scrapers/enigma.js');
+  const waits=[],replies=[{pId:'delay-test',hotelId:'1287944',initialDelayInMillis:6000},
+    {pollingStatus:'IN_PROGRESS',delayInMillis:5000},complete];
+  const client=createEnigmaClient({token:'guest-test',sleep:async ms=>waits.push(ms),fetchImpl:async()=>Response.json(replies.shift())});
+  assert.deepEqual(await client(JSON.parse(options.body),{maxAttempts:1}),{});
+  assert.deepEqual(waits,[6000,5000]);assert.equal(replies.length,0);
 });

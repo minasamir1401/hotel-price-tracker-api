@@ -116,8 +116,8 @@ export function createEnigmaClient({ fetchImpl = almosaferFetch, sleep = ms => n
     if (String(init.hotelId) !== String(payload.hotelId)) throw new Error('المسافر رجع عروض فندق مختلف');
     const rawInitDelay = Number(init.initialDelayInMillis);
     const waitFirst = Number.isFinite(rawInitDelay) && rawInitDelay > 0
-      ? Math.min(1500, Math.max(500, Math.floor(rawInitDelay * 0.4)))
-      : 800;
+      ? Math.min(10000, Math.max(500, rawInitDelay))
+      : 1000;
     await sleep(waitFirst);
     for (let attempt = 0; attempt < 40; attempt++) {
       const poll = await json(`${origin}/api/enigma/v7/packages/poll/${encodeURIComponent(init.pId)}`, {}, deadline, requestHeaders);
@@ -135,8 +135,8 @@ export function createEnigmaClient({ fetchImpl = almosaferFetch, sleep = ms => n
       if (poll.pollingStatus !== 'IN_PROGRESS') throw new Error(`لم يكتمل استعلام المسافر: ${poll.pollingStatus || 'حالة مجهولة'}`);
       const rawPollDelay = Number(poll.delayInMillis);
       const waitPoll = Number.isFinite(rawPollDelay) && rawPollDelay > 0
-        ? Math.min(2000, Math.max(500, Math.floor(rawPollDelay * 0.6)))
-        : 800;
+        ? Math.min(10000, Math.max(500, rawPollDelay))
+        : 1000;
       await sleep(waitPoll);
     }
     throw new Error('انتهت مهلة تحميل جميع عروض المسافر');

@@ -1,5 +1,5 @@
 # Pinned HTTP transport and its dependencies; no browser or phone runtime.
-curl_cffi==0.13.0
+curl_cffi==0.16.3
 cffi==2.1.1
 certifi==2026.7.22
 pycparser==3.11

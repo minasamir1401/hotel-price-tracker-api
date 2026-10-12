@@ -2,15 +2,36 @@
 import asyncio
 import json
 import os
+import re
 import sys
 import time
 from http.cookies import SimpleCookie
 from urllib.parse import urlsplit
 
 from curl_cffi.requests import AsyncSession
+from curl_cffi.requests.impersonate import BrowserTypeLiteral
+from typing import get_args
 
 ORIGINS = {"https://www.almosafer.com", "https://global.almosafer.com"}
 MAX_BODY = 8 * 1024 * 1024
+
+
+def browser_profile(user_agent):
+    """Select the latest supported Chrome fingerprint at or below the source UA."""
+    match = re.search(r"Chrome/(\d+)", user_agent or "")
+    major = int(match.group(1)) if match else 131
+    profiles = [(int(name[6:]), name) for name in get_args(BrowserTypeLiteral)
+                if re.fullmatch(r"chrome\d+", name)]
+    eligible = [profile for profile in profiles if profile[0] <= major]
+    return max(eligible or profiles)[1]
+
+
+def restore_cookies(session, supplied_cookies):
+    # A renewed remote guest session must replace the previous guest's jar.
+    session.cookies.clear()
+    cookies = SimpleCookie()
+    cookies.load(supplied_cookies)
+    session.cookies.update({key: value.value for key, value in cookies.items()})
 
 
 def validate_url(url):
@@ -24,6 +45,7 @@ async def main():
     sys.stdout.reconfigure(encoding="utf-8")
     sys.stdin.reconfigure(encoding="utf-8")
     sessions = {}
+    cookie_sources = {}
     tasks = {}
     slots = asyncio.Semaphore(8)
 
@@ -43,14 +65,13 @@ async def main():
                 supplied_cookies = headers.pop("cookie", headers.pop("Cookie", None))
                 if origin not in sessions:
                     sessions[origin] = AsyncSession(
-                        impersonate="chrome131", trust_env=False, verify=True,
+                        trust_env=False, verify=True,
                         max_clients=8, allow_redirects=False,
                         proxy=os.environ.get("ALMOSAFER_PROXY_URL", "").strip() or None,
                     )
-                    if supplied_cookies:
-                        cookies = SimpleCookie()
-                        cookies.load(supplied_cookies)
-                        sessions[origin].cookies.update({key: value.value for key, value in cookies.items()})
+                if supplied_cookies is not None and cookie_sources.get(origin) != supplied_cookies:
+                    restore_cookies(sessions[origin], supplied_cookies)
+                    cookie_sources[origin] = supplied_cookies
                 chunks = []
                 size = 0
 
@@ -64,6 +85,7 @@ async def main():
                 response = await sessions[origin].request(
                     item.get("method", "GET"), item["url"],
                     headers=headers,
+                    impersonate=browser_profile(headers.get("user-agent", headers.get("User-Agent", ""))),
                     data=item.get("body"), timeout=min(20, remaining),
                     content_callback=receive,
                 )
