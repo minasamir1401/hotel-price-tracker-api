@@ -109,11 +109,10 @@ export function createEnigmaClient({ fetchImpl = almosaferFetch, sleep = ms => n
     };
     const init = await json(`${origin}/api/enigma/v7/packages`, { method: 'PUT', body: JSON.stringify(payload) }, deadline, requestHeaders);
     if (!init.pId) throw new Error('لم يرجع المسافر رقم استعلام صالح');
-    if (init.pId.startsWith('no-pkg') && !init.hotelId) {
-      getSessionToken.invalidate?.();
-      throw new Error('تعذر تأكيد توفر هذه الليلة: المسافر لم ينشئ استعلام عروض صالحًا');
-    }
-    if (String(init.hotelId) !== String(payload.hotelId)) throw new Error('المسافر رجع عروض فندق مختلف');
+    const unverifiedEmpty = init.pId.startsWith('no-pkg') && !init.hotelId;
+    // Some searches initially omit hotel metadata. Poll the returned identifier,
+    // but accept inventory only after the final response confirms the request.
+    if (!unverifiedEmpty && String(init.hotelId) !== String(payload.hotelId)) throw new Error('المسافر رجع عروض فندق مختلف');
     const rawInitDelay = Number(init.initialDelayInMillis);
     const waitFirst = Number.isFinite(rawInitDelay) && rawInitDelay > 0
       ? Math.min(10000, Math.max(500, rawInitDelay))
@@ -125,14 +124,17 @@ export function createEnigmaClient({ fetchImpl = almosaferFetch, sleep = ms => n
         // An empty transport/session response is not proof that the hotel is sold out.
         if (!poll.hotelId || !poll.currencyCode || !poll.numberOfNights || !Array.isArray(poll.packagesGroups)) {
           getSessionToken.invalidate?.();
-          throw new Error('تعذر تأكيد توفر هذه الليلة: بيانات نتيجة المسافر غير مكتملة');
+          throw new UpstreamError(unverifiedEmpty
+            ? 'تعذر تأكيد توفر هذه الليلة: المسافر لم يرجع عرضًا مؤكدًا لحجز ليلة منفصلة؛ الرد النهائي ناقص بيانات الفندق والمدة'
+            : 'تعذر تأكيد توفر هذه الليلة: بيانات نتيجة المسافر غير مكتملة',
+            {source:'almosafer',stage:'poll',code:'UPSTREAM_AVAILABILITY_UNCONFIRMED'});
         }
         if (String(poll.hotelId) !== String(payload.hotelId)) throw new Error('نتيجة الاستعلام تخص فندقًا مختلفًا');
         if (poll.numberOfNights !== 1) throw new Error('نتيجة الاستعلام ليست لليلة واحدة');
         if (Number(poll.numberOfPackages) > 0 && !poll.packagesGroups.some(g => g.packages?.length)) throw new Error('تعذر تأكيد توفر هذه الليلة: لم تصل عروض المسافر المعلنة');
         return parsePackages(poll, payload.roomsInfo[0].adultsCount, payload.roomsInfo.length);
       }
-      if (poll.pollingStatus !== 'IN_PROGRESS') throw new Error(`لم يكتمل استعلام المسافر: ${poll.pollingStatus || 'حالة مجهولة'}`);
+      if (poll.pollingStatus !== 'IN_PROGRESS') throw new Error(`${unverifiedEmpty ? 'تعذر تأكيد توفر هذه الليلة: ' : ''}لم يكتمل استعلام المسافر: ${poll.pollingStatus || 'حالة مجهولة'}`);
       const rawPollDelay = Number(poll.delayInMillis);
       const waitPoll = Number.isFinite(rawPollDelay) && rawPollDelay > 0
         ? Math.min(10000, Math.max(500, rawPollDelay))
@@ -155,7 +157,8 @@ export function createEnigmaClient({ fetchImpl = almosaferFetch, sleep = ms => n
           const value = await query(payload, deadline);
           if (Object.keys(value).length || attempt === maxAttempts - 1) return value;
         } catch (error) {
-          if (attempt === maxAttempts - 1 || error.upstreamStatus === 400 || error.upstreamStatus === 404 || error.stage === 'session-bootstrap' || error.responseKind === 'challenge') throw error;
+          const terminalBootstrap = error.stage === 'session-bootstrap' && !['UPSTREAM_NETWORK_ERROR','SCRAPINGANT_NETWORK_ERROR'].includes(error.code);
+          if (attempt === maxAttempts - 1 || error.upstreamStatus === 400 || error.upstreamStatus === 404 || terminalBootstrap || error.responseKind === 'challenge') throw error;
         }
         await sleep(Math.max(300, 400 * (attempt + 1)));
       }

@@ -40,7 +40,9 @@ import {createSearchJobs} from './search-jobs.js';
 const resolveAlmatar = createAlmatarResolver();
 const enigmaClient = almosaferClient;
 const app = express();
-const searchJobs=createSearchJobs({execute:async params => params.kind === 'daily-prices'
+const searchJobs=createSearchJobs({execute:async params => params.kind === 'hotel-rooms'
+  ? hotelRooms(params)
+  : params.kind === 'daily-prices'
   ? { success: true, ...await fetchDailyPricesAlmatar(params) }
   : executeHotelComparison(params)});
 const PORT = process.env.PORT || 5000;
@@ -198,6 +200,7 @@ app.post('/api/search-hotel-prices', async (req, res) => {
     }
 
     const executionParams = {
+      requestId: req.body.requestId,
       hotelInput: effectiveHotel,
       checkIn: effectiveCheckIn,
       checkOut: effectiveCheckOut,
@@ -282,6 +285,7 @@ app.post('/api/daily-prices', async (req, res) => {
     }
 
     const dailyParams = {
+      requestId: req.body.requestId,
       kind: 'daily-prices', sources: ['almatar'], hotelInput, checkIn, checkOut,
       adults: Number(adults), rooms: Number(rooms),
       childAges: Array.isArray(childAges) ? childAges : [],
@@ -349,8 +353,24 @@ app.post('/api/daily-prices', async (req, res) => {
 const hotelRooms = createHotelRoomsService({ resolveAlmosafer: resolveAlmosaferDetails, enigmaClient, resolveAlmatar, fetchOneNight, resolveBooking: resolveBookingDetails, bookingClient });
 app.get('/api/hotel-rooms-list', (req, res) => res.status(405).set('Allow', 'POST').json({ success: false, message: 'هذا المسار يستقبل POST من زر تحديث الغرف داخل الموقع' }));
 app.post('/api/hotel-rooms-list', async (req, res) => {
-  console.log('[HOTEL-ROOMS-LIST BODY]', JSON.stringify(req.body));
-  try { res.json(await hotelRooms(req.body)); }
+  try {
+    if (req.body.background === true) {
+      const checkIn = req.body.checkIn || new Date(Date.now() + 86400000).toISOString().slice(0,10);
+      const start = Date.parse(`${checkIn}T12:00:00Z`);
+      if (!Number.isFinite(start)) throw Object.assign(new Error('تاريخ الوصول غير صالح'),{status:400});
+      const checkOut = new Date(start + 86400000).toISOString().slice(0,10);
+      const source = req.body.source || detectHotelSource(req.body.hotelInput);
+      const job = searchJobs.start({ kind: 'hotel-rooms', sources: [source], source,
+        requestId: req.body.requestId,
+        hotelInput: String(req.body.hotelInput || '').trim(), checkIn, checkOut,
+        adults: Number(req.body.adults ?? 2), rooms: Number(req.body.rooms ?? 1),
+        children: Number(req.body.children ?? (req.body.childAges || []).length),
+        childAges: req.body.childAges || [], refresh: Boolean(req.body.refresh),
+      });
+      return res.status(202).set('Cache-Control','no-store').json({ success: true, jobId: job.id, status: job.status });
+    }
+    res.json(await hotelRooms(req.body));
+  }
   catch (error) {
     console.warn('[HOTEL ROOMS FAILURE]', error.message, error.diagnosticId);
     res.status(error.status || 502).json({ success: false, message: error.message, source: error.source || detectHotelSource(req.body.hotelInput), upstreamStatus: error.upstreamStatus, stage: error.stage, upstreamHost: error.upstreamHost, code: error.code, diagnosticId: error.diagnosticId });

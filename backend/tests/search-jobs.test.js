@@ -51,3 +51,27 @@ test('Failure diagnostics survive polling and completed jobs expire without runn
   const second=failedResult.start(month);await flush();
   assert.equal(failedResult.get(second.id).error.message,'No valid source response');
 });
+
+test('A fresh click repeats completed partial results while a lost response and joined running jobs remain idempotent', async () => {
+  let calls = 0, finish;
+  const jobs = createSearchJobs({ execute: async () => {
+    calls++;
+    if (calls === 1) return new Promise(resolve => { finish = resolve; });
+    return { success: true, data: [], warnings: [] };
+  } });
+  const requestId = '00000000-0000-4000-8000-000000000001';
+  const joinedId = '00000000-0000-4000-8000-000000000002';
+  const freshId = '00000000-0000-4000-8000-000000000003';
+  const first = jobs.start({ ...month, requestId });
+  assert.equal(jobs.start({ ...month, requestId }).id, first.id);
+  assert.equal(jobs.start({ ...month, requestId: joinedId }).id, first.id);
+  await flush();
+  finish({ success: true, data: [], warnings: ['One night unverified'] });
+  await flush();
+  assert.equal(jobs.start({ ...month, requestId: joinedId }).id, first.id, 'A lost response to a joined running job must not start duplicate work');
+  const fresh = jobs.start({ ...month, requestId: freshId });
+  assert.notEqual(fresh.id, first.id, 'A new click must not reuse a completed partial result');
+  await flush();
+  assert.equal(calls, 2);
+  assert.equal(jobs.start({ ...month, requestId: freshId }).id, fresh.id);
+});

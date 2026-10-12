@@ -4,7 +4,6 @@ import { createAlmosaferSessionProvider, webUserAgent } from './almosafer-sessio
 import { upstreamHttpError } from './upstream-error.js';
 import { almosaferOrigin, almosaferInputOrigin } from './almosafer-origin.js';
 import { almosaferFetch, createAlmosaferFetch } from './almosafer-http.js';
-import { almosaferConnection } from './almosafer-connection.js';
 const autocompleteSessions = new Map();
 
 export async function resolveAlmosaferDetails(hotelInput, { checkIn, checkOut, rooms = 1, adults = 2 } = {}) {
@@ -123,9 +122,9 @@ export function createAlmosaferClient({createClient=createEnigmaClient,createFet
   const clients = new Map();
   return async function client({ sourceOrigin, ...payload }, options) {
     const origin = almosaferOrigin(sourceOrigin);
-    if(options?.freshSession && almosaferConnection(env).remote) {
-      // Only failed nights get a separate, short-lived session. Other jobs keep
-      // their shared browser; never close a browser underneath their requests.
+    if(options?.freshSession) {
+      // Failed nights get their own public session for every transport,
+      // including ScrapingAnt. Never invalidate other active searches.
       const transport=createFetch({env});
       try { return await createClient({origin,fetchImpl:transport})(payload,options); }
       finally { await transport.close(); }

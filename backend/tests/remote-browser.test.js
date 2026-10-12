@@ -138,3 +138,32 @@ test('A failed month night gets one isolated repair session without replacing th
     assert.equal(calls,2);
   }finally{if(previous===undefined)delete process.env.ALMOSAFER_BROWSER_WS_ENDPOINT;else process.env.ALMOSAFER_BROWSER_WS_ENDPOINT=previous;}
 });
+
+test('ScrapingAnt missing nights get isolated sessions and bounded retries while successful nights retain their own quotes', async () => {
+  let ordinaryClients = 0, isolatedClients = 0, closed = 0, repairs = 0;
+  const client = createAlmosaferClient({ env: { ALMOSAFER_HTTP_TRANSPORT: 'scrapingant' },
+    createFetch: () => ({ close: async () => { closed++; } }),
+    createClient: ({ fetchImpl }) => {
+      if (fetchImpl) isolatedClients++; else ordinaryClients++;
+      return async (input, options) => {
+        const missing = input.checkIn === '2027-02-27';
+        if (!fetchImpl && missing) throw new Error('Unverified source response');
+        if (fetchImpl) {
+          repairs++;
+          assert.equal(options.maxAttempts, 2);
+          assert.equal(options.refresh, true);
+        }
+        return { twin: { name: 'Twin', beds: [], offers: { breakfast: { price: missing ? 234.56 : 123.45, packageId: input.checkIn } } } };
+      };
+    },
+  });
+  const scrape = createLiveScraper(async () => ({ hotelId: '1441222', baseSlug: 'hotel/details/atg/hotel-1441222' }), client);
+  const [room] = await scrape({ hotelInput: 'hotel', checkIn: '2027-02-26', checkOut: '2027-02-28' });
+  assert.deepEqual(room.dailyRates.map(day => day.breakfastPrice), [123.45, 234.56]);
+  assert.deepEqual(room.dailyRates.map(day => day.offers.breakfast.packageId), ['2027-02-26', '2027-02-27']);
+  assert.deepEqual(room.warnings, []);
+  assert.equal(ordinaryClients, 1);
+  assert.equal(isolatedClients, 1);
+  assert.equal(closed, 1);
+  assert.equal(repairs, 1);
+});

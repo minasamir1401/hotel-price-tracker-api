@@ -64,6 +64,27 @@ test('The daily HTTP route acknowledges early, survives a lost response and reta
     const invalid = await nativeFetch(`${api}/daily-prices`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...input, checkOut: input.checkIn }) });
     assert.equal(invalid.status, 400);
     assert.equal(sourceCalls, 1);
+    const roomInput = { ...input, source: 'almatar', refresh: true, checkOut: '2026-11-01' };
+    const roomSubmit = () => nativeFetch(`${api}/hotel-rooms-list`, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(roomInput), signal: AbortSignal.timeout(3000) });
+    const firstRoom = await roomSubmit();
+    assert.equal(firstRoom.status, 202);
+    const roomJob = await firstRoom.json();
+    assert.equal((await (await roomSubmit()).json()).jobId, roomJob.jobId);
+    let roomState;
+    for (let attempt = 0; attempt < 50; attempt++) {
+      roomState = await (await nativeFetch(`${api}/search-jobs/${roomJob.jobId}`)).json();
+      if (roomState.status !== 'running') break;
+      await new Promise(resolve => setTimeout(resolve, 10));
+    }
+    assert.equal(roomState.status, 'completed');
+    assert.ok(roomState.result.rooms.length > 0);
+    assert.equal(roomState.result.hotelId, '1660326');
+    assert.equal(roomState.result.checkOut, '2026-10-02', 'Room loading uses the requested FIRST night');
+    assert.equal(sourceCalls, 2, 'Duplicate room submissions share the same execution');
+    const invalidRoom = await nativeFetch(`${api}/hotel-rooms-list`, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...roomInput, checkIn: 'invalid-date' }) });
+    assert.equal(invalidRoom.status, 400);
   } finally {
     releaseSource();
     globalThis.fetch = nativeFetch;

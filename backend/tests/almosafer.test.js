@@ -123,6 +123,35 @@ test('A no-package identifier with a verified hotel is polled like the official 
   assert.deepEqual(await client(payload,{maxAttempts:1}),{});assert.equal(polls,1);
 });
 
+test('A bare no-package identifier can recover only when the final poll confirms the hotel, currency and night', async () => {
+  let polls = 0;
+  const client = createEnigmaClient({ token: 'test', sleep: async () => {}, fetchImpl: async url => {
+    if (!url.includes('/poll/')) return response({ pId: 'no-pkg-initial', hotelId: null });
+    polls++;
+    return response(poll([offer('BB', 345.67)]));
+  } });
+  const result = await client(payload, { maxAttempts: 1 });
+  assert.equal(result['غرفة ستاندرد'].offers.breakfast.price, 345.67);
+  assert.equal(polls, 1);
+});
+
+test('An unverified no-package poll automatically repeats the exact night with a refreshed public session', async () => {
+  let starts = 0, bootstraps = 0, invalidations = 0;
+  const sessionProvider = Object.assign(async () => `public-${++bootstraps}`, { invalidate: () => { invalidations++; } });
+  const client = createEnigmaClient({ token: '', sessionProvider, sleep: async () => {}, fetchImpl: async (url, options) => {
+    if (!url.includes('/poll/')) {
+      assert.deepEqual(JSON.parse(options.body), payload);
+      starts++;
+      return response(starts === 1 ? { pId: 'no-pkg-incomplete', hotelId: null } : { pId: 'fresh-valid', hotelId: payload.hotelId });
+    }
+    return response(starts === 1 ? { ...poll([]), hotelId: 0, currencyCode: null, numberOfNights: 0 }
+      : poll([offer('BB', 2777.81)]));
+  } });
+  const room = (await client(payload, { refresh: true, maxAttempts: 2 }))['غرفة ستاندرد'];
+  assert.equal(room.offers.breakfast.price, 2777.81);
+  assert.equal(starts, 2); assert.equal(bootstraps, 2); assert.equal(invalidations, 1);
+});
+
 test('A persistent incomplete response marks only its own night unverified in the monthly table',async()=>{
   const client=createEnigmaClient({token:'test',sleep:async()=>{},fetchImpl:async(url,options)=>{
     if(options.body){const request=JSON.parse(options.body);return response({pId:request.checkIn,hotelId:1287944,initialDelayInMillis:1});}
@@ -179,6 +208,7 @@ test('Retries a transient empty response once and waits beyond fifteen intermedi
   let starts=0,polls=0,time=0;
   const client=createEnigmaClient({token:'test',now:()=>time,sleep:async ms=>{time+=ms;},fetchImpl:async(url)=>{
     if(!url.includes('/poll/')) return response(++starts===1?{pId:'no-pkg-test'}:{pId:'p',hotelId:1287944,initialDelayInMillis:1});
+    if(url.endsWith('no-pkg-test')) return response({...poll([]),hotelId:0,currencyCode:null,numberOfNights:0});
     return response(++polls<17?poll([offer('RO',10)],'IN_PROGRESS'):poll([offer('RO',714.4)]));
   }});
   assert.equal((await client(payload))['غرفة ستاندرد'].offers.roomOnly.price,714.4);

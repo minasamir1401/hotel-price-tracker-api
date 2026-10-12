@@ -17,17 +17,20 @@ export function createSearchJobs({execute,now=Date.now,maxActive=2,ttlMs=1800000
       catch (error) { error.status=400; throw error; }
       if(!String(input.hotelInput||'').trim() || String(input.hotelInput).length>6000) throw Object.assign(new Error('أدخل رابط الفندق'),{status:400});
       if(!Array.isArray(input.sources)||!input.sources.length||input.sources.some(s=>!['almosafer','almatar','booking'].includes(s))) throw Object.assign(new Error('مصادر البحث غير صالحة'),{status:400});
-      const key=JSON.stringify(input);
-      const existing=[...jobs.values()].find(j=>j.key===key && (j.status==='running'||(j.status==='completed' && now()-j.updatedAt<120000)));
-      if(existing)return snapshot(existing);
+      const {requestId,...query}=input;
+      if(requestId!==undefined && !/^[a-f0-9-]{36}$/i.test(requestId)) throw Object.assign(new Error('معرّف طلب البحث غير صالح'),{status:400});
+      const key=JSON.stringify(query);
+      const existing=[...jobs.values()].find(j=>j.key===key && (j.status==='running'||(j.status==='completed' &&
+        (requestId!==undefined ? j.requestIds.has(requestId) : now()-j.updatedAt<120000))));
+      if(existing){existing.requestIds.add(requestId);return snapshot(existing);}
       if([...jobs.values()].filter(j=>j.status==='running').length>=maxActive) throw Object.assign(new Error('هناك مهمتان قيد التنفيذ؛ انتظر انتهاء إحداهما لتقليل تكلفة الاتصال'),{status:429});
       if(jobs.size>=100) {
         const oldest=[...jobs.values()].find(j=>j.status!=='running');
         if(oldest)jobs.delete(oldest.id);
       }
-      const j={id:randomUUID(),key,status:'running',createdAt:now(),updatedAt:now(),progress:{completed:0,total:nights,percent:0},result:null,error:null};
+      const j={id:randomUUID(),key,requestIds:new Set([requestId]),status:'running',createdAt:now(),updatedAt:now(),progress:{completed:0,total:nights,percent:0},result:null,error:null};
       jobs.set(j.id,j);
-      Promise.resolve().then(()=>execute({...input,onProgress:p=>{
+      Promise.resolve().then(()=>execute({...query,onProgress:p=>{
         j.progress={...p,percent:p.percent ?? (p.total>0 ? Math.round(p.completed/p.total*100) : 0)};
         j.updatedAt=now();
       }})).then(result=>{

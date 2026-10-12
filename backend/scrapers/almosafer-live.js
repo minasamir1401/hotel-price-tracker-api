@@ -34,7 +34,7 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
           ...(details.hotelProfileKey ? { hotelProfileKey: details.hotelProfileKey, countryCode: details.countryCode } : {}),
           roomsInfo: Array.from({ length: rooms }, () => ({ adultsCount: adults, kidsAges: childAges })),
           currency: 'SAR',
-        }, { refresh: force, maxAttempts: 1, ...(repair && remoteBrowser ? {freshSession:true} : {}) });
+        }, { refresh: force, maxAttempts: repair ? 2 : 1, ...(repair && source === 'Almosafer' ? {freshSession:true} : {}) });
         const old = errors.findIndex(e => e.date === dp.date);
         if (old >= 0) errors.splice(old, 1);
         failures.delete(dp.date);
@@ -90,7 +90,7 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
     // Recheck unsuccessful/empty nights with fresh searches
     const repair = pairs.map((dp, i) => ({ dp, i })).filter(({ dp, i }) => {
       const failure=failures.get(dp.date);
-      if (failure?.responseKind === 'challenge' || ['session-bootstrap','browser-connect'].includes(failure?.stage) || [400,401,403,404].includes(failure?.upstreamStatus)) return false;
+      if (failure?.responseKind === 'challenge' || failure?.stage === 'browser-connect' || [400,401,403,404].includes(failure?.upstreamStatus)) return false;
       // Confirmed empty inventory is not a transport error; avoid paying for another identical remote search.
       return maps[i] === null || (!remoteBrowser && !Object.keys(maps[i] || {}).length);
     });
