@@ -188,5 +188,23 @@ export function createAlmosaferBrowserFetch({ launch = options => chromium.launc
     }
   }
   browserFetch.close = () => Promise.all([...sessions.keys()].map(release));
+  // Internal guest-session handoff only. This is never exposed by an HTTP route.
+  browserFetch.exportSession = async origin => {
+    origin=almosaferOrigin(origin);
+    const entry=await sessions.get(origin);
+    if(!entry?.page || !entry.token)return null;
+    clearTimeout(entry.idle);entry.active++;
+    try {
+      const actualOrigin=almosaferOrigin(entry.pageOrigin || origin);
+      const cookies=await entry.context.cookies(actualOrigin);
+      const cookieHeader=cookies.filter(c=>/^[\x20-\x7e]+$/.test(`${c.name}=${c.value}`)).map(c=>`${c.name}=${c.value}`).join('; ');
+      const userAgent=await entry.page.evaluate(()=>navigator.userAgent);
+      return {origin:actualOrigin,token:entry.token,cookieHeader,userAgent};
+    } finally {
+      if(--entry.active===0 && sessions.has(origin))entry.idle=setTimeout(()=>{
+        sessions.get(origin)?.then(current=>{if(current===entry)release(origin).catch(()=>{});}).catch(()=>{});
+      },idleMs).unref();
+    }
+  };
   return browserFetch;
 }

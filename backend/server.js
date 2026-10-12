@@ -63,6 +63,7 @@ app.get('/api/system-status', (req, res) => {
   sourceDetails.almosafer.transport = connection.transport;
   sourceDetails.almosafer.browserFallback = connection.browserFallback;
   sourceDetails.almosafer.remoteBrowserConfigured = Boolean(connection.browserEndpoint);
+  sourceDetails.almosafer.sessionHandoff = almosaferFetch.diagnostics();
   sourceDetails.almosafer.proxyConfigured = Boolean(connection.proxyUrl);
   sourceDetails.almosafer.browserPackageVersion = playwrightVersion;
   sourceDetails.almosafer.headless = connection.headless;

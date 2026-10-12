@@ -8,3 +8,4 @@ import './connection.test.js';
 import './http-transport.test.js';
 import './brightdata.test.js';
 import './search-jobs.test.js';
+import './handoff.test.js';

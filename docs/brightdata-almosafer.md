@@ -6,6 +6,7 @@ Set these variables privately on the backend service in Dokploy, then redeploy:
 ALMOSAFER_HTTP_TRANSPORT=brightdata
 ALMOSAFER_BROWSER_WS_ENDPOINT=wss://ZONE_USERNAME:ZONE_PASSWORD@brd.superproxy.io:9222
 ALMOSAFER_BROWSER_ORIGIN=https://www.almosafer.com
+ALMOSAFER_DIRECT_AFTER_BOOTSTRAP=1
 ALMOSAFER_API_TOKEN=
 ALMOSAFER_PROXY_URL=
 ```
@@ -29,7 +30,13 @@ The response is HTTP 202 with `jobId`. Poll `GET /api/search-jobs/:id` for progr
 
 Each date is a separate one-night quote, not a division of a continuous 30-night booking. One job still issues separate source searches and polling requests for its days; Bright Data's traffic billing is not reduced to one billed request.
 
-The remote transport reuses one browser per source origin, bootstraps once, retains its source cookies and token, limits daily concurrency to two, blocks hotel images/fonts/media and closes an idle browser after 30 seconds. It does not launch a local browser or emulator. Confirmed empty inventory is not retried; source authentication/WAF failures stop further days instead of consuming a whole month of unsuccessful calls. There are at most two active comparison jobs.
+With `ALMOSAFER_DIRECT_AFTER_BOOTSTRAP=1` (the default for Bright Data), the backend takes an anonymous source token, source cookies and user agent from the cloud browser, retains them privately in memory for five minutes, and tries package/poll requests directly. A denied, failed or structurally invalid direct response switches that session to the existing Browser API price path. Concurrent days share the initial probe, so a rejected direct connection is not retried for every night. Set the variable to `0` to retain browser-only price requests.
+
+The remote transport reuses one browser per source origin, bootstraps once, limits daily concurrency to two, blocks hotel images/fonts/media and closes an idle browser after 30 seconds. It does not launch a local browser or emulator. Confirmed empty inventory is not retried; source authentication/WAF failures stop further days instead of consuming a whole month of unsuccessful calls. There are at most two active comparison jobs.
+
+`GET /api/system-status` exposes only safe handoff status and logical request counters, never session cookies, tokens or Browser API credentials. The frontend states whether prices used the direct connection or the billed Browser API fallback. These counters do not measure Bright Data's actual traffic or billing: bootstrap scripts and service-managed requests can also consume data.
+
+A local Windows comparison after closing the remote browser returned identical room identities and six prices for hotel `1287944`, 20–21 October 2026, two adults and one room. A subsequent local UI search for three nights completed with three room variants, no source warnings, one bootstrap and zero application-initiated Browser API price requests. This does not establish that the deployed server's IP can reuse the same session; the production status indicates its own outcome.
 
 For Cloudflare access denial, inspect the diagnostic ID, source host and stage before retrying. `BRIGHTDATA_AUTH_FAILED` is a zone credential problem; a source HTTP 403 after connection is a separate refusal. Resource blocking can be disabled through the transport factory for a bounded diagnostic test; it is not an automatic paid retry loop.
 

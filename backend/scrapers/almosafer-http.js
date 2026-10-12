@@ -99,7 +99,7 @@ export function createCurlFetch({ python = process.env.ALMOSAFER_PYTHON || 'pyth
 
 export function createAlmosaferFetch({ env = process.env, nativeFetch = fetch, createCurl = createCurlFetch,
   createBrowser = async () => (await import('./almosafer-browser-http.js')).createAlmosaferBrowserFetch({env}) } = {}) {
-  let curl, browser;
+  let curl, browser, handoff, handoffPending;
   const browserOrigins = new Set();
   const getBrowser = () => {
     browser ||= Promise.resolve().then(createBrowser).catch(error => { browser = null; throw error; });
@@ -108,6 +108,14 @@ export function createAlmosaferFetch({ env = process.env, nativeFetch = fetch, c
   const transport = async (url, options) => {
     const origin = almosaferOrigin(new URL(url).origin);
     const connection = almosaferConnection(env);
+    if(connection.transport==='brightdata' && env.ALMOSAFER_DIRECT_AFTER_BOOTSTRAP!=='0') {
+      handoffPending ||= Promise.resolve().then(async()=>{
+        const {createAlmosaferHandoff}=await import('./almosafer-handoff.js');
+        handoff=createAlmosaferHandoff({browserFetch:await getBrowser(),directFetch:nativeFetch});
+        return handoff;
+      }).catch(error=>{handoffPending=null;throw error;});
+      return (await handoffPending)(url,options);
+    }
     if (['browser','brightdata'].includes(connection.transport) || browserOrigins.has(origin)) return (await getBrowser())(url, options);
     let response;
     if (connection.transport === 'curl') {
@@ -126,11 +134,13 @@ export function createAlmosaferFetch({ env = process.env, nativeFetch = fetch, c
     }
   };
   transport.close = async () => {
+    handoff?.clear();handoff=null;handoffPending=null;
     curl?.close(); curl = null;
     const previous = browser; browser = null;
     browserOrigins.clear();
     await previous?.then(client => client.close()).catch(() => {});
   };
+  transport.diagnostics=()=>handoff?.snapshot() || {directAfterBootstrap:almosaferConnection(env).transport==='brightdata' && env.ALMOSAFER_DIRECT_AFTER_BOOTSTRAP!=='0',state:'unchecked',reason:null,bootstrapRequests:0,directRequests:0,browserApiRequests:0};
   return transport;
 }
 
