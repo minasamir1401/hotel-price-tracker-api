@@ -4,6 +4,7 @@ export { webUserAgent } from './almosafer-http.js';
 
 import { upstreamHttpError, UpstreamError } from './upstream-error.js';
 import { isChallengeResponse } from './challenge-response.js';
+import { almosaferConnection } from './almosafer-connection.js';
 
 // Bootstrap the public hotel web session. This is session configuration, never a price source.
 export function createAlmosaferSessionProvider({fetchImpl = almosaferFetch, now = Date.now, cacheTTL = 300000, origin = almosaferOrigin()} = {}) {
@@ -48,7 +49,7 @@ export function createAlmosaferSessionProvider({fetchImpl = almosaferFetch, now 
             'sec-fetch-user': '?1',
             'upgrade-insecure-requests': '1',
           },
-          signal: AbortSignal.timeout(Math.min(20000, remaining)),
+          signal: AbortSignal.timeout(Math.min(almosaferConnection().requestTimeoutMs, remaining)),
         });
 
         if (!res.ok || await isChallengeResponse(res)) throw await upstreamHttpError(res, { stage: 'session-bootstrap', url: url.href });

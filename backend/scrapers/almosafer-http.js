@@ -98,7 +98,7 @@ export function createCurlFetch({ python = process.env.ALMOSAFER_PYTHON || 'pyth
 }
 
 export function createAlmosaferFetch({ env = process.env, nativeFetch = fetch, createCurl = createCurlFetch,
-  createBrowser = async () => (await import('./almosafer-browser-http.js')).createAlmosaferBrowserFetch() } = {}) {
+  createBrowser = async () => (await import('./almosafer-browser-http.js')).createAlmosaferBrowserFetch({env}) } = {}) {
   let curl, browser;
   const browserOrigins = new Set();
   const getBrowser = () => {
@@ -108,7 +108,7 @@ export function createAlmosaferFetch({ env = process.env, nativeFetch = fetch, c
   const transport = async (url, options) => {
     const origin = almosaferOrigin(new URL(url).origin);
     const connection = almosaferConnection(env);
-    if (connection.transport === 'browser' || browserOrigins.has(origin)) return (await getBrowser())(url, options);
+    if (['browser','brightdata'].includes(connection.transport) || browserOrigins.has(origin)) return (await getBrowser())(url, options);
     let response;
     if (connection.transport === 'curl') {
       curl ||= createCurl();

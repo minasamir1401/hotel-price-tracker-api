@@ -32,7 +32,7 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
           ...(details.hotelProfileKey ? { hotelProfileKey: details.hotelProfileKey, countryCode: details.countryCode } : {}),
           roomsInfo: Array.from({ length: rooms }, () => ({ adultsCount: adults, kidsAges: childAges })),
           currency: 'SAR',
-        }, { refresh: force, maxAttempts: 1 });
+        }, { refresh: force, maxAttempts: 1, ...(repair && remoteBrowser ? {freshSession:true} : {}) });
         const old = errors.findIndex(e => e.date === dp.date);
         if (old >= 0) errors.splice(old, 1);
         failures.delete(dp.date);
@@ -59,7 +59,8 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
       }
     };
     reportProgress(pairs[0]?.date);
-    const BATCH_SIZE = 8;
+    const remoteBrowser = source === 'Almosafer' && Boolean(process.env.ALMOSAFER_BROWSER_WS_ENDPOINT);
+    const BATCH_SIZE = remoteBrowser ? 2 : 8;
     for (let offset = 0; offset < pairs.length; offset += BATCH_SIZE) {
       const slice = pairs.slice(offset, offset + BATCH_SIZE);
       await Promise.all(slice.map(async (dp, idx) => {
@@ -67,11 +68,26 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
         maps[offset + idx] = val;
         reportProgress(dp.date);
       }));
+      const fatal=[...failures.values()].find(e=>e.stage==='browser-connect'||
+        (['session-bootstrap','packages','poll'].includes(e.stage)&&
+          (['challenge','access-denied'].includes(e.responseKind)||[401,403].includes(e.upstreamStatus))));
+      if(fatal && slice.every((_,idx)=>maps[offset+idx]===null)) {
+        for(let i=offset+slice.length;i<pairs.length;i++) {
+          maps[i]=null;failures.set(pairs[i].date,fatal);errors.push({date:pairs[i].date,message:fatal.message});
+        }
+        reportProgress(pairs.at(-1).date);
+        break;
+      }
     }
     // Recheck unsuccessful/empty nights with fresh searches
-    const repair = pairs.map((dp, i) => ({ dp, i })).filter(({ i }) => maps[i] === null || !Object.keys(maps[i] || {}).length);
+    const repair = pairs.map((dp, i) => ({ dp, i })).filter(({ dp, i }) => {
+      const failure=failures.get(dp.date);
+      if (failure?.responseKind === 'challenge' || ['session-bootstrap','browser-connect'].includes(failure?.stage) || [400,401,403,404].includes(failure?.upstreamStatus)) return false;
+      // Confirmed empty inventory is not a transport error; avoid paying for another identical remote search.
+      return maps[i] === null || (!remoteBrowser && !Object.keys(maps[i] || {}).length);
+    });
     if (repair.length > 0) {
-      const REPAIR_BATCH = 4;
+      const REPAIR_BATCH = remoteBrowser ? 1 : 4;
       for (let offset = 0; offset < repair.length; offset += REPAIR_BATCH) {
         await Promise.all(repair.slice(offset, offset + REPAIR_BATCH).map(async ({ dp, i }) => {
           const val = await fetchNight(dp, true, true);

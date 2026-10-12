@@ -3,7 +3,8 @@ import { createLiveScraper } from './almosafer-live.js';
 import { createAlmosaferSessionProvider, webUserAgent } from './almosafer-session.js';
 import { upstreamHttpError } from './upstream-error.js';
 import { almosaferOrigin, almosaferInputOrigin } from './almosafer-origin.js';
-import { almosaferFetch } from './almosafer-http.js';
+import { almosaferFetch, createAlmosaferFetch } from './almosafer-http.js';
+import { almosaferConnection } from './almosafer-connection.js';
 const autocompleteSessions = new Map();
 
 export async function resolveAlmosaferDetails(hotelInput, { checkIn, checkOut, rooms = 1, adults = 2 } = {}) {
@@ -118,12 +119,22 @@ export async function resolveAlmosaferDetails(hotelInput, { checkIn, checkOut, r
   };
 }
 
-const clients = new Map();
-export function almosaferClient({ sourceOrigin, ...payload }, options) {
-  const origin = almosaferOrigin(sourceOrigin);
-  if (!clients.has(origin)) clients.set(origin, createEnigmaClient({ origin }));
-  return clients.get(origin)(payload, options);
+export function createAlmosaferClient({createClient=createEnigmaClient,createFetch=createAlmosaferFetch,env=process.env}={}) {
+  const clients = new Map();
+  return async function client({ sourceOrigin, ...payload }, options) {
+    const origin = almosaferOrigin(sourceOrigin);
+    if(options?.freshSession && almosaferConnection(env).transport==='brightdata') {
+      // Only failed nights get a separate, short-lived session. Other jobs keep
+      // their shared browser; never close a browser underneath their requests.
+      const transport=createFetch({env});
+      try { return await createClient({origin,fetchImpl:transport})(payload,options); }
+      finally { await transport.close(); }
+    }
+    if (!clients.has(origin)) clients.set(origin, createClient({ origin }));
+    return clients.get(origin)(payload, options);
+  };
 }
+export const almosaferClient=createAlmosaferClient();
 export const scrapeAlmosafer = createLiveScraper(
   resolveAlmosaferDetails,
   almosaferClient

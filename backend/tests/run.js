@@ -6,3 +6,5 @@ import './booking.test.js';
 import './booking-source-price.test.js';
 import './connection.test.js';
 import './http-transport.test.js';
+import './brightdata.test.js';
+import './search-jobs.test.js';

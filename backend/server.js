@@ -35,9 +35,11 @@ import { bookingConfigured } from './scrapers/booking-client.js';
 import { bookingClient, resolveBookingDetails } from './scrapers/booking.js';
 import { sourceSnapshot } from './scrapers/source-status.js';
 import { createHotelRoomsService, detectHotelSource } from './hotel-rooms-service.js';
+import {createSearchJobs} from './search-jobs.js';
 const resolveAlmatar = createAlmatarResolver();
 const enigmaClient = almosaferClient;
 const app = express();
+const searchJobs=createSearchJobs({execute:executeHotelComparison});
 const PORT = process.env.PORT || 5000;
 
 app.use(cors());
@@ -60,6 +62,7 @@ app.get('/api/system-status', (req, res) => {
   const connection = almosaferConnection();
   sourceDetails.almosafer.transport = connection.transport;
   sourceDetails.almosafer.browserFallback = connection.browserFallback;
+  sourceDetails.almosafer.remoteBrowserConfigured = Boolean(connection.browserEndpoint);
   sourceDetails.almosafer.proxyConfigured = Boolean(connection.proxyUrl);
   sourceDetails.almosafer.browserPackageVersion = playwrightVersion;
   sourceDetails.almosafer.headless = connection.headless;
@@ -169,7 +172,7 @@ app.post('/api/search-hotel-prices', async (req, res) => {
       effectiveCheckOut = d.toISOString().split('T')[0];
     }
 
-    const isStream = Boolean(req.headers.accept?.includes('text/event-stream'));
+    const isStream = req.body.background !== true && Boolean(req.headers.accept?.includes('text/event-stream'));
     let pingTimer = null;
     if (isStream) {
       res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
@@ -187,7 +190,7 @@ app.post('/api/search-hotel-prices', async (req, res) => {
       });
     }
 
-    const comparisonResult = await executeHotelComparison({
+    const executionParams = {
       hotelInput: effectiveHotel,
       checkIn: effectiveCheckIn,
       checkOut: effectiveCheckOut,
@@ -208,7 +211,12 @@ app.post('/api/search-hotel-prices', async (req, res) => {
           } catch {}
         }
       },
-    });
+    };
+    if(req.body.background===true) {
+      const job=searchJobs.start(executionParams);
+      return res.status(202).json({success:true,jobId:job.id,status:job.status});
+    }
+    const comparisonResult = await executeHotelComparison(executionParams);
 
     if (isStream) {
       if (pingTimer) clearInterval(pingTimer);
@@ -219,7 +227,7 @@ app.post('/api/search-hotel-prices', async (req, res) => {
     res.json(comparisonResult);
   } catch (error) {
     console.error('Error during hotel search execution:', error);
-    if (Boolean(req.headers?.accept?.includes('text/event-stream'))) {
+    if (req.body.background !== true && Boolean(req.headers?.accept?.includes('text/event-stream'))) {
       res.write(`data: ${JSON.stringify({ type: 'error', message: error.message, code: error.code, diagnosticId: error.diagnosticId })}\n\n`);
       return res.end();
     }
@@ -229,6 +237,12 @@ app.post('/api/search-hotel-prices', async (req, res) => {
       upstreamStatus: error.upstreamStatus, code: error.code, diagnosticId: error.diagnosticId,
     });
   }
+});
+
+app.get('/api/search-jobs/:id',(req,res)=>{
+  const job=searchJobs.get(req.params.id);
+  if(!job)return res.status(404).json({success:false,message:'المهمة غير موجودة أو انتهت صلاحيتها؛ ابدأ استعلامًا جديدًا'});
+  res.set('Cache-Control','no-store').json(job);
 });
 
 // Daily prices endpoint - fetches real prices per night from Almatar with streaming support
