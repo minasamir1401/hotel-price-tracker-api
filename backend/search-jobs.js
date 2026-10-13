@@ -16,7 +16,7 @@ export function createSearchJobs({execute,now=Date.now,maxActive=2,ttlMs=1800000
       try { nights=datePairs(input.checkIn,input.checkOut).length; }
       catch (error) { error.status=400; throw error; }
       if(!String(input.hotelInput||'').trim() || String(input.hotelInput).length>6000) throw Object.assign(new Error('أدخل رابط الفندق'),{status:400});
-      if(!Array.isArray(input.sources)||!input.sources.length||input.sources.some(s=>!['almosafer','almatar','booking'].includes(s))) throw Object.assign(new Error('مصادر البحث غير صالحة'),{status:400});
+      if(!Array.isArray(input.sources)||!input.sources.length||input.sources.some(s=>!['almosafer','almatar','booking','nusuk'].includes(s))) throw Object.assign(new Error('مصادر البحث غير صالحة'),{status:400});
       const {requestId,...query}=input;
       if(requestId!==undefined && !/^[a-f0-9-]{36}$/i.test(requestId)) throw Object.assign(new Error('معرّف طلب البحث غير صالح'),{status:400});
       const key=JSON.stringify(query);

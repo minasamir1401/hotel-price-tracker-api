@@ -1,6 +1,7 @@
 import { scrapeAlmosafer } from './almosafer.js';
 import { scrapeAlmatar } from './almatar.js';
 import { scrapeBooking } from './booking.js';
+import { scrapeNusuk } from './nusuk.js';
 import { datePairs } from './almosafer-live.js';
 import { roundMoney } from './enigma.js';
 import { recordSourceSuccess, recordSourceFailure } from './source-status.js';
@@ -87,7 +88,7 @@ export function buildComparison(searchParams, allRooms, warnings = []) {
   return {success:true,data:allRooms,summary,warnings};
 }
 
-export async function executeHotelComparison(searchParams, engines={almosafer:scrapeAlmosafer,almatar:scrapeAlmatar,booking:scrapeBooking}) {
+export async function executeHotelComparison(searchParams, engines={almosafer:scrapeAlmosafer,almatar:scrapeAlmatar,booking:scrapeBooking,nusuk:scrapeNusuk}) {
   const sources=searchParams.sources || ['almosafer'];
   const warnings=[];
   let allRooms=[];
@@ -97,7 +98,7 @@ export async function executeHotelComparison(searchParams, engines={almosafer:sc
   for(let i=0;i<outcomes.length;i++) {
     const outcome=outcomes[i];
     if(outcome.status==='fulfilled'){recordSourceSuccess(selected[i]);allRooms.push(...outcome.value);warnings.push(...(outcome.value.filterWarnings || []));}
-    else { recordSourceFailure(selected[i], outcome.reason); warnings.push(`${({almatar:'المطار',almosafer:'المسافر',booking:'بوكينج'})[selected[i]] || selected[i]}: ${outcome.reason.message}`); }
+    else { recordSourceFailure(selected[i], outcome.reason); warnings.push(`${({almatar:'المطار',almosafer:'المسافر',booking:'بوكينج',nusuk:'نسك'})[selected[i]] || selected[i]}: ${outcome.reason.message}`); }
   }
   if(outcomes.length&&outcomes.every(x=>x.status==='rejected')) { const error = outcomes[0].reason; error.message = warnings.join(' • '); throw error; }
   for(const room of allRooms) for(const warning of room.warnings || []) {

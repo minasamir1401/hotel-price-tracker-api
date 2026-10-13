@@ -6,16 +6,18 @@ const invalid = message => { const error = new Error(message); error.status = 40
 export function detectHotelSource(input) {
   let text = String(input || '').trim();
   if (/^booking:/i.test(text)) return 'booking';
+  if (/^nusuk:/i.test(text)) return 'nusuk';
   if (!text.startsWith('http://') && !text.startsWith('https://') && /^(?:www\.)?booking\.com/i.test(text)) {
     return 'booking';
   }
   try {
     const host = new URL(text).hostname;
+    if (['nusuk.almatar.com', 'apiout.almatar.com'].includes(host)) return 'nusuk';
     return ['almosafer', 'almatar', 'booking'].find(source => host === `${source}.com` || host.endsWith(`.${source}.com`)) || null;
   } catch { return null; }
 }
 
-export function createHotelRoomsService({ resolveAlmosafer, enigmaClient, resolveAlmatar, fetchOneNight, resolveBooking, bookingClient, now = Date.now }) {
+export function createHotelRoomsService({ resolveAlmosafer, enigmaClient, resolveAlmatar, fetchOneNight, resolveBooking, bookingClient, resolveNusuk, nusukClient, now = Date.now }) {
   const cache = new Map(), pending = new Map();
   return async function hotelRooms(body) {
     let hotelInput = String(body.hotelInput || '').trim();
@@ -24,13 +26,14 @@ export function createHotelRoomsService({ resolveAlmosafer, enigmaClient, resolv
       hotelInput = 'https://' + hotelInput;
     }
     const detected = detectHotelSource(hotelInput), source = body.source || detected;
-    if (!['almosafer', 'almatar', 'booking'].includes(source)) invalid('يرجى تحديد المصدر أو إدخال رابط فندق صالح');
-    if (detected && source !== detected) invalid('مصدر البحث لا يطابق رابط الفندق');
+    if (!['almosafer', 'almatar', 'booking', 'nusuk'].includes(source)) invalid('يرجى تحديد المصدر أو إدخال رابط فندق صالح');
+    if (detected && source !== detected && !(source === 'nusuk' && detected === 'almatar')) invalid('مصدر البحث لا يطابق رابط الفندق');
     const adults = Number(body.adults ?? 2), rooms = Number(body.rooms ?? 1), childAges = body.childAges ?? [];
     const children = Number(body.children ?? childAges.length);
     if (!Number.isInteger(adults) || adults < 1 || adults > 8 || !Number.isInteger(rooms) || rooms < 1 || rooms > 4) invalid('عدد الأفراد أو الغرف غير صالح');
     if (!Array.isArray(childAges) || !Number.isInteger(children) || children < 0 || children !== childAges.length || childAges.some(age => !Number.isInteger(age) || age < 0 || age > 17)) invalid('يلزم تحديد أعمار الأطفال للحصول على سعر صحيح');
     if (source === 'booking' && (rooms !== 1 || children !== 0)) invalid('Booking يدعم حاليًا غرفة واحدة بدون أطفال');
+    if (source === 'nusuk' && (rooms !== 1 || children !== 0)) invalid('نسك يدعم حاليًا غرفة واحدة بدون أطفال');
     const checkIn = body.checkIn || new Date(now() + 86400000).toISOString().slice(0, 10);
     let checkOut;
     try {
@@ -55,6 +58,11 @@ export function createHotelRoomsService({ resolveAlmosafer, enigmaClient, resolv
         if (!details.hotelId || !details.hotelProfileKey) invalid('رابط المطار لا يحتوي معرّف الفندق');
         const data = await fetchOneNight({ hotelId: details.hotelId, hotelProfileKey: details.hotelProfileKey, countryCode: details.countryCode || '', checkIn, checkOut, adults, rooms, childAges, fastRoomsOnly: true, refresh: Boolean(body.refresh) });
         names = (data.rooms || []).map(room => room.roomName);
+      } else if (source === 'nusuk') {
+        details = await resolveNusuk(hotelInput, params);
+        const rates = await nusukClient.rooms({ hotelId: details.hotelId, hotelProfileKey: details.hotelProfileKey, countryCode: details.countryCode,
+          checkIn, checkOut, roomsInfo: [{ adultsCount: adults, kidsAges: childAges }] }, { refresh: Boolean(body.refresh) });
+        names = Object.values(rates).map(room => room.name);
       } else {
         details = await resolveBooking(hotelInput, params);
         const rates = await bookingClient.rooms({ hotelId: details.hotelId, checkIn, checkOut, roomsInfo: [{ adultsCount: adults, kidsAges: childAges }], geniusActive: isBookingSessionActive() }, { refresh: Boolean(body.refresh) });

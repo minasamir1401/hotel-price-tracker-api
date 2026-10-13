@@ -34,6 +34,7 @@ import { almosaferConnection } from './scrapers/almosafer-connection.js';
 import { bookingConfigured } from './scrapers/booking-client.js';
 import { requestOtp, verifyOtp, clearBookingSession, getBookingSessionData, isBookingSessionActive } from './scrapers/booking-session-store.js';
 import { bookingClient, resolveBookingDetails } from './scrapers/booking.js';
+import { nusukClient, resolveNusukDetails } from './scrapers/nusuk.js';
 import { sourceSnapshot } from './scrapers/source-status.js';
 import { createHotelRoomsService, detectHotelSource } from './hotel-rooms-service.js';
 import {createSearchJobs} from './search-jobs.js';
@@ -63,7 +64,7 @@ app.get('/health', (req, res) => {
 // System status for scrapers and export engine
 app.get('/api/system-status', (req, res) => {
   const now = new Date();
-  const sourceDetails = Object.fromEntries(['almosafer', 'almatar', 'booking'].map(source => [source, sourceSnapshot(source, source !== 'booking' || bookingConfigured())]));
+  const sourceDetails = Object.fromEntries(['almosafer', 'almatar', 'booking', 'nusuk'].map(source => [source, sourceSnapshot(source, source !== 'booking' || bookingConfigured())]));
   const connection = almosaferConnection();
   sourceDetails.almosafer.transport = connection.transport;
   sourceDetails.almosafer.browserFallback = connection.browserFallback;
@@ -350,7 +351,7 @@ app.post('/api/daily-prices', async (req, res) => {
   }
 });
 
-const hotelRooms = createHotelRoomsService({ resolveAlmosafer: resolveAlmosaferDetails, enigmaClient, resolveAlmatar, fetchOneNight, resolveBooking: resolveBookingDetails, bookingClient });
+const hotelRooms = createHotelRoomsService({ resolveAlmosafer: resolveAlmosaferDetails, enigmaClient, resolveAlmatar, fetchOneNight, resolveBooking: resolveBookingDetails, bookingClient, resolveNusuk: resolveNusukDetails, nusukClient });
 app.get('/api/hotel-rooms-list', (req, res) => res.status(405).set('Allow', 'POST').json({ success: false, message: 'هذا المسار يستقبل POST من زر تحديث الغرف داخل الموقع' }));
 app.post('/api/hotel-rooms-list', async (req, res) => {
   try {

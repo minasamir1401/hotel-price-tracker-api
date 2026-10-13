@@ -12,7 +12,7 @@ export function datePairs(checkIn, checkOut) {
   return Array.from({length:nights}, (_, i) => ({ date: new Date(start + i * 86400000).toISOString().slice(0,10), nextDate: new Date(start + (i+1) * 86400000).toISOString().slice(0,10), day: new Date(start + i * 86400000).getUTCDay() }));
 }
 
-export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',sourceArabic='المسافر',bookingURL}={}) {
+export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',sourceArabic='المسافر',bookingURL,allowSameNameFallback=true}={}) {
   return async function scrape(params) {
     const { hotelInput, checkIn, checkOut, roomNotes = '', refresh = false } = params;
     const adults = Number(params.adults ?? 2), rooms = Number(params.rooms ?? 1), children = Number(params.children ?? 0);
@@ -165,7 +165,7 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
       const sample = maps.find(m=>m?.[key])?.[key];
       const dailyRates = pairs.map((dp,i) => {
         let room = maps[i]?.[key];
-        if (!room && maps[i]) {
+        if (!room && maps[i] && allowSameNameFallback) {
           room = findSameNameRoom(maps[i], sample);
         }
         const alt = (!room && maps[i] && Object.keys(maps[i]).length > 0) ? findBestAlternative(maps[i], sample) : null;
