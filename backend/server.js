@@ -1,3 +1,4 @@
+import './runtime-env.js';
 import dns from 'dns';
 dns.setDefaultResultOrder('ipv4first');
 process.on('uncaughtException', err => {
@@ -6,22 +7,8 @@ process.on('uncaughtException', err => {
 process.on('unhandledRejection', reason => {
   console.error('[UNHANDLED REJECTION]', reason);
 });
-import fs from 'node:fs';
-import path from 'node:path';
 import { createRequire } from 'node:module';
 const playwrightVersion = createRequire(import.meta.url)('playwright/package.json').version;
-
-// Automatically load local env configuration if present
-for (const envPath of [
-  path.resolve(process.cwd(), '.env'),
-  path.resolve(process.cwd(), '../.env'),
-  path.resolve(process.cwd(), '../outputs/booking-app-probe/server.env'),
-  path.resolve(process.cwd(), 'outputs/booking-app-probe/server.env'),
-]) {
-  if (fs.existsSync(envPath) && typeof process.loadEnvFile === 'function') {
-    try { process.loadEnvFile(envPath); } catch {}
-  }
-}
 
 import express from 'express';
 import cors from 'cors';
@@ -38,10 +25,14 @@ import { nusukClient, resolveNusukDetails } from './scrapers/nusuk.js';
 import { sourceSnapshot } from './scrapers/source-status.js';
 import { createHotelRoomsService, detectHotelSource } from './hotel-rooms-service.js';
 import {createSearchJobs} from './search-jobs.js';
+import { createBookingPriceAccess } from './booking-price-access.js';
 const resolveAlmatar = createAlmatarResolver();
 const enigmaClient = almosaferClient;
 const app = express();
-const searchJobs=createSearchJobs({execute:async params => params.kind === 'hotel-rooms'
+const bookingAccess = createBookingPriceAccess();
+const searchJobs=createSearchJobs({cacheScope: params => params.sources?.includes('booking')
+  ? bookingClient.forPricingMode(params.bookingRateMode).scopeId : null,
+execute:async params => params.kind === 'hotel-rooms'
   ? hotelRooms(params)
   : params.kind === 'daily-prices'
   ? { success: true, ...await fetchDailyPricesAlmatar(params) }
@@ -66,6 +57,7 @@ app.get('/api/system-status', (req, res) => {
   const now = new Date();
   const sourceDetails = Object.fromEntries(['almosafer', 'almatar', 'booking', 'nusuk'].map(source => [source, sourceSnapshot(source, source !== 'booking' || bookingConfigured())]));
   const connection = almosaferConnection();
+  sourceDetails.booking.pricing = bookingClient.pricingStatus();
   sourceDetails.almosafer.transport = connection.transport;
   sourceDetails.almosafer.browserFallback = connection.browserFallback;
   sourceDetails.almosafer.remoteBrowserConfigured = Boolean(connection.browserEndpoint);
@@ -100,6 +92,7 @@ app.post('/api/search-hotel-prices', async (req, res) => {
       bedCount = 0,
       bedType = 'any',
       includeUnknownBeds = false,
+      bookingRateMode,
       sources = ['almosafer', 'almatar'],
     } = req.body;
 
@@ -182,6 +175,8 @@ app.post('/api/search-hotel-prices', async (req, res) => {
       effectiveCheckOut = d.toISOString().split('T')[0];
     }
 
+    const ownerScope = effectiveSources.includes('booking')
+      ? bookingAccess.authorize(req, bookingClient.forPricingMode(bookingRateMode).sessionType) : null;
     const isStream = req.body.background !== true && Boolean(req.headers.accept?.includes('text/event-stream'));
     let pingTimer = null;
     if (isStream) {
@@ -214,6 +209,8 @@ app.post('/api/search-hotel-prices', async (req, res) => {
       bedCount,
       bedType,
       includeUnknownBeds,
+      bookingRateMode,
+      ownerScope,
       sources: effectiveSources,
       onProgress: (p) => {
         if (isStream) {
@@ -252,7 +249,7 @@ app.post('/api/search-hotel-prices', async (req, res) => {
 
 // Daily prices endpoint - fetches real prices per night from Almatar with streaming support
 app.get('/api/search-jobs/:id',(req,res)=>{
-  const job=searchJobs.get(req.params.id);
+  const job=searchJobs.get(req.params.id,{ownerScope:bookingAccess.ownerScope(req)});
   if(!job)return res.status(404).json({success:false,message:'المهمة غير موجودة أو انتهت صلاحيتها؛ ابدأ استعلامًا جديدًا'});
   res.set('Cache-Control','no-store').json(job);
 });
@@ -355,6 +352,9 @@ const hotelRooms = createHotelRoomsService({ resolveAlmosafer: resolveAlmosaferD
 app.get('/api/hotel-rooms-list', (req, res) => res.status(405).set('Allow', 'POST').json({ success: false, message: 'هذا المسار يستقبل POST من زر تحديث الغرف داخل الموقع' }));
 app.post('/api/hotel-rooms-list', async (req, res) => {
   try {
+    const requestedSource = req.body.source || detectHotelSource(req.body.hotelInput);
+    const ownerScope = requestedSource === 'booking'
+      ? bookingAccess.authorize(req, bookingClient.forPricingMode(req.body.bookingRateMode).sessionType) : null;
     if (req.body.background === true) {
       const checkIn = req.body.checkIn || new Date(Date.now() + 86400000).toISOString().slice(0,10);
       const start = Date.parse(`${checkIn}T12:00:00Z`);
@@ -367,6 +367,8 @@ app.post('/api/hotel-rooms-list', async (req, res) => {
         adults: Number(req.body.adults ?? 2), rooms: Number(req.body.rooms ?? 1),
         children: Number(req.body.children ?? (req.body.childAges || []).length),
         childAges: req.body.childAges || [], refresh: Boolean(req.body.refresh),
+        bookingRateMode: req.body.bookingRateMode,
+        ownerScope,
       });
       return res.status(202).set('Cache-Control','no-store').json({ success: true, jobId: job.id, status: job.status });
     }
@@ -376,6 +378,20 @@ app.post('/api/hotel-rooms-list', async (req, res) => {
     console.warn('[HOTEL ROOMS FAILURE]', error.message, error.diagnosticId);
     res.status(error.status || 502).json({ success: false, message: error.message, source: error.source || detectHotelSource(req.body.hotelInput), upstreamStatus: error.upstreamStatus, stage: error.stage, upstreamHost: error.upstreamHost, code: error.code, diagnosticId: error.diagnosticId });
   }
+});
+
+// Private access to configured account prices; this never logs into Booking.
+app.get('/api/booking-price-access', (req,res,next) => {
+  try { res.set('Cache-Control','no-store').json(bookingAccess.status(req)); } catch (error) { next(error); }
+});
+app.post('/api/booking-price-access', (req,res,next) => {
+  try {
+    const result = bookingAccess.login(req,req.body?.key);
+    res.set('Cache-Control','no-store').set('Set-Cookie',result.cookie).json({success:true,authorized:true,expiresAt:result.expiresAt});
+  } catch (error) { next(error); }
+});
+app.delete('/api/booking-price-access', (req,res,next) => {
+  try { res.set('Cache-Control','no-store').set('Set-Cookie',bookingAccess.logout(req)).json({success:true}); } catch (error) { next(error); }
 });
 
 // Booking account passwordless OTP session management
@@ -394,15 +410,15 @@ app.post('/api/booking-verify-otp', (req, res) => {
 });
 
 app.post('/api/booking-disconnect', (req, res) => {
-  clearBookingSession();
-  console.log('[BOOKING SESSION] Session cleared');
-  res.json({ success: true, message: 'تم إلغاء ربط الحساب بنجاح' });
+  const result = clearBookingSession();
+  res.status(result.success ? 200 : 409).json(result);
 });
 
 app.get('/api/booking-session', (req, res) => {
   const data = getBookingSessionData();
   res.json({
     connected: isBookingSessionActive(),
+    pricing: bookingClient.pricingStatus(),
     email: data?.email || null,
     geniusLevel: data?.geniusLevel || null,
     verifiedAt: data?.verifiedAt || null,
@@ -412,7 +428,7 @@ app.get('/api/booking-session', (req, res) => {
 app.use((err, req, res, next) => {
   console.error('[EXPRESS ERROR]', err);
   if (!res.headersSent) {
-    res.status(err.status || 500).json({ success: false, message: err.message || 'خطأ في الخادم' });
+    res.status(err.status || 500).json({ success: false, message: err.message || 'خطأ في الخادم', code: err.code });
   }
 });
 

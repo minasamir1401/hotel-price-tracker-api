@@ -12,7 +12,7 @@ test('ScrapingAnt key parsing handles multiple separators, whitespace and empty 
 });
 
 test('ScrapingAnt key masking protects credentials while preserving diagnostics', () => {
-  assert.equal(maskKey('9887fa3dd82d439c8e6f753439cfa1e6'), '9887...1e6');
+  assert.equal(maskKey('fixture-scrapingant-key-0001'), 'fixt...001');
   assert.equal(maskKey('short'), '***');
   assert.equal(maskKey(''), '');
 });
@@ -58,16 +58,16 @@ test('ScrapingAnt key pool bypasses exhausted keys during cooldown', () => {
 });
 
 test('ScrapingAnt redaction cleans all configured raw keys from strings and errors', () => {
-  const pool = createKeyPool({ keys: ['9887fa3dd82d439c8e6f753439cfa1e6', '3f9b6b46e91044748e60af10e5d486dd'] });
-  const message = 'Failed at url https://api.scrapingant.com?x-api-key=9887fa3dd82d439c8e6f753439cfa1e6 and 3f9b6b46e91044748e60af10e5d486dd';
+  const pool = createKeyPool({ keys: ['fixture-scrapingant-key-0001', 'fixture-scrapingant-key-0002'] });
+  const message = 'Failed at url https://api.scrapingant.com?x-api-key=fixture-scrapingant-key-0001 and fixture-scrapingant-key-0002';
   const cleaned = pool.redact(message);
-  assert.equal(cleaned.includes('9887fa3dd82d439c8e6f753439cfa1e6'), false);
-  assert.equal(cleaned.includes('3f9b6b46e91044748e60af10e5d486dd'), false);
+  assert.equal(cleaned.includes('fixture-scrapingant-key-0001'), false);
+  assert.equal(cleaned.includes('fixture-scrapingant-key-0002'), false);
   assert.equal(cleaned.includes('[SCRAPINGANT_KEY_REDACTED]'), true);
 
-  const error = new Error('Secret: 9887fa3dd82d439c8e6f753439cfa1e6');
+  const error = new Error('Secret: fixture-scrapingant-key-0001');
   pool.redact(error);
-  assert.equal(error.message.includes('9887fa3dd82d439c8e6f753439cfa1e6'), false);
+  assert.equal(error.message.includes('fixture-scrapingant-key-0001'), false);
 });
 
 test('ScrapingAnt fetch rotates key on each request and translates target headers and status', async () => {
@@ -159,4 +159,31 @@ test('almosaferConnection correctly recognizes scrapingant transport', () => {
     SCRAPINGANT_API_KEYS: 'key1,key2',
   });
   assert.equal(autoConfig.transport, 'scrapingant');
+});
+
+test('Provider 423 is identified as a bounded session rejection without returning provider JSON as hotel content', async () => {
+  const pool = createKeyPool({ keys: ['fixture-provider-key-123456'] });
+  let calls = 0;
+  const client = createScrapingAntFetch({ keyPool: pool, fetchImpl: async () => {
+    calls++;
+    return new Response(JSON.stringify({ detail: 'Our browser was detected by target site. fixture-provider-key-123456' }), { status: 423 });
+  } });
+  await assert.rejects(client('https://www.almosafer.com/ar/hotels-home'), error => {
+    assert.equal(error.code, 'SCRAPINGANT_TARGET_DETECTED');
+    assert.equal(error.upstreamStatus, 423);
+    assert.equal(error.upstreamHost, 'api.scrapingant.com');
+    assert.equal(error.responseKind, 'challenge');
+    assert.ok(error.diagnosticId);
+    assert.ok(!error.message.includes('fixture-provider-key-123456'));
+    return true;
+  });
+  assert.equal(calls, 1);
+});
+
+test('A target rejection in a successful provider response retains its actual HTTP status and content', async () => {
+  const client = createScrapingAntFetch({ keyPool: createKeyPool({ keys: ['fixture-key'] }), fetchImpl: async () =>
+    new Response('Target locked', { status: 200, headers: { 'ant-page-status-code': '423', 'ant-original-header-content-type': 'text/plain' } }) });
+  const response = await client('https://www.almosafer.com/api/enigma/v7/packages');
+  assert.equal(response.status, 423);
+  assert.equal(await response.text(), 'Target locked');
 });

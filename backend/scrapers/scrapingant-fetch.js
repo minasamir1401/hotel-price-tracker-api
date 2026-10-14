@@ -2,6 +2,7 @@
 
 import { defaultKeyPool } from './scrapingant-keys.js';
 import { UpstreamError } from './upstream-error.js';
+import { randomUUID } from 'node:crypto';
 
 const SCRAPINGANT_API_ENDPOINT = 'https://api.scrapingant.com/v2/general';
 
@@ -150,6 +151,22 @@ export function createScrapingAntFetch({
         continue;
       }
 
+      // Non-2xx is a provider failure, not the target site's HTTP status.
+      // Target statuses arrive on successful responses in Ant-page-status-code.
+      if (!res.ok) {
+        const diagnosticId = randomUUID();
+        const detected = res.status === 423;
+        const error = new UpstreamError(`ScrapingAnt HTTP ${res.status}: ${detected
+          ? 'تعذر الوصول للمسافر لأن المصدر رفض جلسة الاتصال'
+          : 'خدمة الاتصال لم تُكمل الطلب'}؛ مرجع التشخيص ${diagnosticId}`, {
+          source: 'almosafer', stage: isHtml ? 'session-bootstrap' : 'api',
+          status: res.status, diagnosticId,
+          code: detected ? 'SCRAPINGANT_TARGET_DETECTED' : 'SCRAPINGANT_PROVIDER_ERROR',
+        });
+        error.upstreamHost = new URL(endpoint).hostname;
+        error.responseKind = detected ? 'challenge' : 'provider-error';
+        throw error;
+      }
       const pageStatusCode = Number(res.headers.get('ant-page-status-code')) || res.status;
       const responseHeaders = buildTargetResponseHeaders(res.headers);
 

@@ -1,5 +1,6 @@
 import { createHash, randomUUID } from 'node:crypto';
 import { upstreamHttpError, UpstreamError } from './upstream-error.js';
+import { bookingAccountContext, bookingPricingStatus, assertBookingAccountCurrent } from './booking-account-context.js';
 
 export function bookingConfigured(env = process.env) {
   return Boolean(env.BOOKING_APP_AUTHORIZATION && env.BOOKING_APP_SIGNATURE_SALT && env.BOOKING_APP_VERSION);
@@ -218,7 +219,8 @@ export function normalizeBookingRooms(payload, request) {
 export function createBookingClient({ env = process.env, fetchImpl = fetch } = {}) {
   const deviceId = env.BOOKING_APP_DEVICE_ID || randomUUID().replaceAll('-', '');
   const cache = new Map(), pending = new Map(), catalogs = new Map(), catalogPending = new Map();
-  async function request(endpoint, params) {
+  async function request(endpoint, params, context) {
+    assertBookingAccountCurrent(context);
     assert(bookingConfigured(env), 'إعدادات الاتصال بالتطبيق غير موجودة على الخادم');
     const query = new URLSearchParams({
       user_version: `${env.BOOKING_APP_VERSION}-android`,
@@ -227,8 +229,8 @@ export function createBookingClient({ env = process.env, fetchImpl = fetch } = {
       device_id: deviceId,
       network_type: 'wifi',
       display: 'normal_xxhdpi',
-      ...(env.BOOKING_AUTH_TOKEN ? { auth_token: env.BOOKING_AUTH_TOKEN } : {}),
       ...params,
+      ...(context.token ? { auth_token: context.token } : {}),
     }).toString();
     let response;
     try {
@@ -239,7 +241,7 @@ export function createBookingClient({ env = process.env, fetchImpl = fetch } = {
           Accept: 'application/json',
           'X-LIBRARY': 'okhttp+network-api',
           'User-Agent': `Booking.com Android App ${env.BOOKING_APP_VERSION} (OS: 15; Type: mobile; AppStore: google; Brand: Google; Model: Pixel 8;)`,
-          ...(env.BOOKING_AUTH_TOKEN ? { 'X-Access-Token': env.BOOKING_AUTH_TOKEN } : {}),
+          ...(context.token ? { 'X-Access-Token': context.token } : {}),
         },
         signal: AbortSignal.timeout(25000), redirect: 'error',
       });
@@ -268,8 +270,8 @@ export function createBookingClient({ env = process.env, fetchImpl = fetch } = {
     assert(ids.every(id => typeof id === 'string' && /^[A-Za-z0-9_-]{1,200}$/.test(id)), 'معرّف العرض المقترح غير صالح');
     return ids;
   };
-  async function discoverRoomBlocks(page, input, refresh) {
-    const key = JSON.stringify([input.hotelId, input.checkIn, input.checkOut]);
+  async function discoverRoomBlocks(page, input, refresh, context) {
+    const key = JSON.stringify([context.scopeId, input.hotelId, input.checkIn, input.checkOut]);
     const stored = catalogs.get(key);
     if (!refresh && stored && Date.now() - stored.at < 120000) return stored.ids;
     if (catalogPending.has(key)) return catalogPending.get(key);
@@ -281,13 +283,13 @@ export function createBookingClient({ env = process.env, fetchImpl = fetch } = {
       for (let adults = 1; adults <= 8; adults++) {
         if (adults === input.roomsInfo[0].adultsCount) continue;
         const probe = { ...input, roomsInfo: [{ adultsCount: adults, kidsAges: [] }] };
-        const metadata = validateBookingHotel(await request('mobile.hotelPage', paramsFor(probe)), probe);
+        const metadata = validateBookingHotel(await request('mobile.hotelPage', paramsFor(probe), context), probe);
         idsFor(metadata).forEach(id => ids.add(id));
       }
       const probe = { ...input, roomsInfo: [{ adultsCount: 2, kidsAges: [] }] };
       const metadata = validateBookingHotel(await request('mobile.hotelPage', {
         ...paramsFor(probe), rec_guest_qty: '4', rec_room_qty: '2',
-      }), probe);
+      }, context), probe);
       idsFor(metadata).forEach(id => ids.add(id));
       const value = [...ids];
       if (catalogs.size >= 500) catalogs.delete(catalogs.keys().next().value);
@@ -297,25 +299,28 @@ export function createBookingClient({ env = process.env, fetchImpl = fetch } = {
     catalogPending.set(key, work);
     try { return await work; } finally { catalogPending.delete(key); }
   }
-  return {
+  const scoped = context => ({
+    scopeId: context.scopeId,
+    sessionType: context.session,
     async decodeUrl(url) {
-      return request('mobile.decodeUniversalLink', { url });
+      return request('mobile.decodeUniversalLink', { url }, context);
     },
     async hotelDetails(input) {
-      const hotel = validateBookingHotel(await request('mobile.hotelPage', paramsFor(input)), input);
+      const hotel = validateBookingHotel(await request('mobile.hotelPage', paramsFor(input), context), input);
       assert(clean(hotel.hotel_name), 'اسم الفندق مفقود');
       return { hotelId: String(hotel.hotel_id), hotelName: clean(hotel.hotel_name), baseSlug: `hotel/${hotel.hotel_id}`, bookingUrl: /^https:\/\/(?:www\.)?booking\.com\//.test(hotel.url || '') ? hotel.url : null,
         linkedRoomIds: [...new Set((hotel.block || []).map(block => String(block.room_id)).filter(id => /^[1-9]\d*$/.test(id)))],
       };
     },
     async rooms(input, { refresh = false } = {}) {
-      const params = paramsFor(input), key = JSON.stringify(params), stored = cache.get(key);
+      assertBookingAccountCurrent(context);
+      const params = paramsFor(input), key = JSON.stringify([context.scopeId, params]), stored = cache.get(key);
       if (!refresh && stored && Date.now() - stored.at < 120000) return stored.value;
       if (pending.has(key)) return pending.get(key);
       const work = (async () => {
         // The app carries hotelPage's recommended blocks into roomList. Without
         // them, roomList can return only extra offers, or an empty list.
-        const page = validateBookingHotel(await request('mobile.hotelPage', params), input);
+        const page = validateBookingHotel(await request('mobile.hotelPage', params, context), input);
         const blockIds = idsFor(page);
         const quote = ids => request('mobile.roomList', { ...params,
           include_is_block_fit: '1', move_room_info_from_block_to_room: '1',
@@ -324,12 +329,12 @@ export function createBookingClient({ env = process.env, fetchImpl = fetch } = {
           // Without it, only the recommended room retains Limited-time Deals.
           dotd: '2',
           ...(ids.length ? { block_ids: ids.join(',') } : {}),
-        });
+        }, context);
         let response = await quote(blockIds);
         let hotel = validateBookingHotel(response, input);
         // An exact-size compact recommendation is not a complete room catalog.
         if (Number(page.total_blocks) === 0 && Number(page.block_count) > page.block.length && new Set((hotel.block || []).map(block => block.room_id)).size <= new Set(page.block.map(block => block.room_id)).size) {
-          const discovered = await discoverRoomBlocks(page, input, refresh);
+          const discovered = await discoverRoomBlocks(page, input, refresh, context);
           if (discovered.some(id => !blockIds.includes(id))) {
             response = await quote(discovered);
             hotel = validateBookingHotel(response, input);
@@ -337,6 +342,11 @@ export function createBookingClient({ env = process.env, fetchImpl = fetch } = {
         }
         assert(Array.isArray(hotel.block) && blockIds.every(id => hotel.block.some(block => block.block_id === id)), 'لم يُرجع التطبيق كل العروض المقترحة؛ أعد المحاولة لتحديث التوافر');
         const value = normalizeBookingRooms(response, input);
+        for (const room of Object.values(value)) for (const offer of Object.values(room.offers)) {
+          offer.rateContext = { platform: 'mobile', session: context.session,
+            geniusDiscountApplied: offer.discountLabels.some(label => /genius/i.test(label)),
+            mobileDiscountApplied: offer.discountLabels.some(label => /mobile|الموبايل/i.test(label)) };
+        }
         if (cache.size >= 500) cache.delete(cache.keys().next().value);
         cache.set(key, { at: Date.now(), value });
         return value;
@@ -344,5 +354,13 @@ export function createBookingClient({ env = process.env, fetchImpl = fetch } = {
       pending.set(key, work);
       try { return await work; } finally { pending.delete(key); }
     },
+  });
+  const forPricingMode = mode => scoped(bookingAccountContext(env, mode));
+  return {
+    forPricingMode,
+    pricingStatus: () => bookingPricingStatus(env),
+    decodeUrl: async (url, options = {}) => forPricingMode(options.rateMode).decodeUrl(url),
+    hotelDetails: async (input, options = {}) => forPricingMode(options.rateMode).hotelDetails(input),
+    rooms: async (input, options = {}) => forPricingMode(options.rateMode).rooms(input, options),
   };
 }

@@ -4,6 +4,7 @@ import { bookingHotelId, normalizeBookingRooms, createBookingClient, bookingPric
 import { createLiveScraper } from '../scrapers/almosafer-live.js';
 import { executeHotelComparison } from '../scrapers/index.js';
 import { resolveBookingUrl, decodedBookingHotelId } from '../scrapers/booking-url.js';
+import { scrapeBooking, bookingClient } from '../scrapers/booking.js';
 
 const input = { hotelId: '184752', checkIn: '2026-10-20', checkOut: '2026-10-21', roomsInfo: [{ adultsCount: 2, kidsAges: [] }] };
 const payload = () => [{ hotel_id: 184752, arrival_date: input.checkIn, departure_date: input.checkOut, currency_code: 'SAR', min_room_distribution: { adults: 2, children: [] }, total_blocks: 2,
@@ -11,6 +12,32 @@ const payload = () => [{ hotel_id: 184752, arrival_date: input.checkIn, departur
   block: [0, 1].map(refundable => ({ block_id: `native-${refundable}`, room_id: 10, room_name: 'Twin Kaaba view', nr_adults: 2, nr_children: 0, fit_occupancy: { nr_adults: 2, children_ages: [] }, is_block_fit: 1, min_price: { price: refundable ? '2795.36' : '2527.90', currency: 'SAR', extra_charges: 434.40 }, breakfast_included: 1, half_board: 0, full_board: 0, all_inclusive: 0, refundable, mealplan: 'Breakfast included' })),
   tpi_block: [{ room_id: 'supplier', min_price: { price: '1', currency: 'SAR' } }],
 }];
+
+test('Booking cannot substitute a partial-view twin for an unavailable standard twin on another night', async () => {
+  const original = bookingClient.forPricingMode;
+  const beds = { beds: [{ options: [{ count: 2, type: 'single' }] }], beddingLabel: '2 single beds', beddingVerified: true };
+  const twin = name => ({ name, category: name, ...beds, offers: { breakfast: { price: 100, roomId: name === 'غرفة توأم' ? '5404' : '5405' } } });
+  bookingClient.forPricingMode = () => ({
+    hotelDetails: async () => ({ hotelId: input.hotelId, hotelName: 'Hotel', baseSlug: 'test' }),
+    rooms: async request => request.checkIn === input.checkIn
+      ? { standard: twin('غرفة توأم'), partial: twin('غرفة ضيوف توأم مع إطلالات جزئية على الحرم') }
+      : { partial: twin('غرفة ضيوف توأم مع إطلالات جزئية على الحرم') },
+  });
+  try {
+    const results = await scrapeBooking({ hotelInput: 'booking:' + input.hotelId, checkIn: input.checkIn, checkOut: '2026-10-22', adults: 2, rooms: 1 });
+    const standard = results.find(room => room.roomName === 'غرفة توأم');
+    assert.equal(standard.dailyRates[0].breakfastPrice, 100);
+    assert.equal(standard.dailyRates[1].breakfastPrice, null);
+    assert.equal(standard.breakfastTotalPrice, null);
+    assert.equal(standard.breakfastAvailableNights, 1);
+    assert.equal(standard.dailyRates[1].isAlternative, false);
+    assert.equal(standard.dailyRates[1].availability, 'unavailable');
+    assert.equal(standard.dailyRates[1].alternativeBreakfastPrice, null);
+    assert.deepEqual(standard.dailyRates[1].offers, {});
+    const partial = results.find(room => room.roomName === 'غرفة ضيوف توأم مع إطلالات جزئية على الحرم');
+    assert.equal(partial.dailyRates[1].breakfastPrice, 100);
+  } finally { bookingClient.forPricingMode = original; }
+});
 
 test('Booking validates hotel URLs and IDs without accepting other domains', () => {
   assert.equal(bookingHotelId('booking:184752'), '184752');

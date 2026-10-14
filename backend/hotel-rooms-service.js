@@ -1,6 +1,5 @@
 import { datePairs } from './scrapers/almosafer-live.js';
 import { recordSourceSuccess, recordSourceFailure } from './scrapers/source-status.js';
-import { isBookingSessionActive } from './scrapers/booking-session-store.js';
 
 const invalid = message => { const error = new Error(message); error.status = 400; throw error; };
 export function detectHotelSource(input) {
@@ -41,8 +40,9 @@ export function createHotelRoomsService({ resolveAlmosafer, enigmaClient, resolv
       datePairs(checkIn, checkOut);
     } catch { invalid('تاريخ الوصول غير صالح'); }
     // Only the requested first night is used for the room selector, never a later date.
-    const params = { checkIn, checkOut, adults, rooms, children, childAges, ...(source === 'booking' ? { geniusActive: isBookingSessionActive() } : {}) };
-    const key = JSON.stringify({ source, hotelInput, ...params });
+    const params = { checkIn, checkOut, adults, rooms, children, childAges, ...(source === 'booking' ? { bookingRateMode: body.bookingRateMode } : {}) };
+    const scopedBooking = source === 'booking' ? (bookingClient.forPricingMode?.(body.bookingRateMode) || bookingClient) : null;
+    const key = JSON.stringify({ source, hotelInput, ...params, ...(scopedBooking ? { pricingScope: scopedBooking.scopeId } : {}) });
     const cached = cache.get(key);
     if (!body.refresh && cached && cached.expires > now()) return cached.value;
     if (pending.has(key)) return pending.get(key);
@@ -64,8 +64,8 @@ export function createHotelRoomsService({ resolveAlmosafer, enigmaClient, resolv
           checkIn, checkOut, roomsInfo: [{ adultsCount: adults, kidsAges: childAges }] }, { refresh: Boolean(body.refresh) });
         names = Object.values(rates).map(room => room.name);
       } else {
-        details = await resolveBooking(hotelInput, params);
-        const rates = await bookingClient.rooms({ hotelId: details.hotelId, checkIn, checkOut, roomsInfo: [{ adultsCount: adults, kidsAges: childAges }], geniusActive: isBookingSessionActive() }, { refresh: Boolean(body.refresh) });
+        details = await resolveBooking(hotelInput, params, scopedBooking);
+        const rates = await scopedBooking.rooms({ hotelId: details.hotelId, checkIn, checkOut, roomsInfo: [{ adultsCount: adults, kidsAges: childAges }] }, { refresh: Boolean(body.refresh) });
         names = Object.values(rates).map(room => room.name);
       }
       recordSourceSuccess(source);

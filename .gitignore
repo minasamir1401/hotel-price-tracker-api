@@ -40,4 +40,6 @@ backend/roomList_full.json
 change-network-temporarily.ps1
 restore-network.ps1
 network-original.txt
+backend/chrome_profile*/
+backend/browser_resp_*.json
 
