@@ -72,6 +72,23 @@ Successful prices are cached for two minutes, confirmed empty availability for
 20 seconds, and failures are not cached. Refresh starts a fresh price query.
 Independent-night totals can differ from a continuous-stay booking.
 
+## Occupancy comparison on 22 October 2026
+
+For Alroh Alhora Hotel (`mecca-alroh-alhora-hotel-5640876`), all 31 independent
+night quotes from 8 February to 11 March 2027 matched the supplied three-adult
+workbook. The same triple room returned different source prices when queried
+for two adults. On 8 February, the two-adult source total was SAR 242.27 (243
+displayed), versus SAR 240.89 (241 displayed) for three adults. The supplied
+phone screenshot explicitly shows two guests and SAR 243.
+
+Across the 31 nights, two-adult minus three-adult displayed differences were
+-1, 0, 2 or 3 riyals. These differences already exist in the source receipts;
+they are not a rounding correction to apply locally. Room capacity and actual
+guest count must be selected independently. The form's occupancy buttons now
+name the number of adults without assigning a room type to that count.
+Local request receipts and the reconciliation report are saved in ignored
+`outputs/nusuk-app-probe/alroh-price-check/`.
+
 ## Validation on 13 October 2026
 
 Live Node.js fetches and source receipt reconciliation succeeded for:
