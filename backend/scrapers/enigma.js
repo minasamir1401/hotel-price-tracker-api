@@ -155,7 +155,8 @@ export function createEnigmaClient({ fetchImpl = almosaferFetch, sleep = ms => n
         const deadline = now() + (almosaferConnection().remote ? 150000 : 45000);
         try {
           const value = await query(payload, deadline);
-          if (Object.keys(value).length || attempt === maxAttempts - 1) return value;
+          // query() only returns after a verified, completed poll, including sold-out nights.
+          return value;
         } catch (error) {
           const terminalBootstrap = error.stage === 'session-bootstrap' && !['UPSTREAM_NETWORK_ERROR','SCRAPINGANT_NETWORK_ERROR'].includes(error.code);
           if (attempt === maxAttempts - 1 || error.upstreamStatus === 400 || error.upstreamStatus === 404 || terminalBootstrap || error.responseKind === 'challenge') throw error;

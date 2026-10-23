@@ -2,6 +2,18 @@ import { roundMoney } from './enigma.js';
 import {validateBedFilter,matchBeds} from './beds.js';
 import { almosaferConnection } from './almosafer-connection.js';
 import { roomNameMatches } from './arabic-norm.js';
+import { forEachNight, fatalInventoryError } from './night-workers.js';
+import { roomInventoryStore } from '../room-inventory.js';
+
+function filterRooms(result, bedFilter) {
+  const rated = result.map(room => ({ ...room, requestedBeds: bedFilter, bedFilterStatus: matchBeds(room.beds, bedFilter) }));
+  const filtered = rated.filter(r => r.bedFilterStatus !== 'mismatch' && (r.bedFilterStatus !== 'unknown' || bedFilter.includeUnknown));
+  filtered.filterWarnings = [];
+  const unknown = rated.filter(r => r.bedFilterStatus === 'unknown').length;
+  if (bedFilter.active && unknown && !bedFilter.includeUnknown) filtered.filterWarnings.push(`المصدر لم يحدد السراير في ${unknown} خيارات غرف؛ تم استبعادها من البحث الدقيق. يمكن إظهارها باختيار «إظهار العروض غير محددة السراير».`);
+  if (bedFilter.active && !filtered.length) filtered.filterWarnings.push('لا يوجد عرض مؤكد يطابق عدد ونوع السراير المحددين في نتيجة المصدر الحالية.');
+  return filtered;
+}
 
 export function datePairs(checkIn, checkOut) {
   const start = Date.parse(`${checkIn}T12:00:00Z`);
@@ -12,7 +24,7 @@ export function datePairs(checkIn, checkOut) {
   return Array.from({length:nights}, (_, i) => ({ date: new Date(start + i * 86400000).toISOString().slice(0,10), nextDate: new Date(start + (i+1) * 86400000).toISOString().slice(0,10), day: new Date(start + i * 86400000).getUTCDay() }));
 }
 
-export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',sourceArabic='المسافر',bookingURL,allowSameNameFallback=true,allowAlternativeFallback=true}={}) {
+export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',sourceArabic='المسافر',bookingURL,allowSameNameFallback=true,allowAlternativeFallback=true,repairFailedNights=true,inventoryStore=roomInventoryStore}={}) {
   return async function scrape(params) {
     const { hotelInput, checkIn, checkOut, roomNotes = '', refresh = false } = params;
     const adults = Number(params.adults ?? 2), rooms = Number(params.rooms ?? 1), children = Number(params.children ?? 0);
@@ -21,9 +33,15 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
     if (!Number.isInteger(children) || children < 0 || !Array.isArray(childAges) || childAges.length !== children || childAges.some(age => !Number.isInteger(age) || age < 0 || age > 17)) throw new Error('يلزم تحديد أعمار الأطفال للحصول على سعر صحيح');
     const pairs = datePairs(checkIn, checkOut);
     const bedFilter=validateBedFilter(params);
+    const inventory = source === 'Almosafer' && params.roomInventoryId && inventoryStore.take(params.roomInventoryId, params);
+    if (inventory) {
+      params.onProgress?.({ completed: pairs.length, total: pairs.length, percent: 100, source: sourceArabic });
+      return filterRooms(inventory, bedFilter);
+    }
     const details = await resolveDetails(hotelInput, params);
     if (!details.hotelId) throw new Error(`يرجى إدخال رابط الفندق من ${sourceArabic} لتحديد الفندق بدقة`);
     const maps = [], errors = [], failures = new Map();
+    let phase = 'collecting', repairTotal = 0, repairCompleted = 0;
     const fetchNight = async (dp, force, repair = false) => {
       try {
         const value = await fetchDay({
@@ -34,7 +52,7 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
           ...(details.hotelProfileKey ? { hotelProfileKey: details.hotelProfileKey, countryCode: details.countryCode } : {}),
           roomsInfo: Array.from({ length: rooms }, () => ({ adultsCount: adults, kidsAges: childAges })),
           currency: 'SAR',
-        }, { refresh: force, maxAttempts: repair ? 2 : 1, ...(repair && source === 'Almosafer' ? {freshSession:true} : {}) });
+        }, { refresh: force, maxAttempts: 1, ...(repair && source === 'Almosafer' ? {freshSession:true} : {}) });
         const old = errors.findIndex(e => e.date === dp.date);
         if (old >= 0) errors.splice(old, 1);
         failures.delete(dp.date);
@@ -50,13 +68,15 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
     const reportProgress = (currentDate) => {
       if (typeof params.onProgress === 'function') {
         const completed = maps.filter(m => m !== undefined).length;
-        const percent = pairs.length > 0 ? Math.round((completed / pairs.length) * 100) : 0;
+        const percent = phase === 'repairing' ? Math.round(repairCompleted / repairTotal * 100)
+          : pairs.length > 0 ? Math.round((completed / pairs.length) * 100) : 0;
         params.onProgress({
           completed,
           total: pairs.length,
           currentDay: currentDate,
           percent,
           source: sourceArabic,
+          phase, repairCompleted, repairTotal, unverifiedNights: errors.length,
         });
       }
     };
@@ -65,47 +85,39 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
     const connection = isAlmosafer ? almosaferConnection() : null;
     const isScrapingAnt = connection?.transport === 'scrapingant';
     const remoteBrowser = isAlmosafer && Boolean(connection?.browserEndpoint);
-    const BATCH_SIZE = remoteBrowser ? 2 : (isScrapingAnt ? 2 : 8);
-    for (let offset = 0; offset < pairs.length; offset += BATCH_SIZE) {
-      const slice = pairs.slice(offset, offset + BATCH_SIZE);
-      await Promise.all(slice.map(async (dp, idx) => {
-        if (isScrapingAnt && idx > 0) {
-          await new Promise(r => setTimeout(r, idx * 300));
-        }
-        const val = await fetchNight(dp, refresh);
-        maps[offset + idx] = val;
-        reportProgress(dp.date);
-      }));
-      const fatal=[...failures.values()].find(e=>e.stage==='browser-connect'||
-        (['session-bootstrap','packages','poll'].includes(e.stage)&&
-          (['challenge','access-denied'].includes(e.responseKind)||[401,403].includes(e.upstreamStatus))));
-      if(fatal && slice.every((_,idx)=>maps[offset+idx]===null)) {
-        for(let i=offset+slice.length;i<pairs.length;i++) {
-          maps[i]=null;failures.set(pairs[i].date,fatal);errors.push({date:pairs[i].date,message:fatal.message});
-        }
-        reportProgress(pairs.at(-1).date);
-        break;
+    const concurrency = connection?.concurrency || 8;
+    let fatal;
+    await forEachNight(pairs, concurrency, async (dp, index) => {
+      maps[index] = await fetchNight(dp, refresh);
+      fatal ||= [...failures.values()].find(fatalInventoryError);
+      reportProgress(dp.date);
+    }, () => Boolean(fatal) && !maps.some(map => map !== undefined && map !== null));
+    if (fatal) {
+      for (let i = 0; i < pairs.length; i++) if (maps[i] === undefined) {
+        maps[i] = null; failures.set(pairs[i].date, fatal); errors.push({ date: pairs[i].date, message: fatal.message });
       }
+      reportProgress(pairs.at(-1).date);
     }
-    // Recheck unsuccessful/empty nights with fresh searches
+    // Recheck failed nights with fresh searches; confirmed empty nights are final.
     const repair = pairs.map((dp, i) => ({ dp, i })).filter(({ dp, i }) => {
+      if (!repairFailedNights) return false;
       const failure=failures.get(dp.date);
       if (failure?.responseKind === 'challenge' || failure?.stage === 'browser-connect' || [400,401,403,404].includes(failure?.upstreamStatus)) return false;
-      // Confirmed empty inventory is not a transport error; avoid paying for another identical remote search.
-      return maps[i] === null || (!remoteBrowser && !Object.keys(maps[i] || {}).length);
+      // Completed, validated empty inventory is final for every transport.
+      return maps[i] === null;
     });
     if (repair.length > 0) {
-      const REPAIR_BATCH = remoteBrowser ? 1 : (isScrapingAnt ? 1 : 4);
-      for (let offset = 0; offset < repair.length; offset += REPAIR_BATCH) {
-        await Promise.all(repair.slice(offset, offset + REPAIR_BATCH).map(async ({ dp, i }) => {
-          const val = await fetchNight(dp, true, true);
-          if (val !== null && (Object.keys(val).length > 0 || maps[i] === null)) {
-            maps[i] = val;
-          }
-          reportProgress(dp.date);
-        }));
-      }
+      phase = 'repairing'; repairTotal = repair.length;
+      reportProgress(repair[0].dp.date);
+      const REPAIR_BATCH = remoteBrowser ? 1 : (isScrapingAnt ? 2 : 4);
+      await forEachNight(repair, REPAIR_BATCH, async ({ dp, i }) => {
+        maps[i] = await fetchNight(dp, true, true);
+        repairCompleted++;
+        reportProgress(dp.date);
+      });
     }
+    phase = 'completed';
+    reportProgress(pairs.at(-1).date);
     if (maps.every(m => m === null)) throw failures.get(errors[0]?.date) || new Error(`تعذر الاتصال بـ${sourceArabic}`);
     const keys = [...new Set(maps.flatMap(m=>Object.keys(m || {})))];
     const dayNames = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
@@ -256,11 +268,6 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
 
     // Empty availability and connection failures must be distinguishable.
     if (!result.length && errors.length) throw failures.get(errors[0].date) || new Error(errors[0].message);
-    const filtered=result.filter(r=>r.bedFilterStatus!=='mismatch'&&(r.bedFilterStatus!=='unknown'||bedFilter.includeUnknown));
-    filtered.filterWarnings=[];
-    const unknown=result.filter(r=>r.bedFilterStatus==='unknown').length;
-    if(bedFilter.active && unknown && !bedFilter.includeUnknown)filtered.filterWarnings.push(`المصدر لم يحدد السراير في ${unknown} خيارات غرف؛ تم استبعادها من البحث الدقيق. يمكن إظهارها باختيار «إظهار العروض غير محددة السراير».`);
-    if(bedFilter.active && !filtered.length)filtered.filterWarnings.push('لا يوجد عرض مؤكد يطابق عدد ونوع السراير المحددين في نتيجة المصدر الحالية.');
-    return filtered;
+    return filterRooms(result, bedFilter);
   };
 }

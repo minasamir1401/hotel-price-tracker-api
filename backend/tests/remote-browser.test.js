@@ -150,7 +150,7 @@ test('ScrapingAnt missing nights get isolated sessions and bounded retries while
         if (!fetchImpl && missing) throw new Error('Unverified source response');
         if (fetchImpl) {
           repairs++;
-          assert.equal(options.maxAttempts, 2);
+          assert.equal(options.maxAttempts, 1);
           assert.equal(options.refresh, true);
         }
         return { twin: { name: 'Twin', beds: [], offers: { breakfast: { price: missing ? 234.56 : 123.45, packageId: input.checkIn } } } };

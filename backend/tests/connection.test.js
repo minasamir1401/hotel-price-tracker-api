@@ -50,9 +50,9 @@ test('Cloudflare hard block is reported as access denial even when its explanati
   recordSourceFailure('hard-block-test', error);
   assert.equal(sourceSnapshot('hard-block-test').status, 'blocked');
 });
-test('Room selector uses the exact first night, all requested rooms and child ages; concurrent duplicates share one request', async () => {
+test('A one-night room selector preserves the requested date, all rooms and child ages; concurrent duplicates share one request', async () => {
   const requests = [];
-  const service = createHotelRoomsService({ resolveAlmosafer: async () => ({ hotelId: '1287944', hotelName: 'Hotel' }), enigmaClient: async request => { requests.push(request); await Promise.resolve(); return { one: { name: 'Twin' } }; } });
+  const service = createHotelRoomsService({ resolveAlmosafer: async () => ({ hotelId: '1287944', hotelName: 'Hotel' }), enigmaClient: async request => { requests.push(request); await Promise.resolve(); return { one: { name: 'Twin', offers: { roomOnly: { price: 100 } } } }; } });
   const request = { ...body, rooms: 2, children: 1, childAges: [7] };
   const results = await Promise.all([service(request), service(request)]);
   assert.equal(requests.length, 1); assert.equal(results[0].checkIn, '2026-10-11'); assert.equal(results[0].checkOut, '2026-10-12');
@@ -106,7 +106,7 @@ test('Global hotel links keep their origin through room lookup and reject arbitr
   assert.throws(() => createEnigmaClient({ origin: 'http://global.almosafer.com' }), /غير مدعوم/);
   const service = createHotelRoomsService({ resolveAlmosafer: resolveAlmosaferDetails, enigmaClient: async request => {
     assert.equal(request.sourceOrigin, 'https://global.almosafer.com');
-    return { one: { name: 'Twin' } };
+    return { one: { name: 'Twin', offers: { roomOnly: { price: 100 } } } };
   } });
   assert.deepEqual((await service({ ...body, hotelInput: input })).rooms, ['Twin']);
 });

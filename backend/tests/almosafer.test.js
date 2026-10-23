@@ -297,7 +297,7 @@ test('Supplier template changes do not create missing nights for the same explic
   const result=await scraper({hotelInput:'كينجزجيت',checkIn:'2026-10-01',checkOut:'2026-10-03',bedCount:2,bedType:'single'});
   assert.equal(result.length,1);assert.equal(result[0].roomOnlyTotalPrice,220);assert.equal(result[0].roomOnlyAvailableNights,2);
 });
-test('Fresh repair recovers empty and failed nights without copying another date',async()=>{
+test('Fresh repair recovers failed nights, while confirmed empty nights are requested only once',async()=>{
   const calls=new Map();
   const scraper=createLiveScraper(fixtureResolver,async(p,options)=>{
     const n=(calls.get(p.checkIn)||0)+1;calls.set(p.checkIn,n);
@@ -307,5 +307,6 @@ test('Fresh repair recovers empty and failed nights without copying another date
     return parsePackages(poll([offer('RO',Number(p.checkIn.slice(-2))*100)]),2,1);
   });
   const [room]=await scraper({hotelInput:'كينجزجيت',checkIn:'2026-10-01',checkOut:'2026-10-04'});
-  assert.deepEqual(room.dailyRates.map(d=>d.roomOnlyPrice),[100,200,300]);assert.deepEqual(room.warnings,[]);assert.equal(room.roomOnlyTotalPrice,600);
+  assert.deepEqual(room.dailyRates.map(d=>d.roomOnlyPrice),[100,null,300]);assert.deepEqual(room.warnings,[]);assert.equal(room.roomOnlyTotalPrice,null);
+  assert.equal(calls.get('2026-10-02'),1);assert.equal(calls.get('2026-10-03'),2);
 });

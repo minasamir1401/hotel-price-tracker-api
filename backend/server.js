@@ -205,6 +205,7 @@ app.post('/api/search-hotel-prices', async (req, res) => {
       rooms: effectiveRooms,
       roomNotes,
       refresh,
+      roomInventoryId: req.body.roomInventoryId,
       childAges,
       bedCount,
       bedType,
@@ -359,7 +360,7 @@ app.post('/api/hotel-rooms-list', async (req, res) => {
       const checkIn = req.body.checkIn || new Date(Date.now() + 86400000).toISOString().slice(0,10);
       const start = Date.parse(`${checkIn}T12:00:00Z`);
       if (!Number.isFinite(start)) throw Object.assign(new Error('تاريخ الوصول غير صالح'),{status:400});
-      const checkOut = new Date(start + 86400000).toISOString().slice(0,10);
+      const checkOut = req.body.checkOut || new Date(start + 86400000).toISOString().slice(0,10);
       const source = req.body.source || detectHotelSource(req.body.hotelInput);
       const job = searchJobs.start({ kind: 'hotel-rooms', sources: [source], source,
         requestId: req.body.requestId,

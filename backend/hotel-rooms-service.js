@@ -1,5 +1,7 @@
-import { datePairs } from './scrapers/almosafer-live.js';
+import { datePairs, createLiveScraper } from './scrapers/almosafer-live.js';
 import { recordSourceSuccess, recordSourceFailure } from './scrapers/source-status.js';
+import { roomInventoryStore } from './room-inventory.js';
+import { forEachNight, fatalInventoryError } from './scrapers/night-workers.js';
 
 const invalid = message => { const error = new Error(message); error.status = 400; throw error; };
 export function detectHotelSource(input) {
@@ -16,7 +18,7 @@ export function detectHotelSource(input) {
   } catch { return null; }
 }
 
-export function createHotelRoomsService({ resolveAlmosafer, enigmaClient, resolveAlmatar, fetchOneNight, resolveBooking, bookingClient, resolveNusuk, nusukClient, now = Date.now }) {
+export function createHotelRoomsService({ resolveAlmosafer, enigmaClient, resolveAlmatar, fetchOneNight, resolveBooking, bookingClient, resolveNusuk, nusukClient, now = Date.now, inventoryStore = roomInventoryStore }) {
   const cache = new Map(), pending = new Map();
   return async function hotelRooms(body) {
     let hotelInput = String(body.hotelInput || '').trim();
@@ -34,12 +36,11 @@ export function createHotelRoomsService({ resolveAlmosafer, enigmaClient, resolv
     if (source === 'booking' && (rooms !== 1 || children !== 0)) invalid('Booking يدعم حاليًا غرفة واحدة بدون أطفال');
     if (source === 'nusuk' && (rooms !== 1 || children !== 0)) invalid('نسك يدعم حاليًا غرفة واحدة بدون أطفال');
     const checkIn = body.checkIn || new Date(now() + 86400000).toISOString().slice(0, 10);
-    let checkOut;
+    let checkOut, pairs;
     try {
-      checkOut = new Date(Date.parse(`${checkIn}T12:00:00Z`) + 86400000).toISOString().slice(0, 10);
-      datePairs(checkIn, checkOut);
-    } catch { invalid('تاريخ الوصول غير صالح'); }
-    // Only the requested first night is used for the room selector, never a later date.
+      checkOut = body.checkOut || new Date(Date.parse(`${checkIn}T12:00:00Z`) + 86400000).toISOString().slice(0, 10);
+      pairs = datePairs(checkIn, checkOut);
+    } catch { invalid('تواريخ الإقامة غير صالحة (بحد أقصى 62 ليلة)'); }
     const params = { checkIn, checkOut, adults, rooms, children, childAges, ...(source === 'booking' ? { bookingRateMode: body.bookingRateMode } : {}) };
     const scopedBooking = source === 'booking' ? (bookingClient.forPricingMode?.(body.bookingRateMode) || bookingClient) : null;
     const key = JSON.stringify({ source, hotelInput, ...params, ...(scopedBooking ? { pricingScope: scopedBooking.scopeId } : {}) });
@@ -47,31 +48,67 @@ export function createHotelRoomsService({ resolveAlmosafer, enigmaClient, resolv
     if (!body.refresh && cached && cached.expires > now()) return cached.value;
     if (pending.has(key)) return pending.get(key);
     const work = (async () => {
-      let details, names;
+      let details, names, roomInventoryId;
+      const availability = new Map(), warnings = [];
+      const addRoom = (name, date) => {
+        if (!name) return;
+        if (!availability.has(name)) availability.set(name, new Set());
+        availability.get(name).add(date);
+      };
       if (source === 'almosafer') {
         details = await resolveAlmosafer(hotelInput, params);
         if (!details.hotelId) invalid('رابط المسافر لا يحتوي معرّف الفندق');
-        const rates = await enigmaClient({ hotelId: String(details.hotelId), ...(details.sourceOrigin ? { sourceOrigin: details.sourceOrigin } : {}), checkIn, checkOut, roomsInfo: Array.from({ length: rooms }, () => ({ adultsCount: adults, kidsAges: childAges })), currency: 'SAR' }, { refresh: Boolean(body.refresh) });
-        names = Object.values(rates).map(room => room.name || room.category);
-      } else if (source === 'almatar') {
-        details = await resolveAlmatar(hotelInput);
-        if (!details.hotelId || !details.hotelProfileKey) invalid('رابط المطار لا يحتوي معرّف الفندق');
-        const data = await fetchOneNight({ hotelId: details.hotelId, hotelProfileKey: details.hotelProfileKey, countryCode: details.countryCode || '', checkIn, checkOut, adults, rooms, childAges, fastRoomsOnly: true, refresh: Boolean(body.refresh) });
-        names = (data.rooms || []).map(room => room.roomName);
-      } else if (source === 'nusuk') {
-        details = await resolveNusuk(hotelInput, params);
-        const rates = await nusukClient.rooms({ hotelId: details.hotelId, hotelProfileKey: details.hotelProfileKey, countryCode: details.countryCode,
-          checkIn, checkOut, roomsInfo: [{ adultsCount: adults, kidsAges: childAges }] }, { refresh: Boolean(body.refresh) });
-        names = Object.values(rates).map(room => room.name);
+        // Use the same scan as the price table, so a later room is discoverable
+        // and successful quotes can be reused by the following search.
+        // Discovery returns its first pass promptly. Unverified dates are shown
+        // explicitly and can be retried from the daily table on demand.
+        const scan = createLiveScraper(async () => details, enigmaClient, { inventoryStore, repairFailedNights: false });
+        const inventory = await scan({ hotelInput, ...params, refresh: Boolean(body.refresh), onProgress: body.onProgress });
+        for (const room of inventory) for (const day of room.dailyRates) {
+          if (day.availability === 'available') addRoom(room.roomName, day.date);
+        }
+        const uniqueWarnings = new Map(inventory.flatMap(room => room.warnings || []).map(w => [w.date, w]));
+        warnings.push(...uniqueWarnings.values());
+        // The next search keeps unverified nights and their errors too. It must
+        // not scrape successful dates again just because another date failed.
+        roomInventoryId = inventoryStore.put({ hotelInput, ...params }, inventory);
       } else {
-        details = await resolveBooking(hotelInput, params, scopedBooking);
-        const rates = await scopedBooking.rooms({ hotelId: details.hotelId, checkIn, checkOut, roomsInfo: [{ adultsCount: adults, kidsAges: childAges }] }, { refresh: Boolean(body.refresh) });
-        names = Object.values(rates).map(room => room.name);
+        details = source === 'almatar' ? await resolveAlmatar(hotelInput)
+          : source === 'nusuk' ? await resolveNusuk(hotelInput, params)
+          : await resolveBooking(hotelInput, params, scopedBooking);
+        if (!details.hotelId || (source === 'almatar' && !details.hotelProfileKey)) invalid('رابط الفندق لا يحتوي معرّف الفندق');
+        let completed = 0, fatal, firstError;
+        await forEachNight(pairs, 4, async dp => {
+          try {
+            let dailyNames;
+            if (source === 'almatar') {
+              const data = await fetchOneNight({ hotelId: details.hotelId, hotelProfileKey: details.hotelProfileKey, countryCode: details.countryCode || '', checkIn: dp.date, checkOut: dp.nextDate, adults, rooms, childAges, fastRoomsOnly: true, refresh: Boolean(body.refresh) });
+              dailyNames = (data.rooms || []).map(room => room.roomName);
+            } else {
+              const client = source === 'nusuk' ? nusukClient : scopedBooking;
+              const rates = await client.rooms({ hotelId: details.hotelId,
+                ...(source === 'nusuk' ? { hotelProfileKey: details.hotelProfileKey, countryCode: details.countryCode } : {}),
+                checkIn: dp.date, checkOut: dp.nextDate, roomsInfo: [{ adultsCount: adults, kidsAges: childAges }] }, { refresh: Boolean(body.refresh) });
+              dailyNames = Object.values(rates).map(room => room.name);
+            }
+            for (const name of dailyNames) addRoom(name, dp.date);
+          } catch (error) {
+            firstError ||= error;
+            if (fatalInventoryError(error)) fatal = error;
+            warnings.push({ date: dp.date, message: error.message });
+          }
+          completed++;
+          body.onProgress?.({ completed, total: pairs.length, percent: Math.round(completed / pairs.length * 100) });
+        }, () => Boolean(fatal));
+        if (fatal) throw fatal;
+        if (!availability.size && firstError) throw firstError;
       }
+      names = [...availability.keys()];
       recordSourceSuccess(source);
-      const value = { success: true, rooms: [...new Set(names.filter(Boolean))], hotelName: details.hotelName, hotelNameEn: details.hotelNameEn || details.hotelName, hotelId: String(details.hotelId), source, checkIn, checkOut, adults, children, requestedRooms: rooms, fetchedAt: new Date(now()).toISOString() };
+      const roomAvailability = names.map(name => ({ name, availableDates: [...availability.get(name)].sort(), availableNights: availability.get(name).size, totalNights: pairs.length }));
+      const value = { success: true, rooms: names, roomAvailability, roomInventoryId, warnings, hotelName: details.hotelName, hotelNameEn: details.hotelNameEn || details.hotelName, hotelId: String(details.hotelId), source, checkIn, checkOut, adults, children, requestedRooms: rooms, fetchedAt: new Date(now()).toISOString() };
       if (cache.size >= 500) cache.delete(cache.keys().next().value);
-      cache.set(key, { value, expires: now() + (value.rooms.length ? 120000 : 5000) });
+      if (!warnings.length) cache.set(key, { value, expires: now() + (value.rooms.length ? 120000 : 5000) });
       return value;
     })().catch(error => { if (error.status !== 400) recordSourceFailure(source, error); throw error; }).finally(() => pending.delete(key));
     pending.set(key, work);
