@@ -5,6 +5,7 @@ import {createLiveScraper,datePairs} from '../scrapers/almosafer-live.js';
 import {buildComparison} from '../scrapers/index.js';
 import {readBedOptions,matchBeds,validateBedFilter} from '../scrapers/beds.js';
 import {createAlmosaferSessionProvider} from '../scrapers/almosafer-session.js';
+import {readFileSync} from 'node:fs';
 const payload={hotelId:'1287944',checkIn:'2026-10-25',checkOut:'2026-10-26',currency:'SAR',roomsInfo:[{adultsCount:2,kidsAges:[]}]};
 const offer=(basis,total,flex=false,name='غرفة ستاندرد',roomCount=1)=>({bookable:true,packageId:`${basis}-${total}`,rooms:Array.from({length:roomCount},()=>({roomName:{ar:name},roomBasis:basis})),packageRateInfo:{total,currency:'SAR'},cancellationPolicy:{hasFreeCancellation:flex}});
 const poll=(packages,status='COMPLETED_SUCCESSFULLY')=>({hotelId:1287944,currencyCode:'SAR',numberOfNights:1,pollingStatus:status,packagesGroups:[{title:{ar:'غرفة ستاندرد'},packages}]});
@@ -266,6 +267,48 @@ test('Marketing-identical room variants cannot share breakfast when bedding meta
   const exact=parsed.find(r=>r.originalNames[0]==='Twin Room');
   assert.equal(exact.offers.roomOnly.price,793);assert.equal(exact.offers.breakfast,undefined);
   assert.equal(parsed.find(r=>r.originalNames[0]==='Double Room').beddingVerified,false);
+});
+
+test('Maysan source templates join supplier name aliases into one room with all three meal plans',async()=>{
+  const source=JSON.parse(readFileSync(new URL('./fixtures/almosafer-maysan-day.json',import.meta.url),'utf8'));
+  const rates=parsePackages(source,2,1);
+  assert.equal(Object.keys(rates).length,3,'Double and Double Room share the same source room template');
+  const standard=Object.values(rates).find(r=>r.name==='غرفة ستاندرد');
+  assert.equal(standard.offers.roomOnly.price,548.06);
+  assert.equal(standard.offers.breakfast.price,717.92);
+  assert.equal(standard.offers.halfBoard.price,841.77);
+  assert.equal(standard.beddingVerified,false,'A template does not prove a bed type');
+  assert.equal(standard.offers.roomOnly.templateIds[0],standard.offers.breakfast.templateIds[0]);
+  assert.deepEqual(standard.offers.roomOnly.originalRoomNames,['Double']);
+  assert.deepEqual(standard.offers.breakfast.originalRoomNames,['Double Room']);
+  const scraper=createLiveScraper(async()=>({hotelId:'3843885',hotelName:'فندق ميسان المقام'}),async()=>rates);
+  const input={hotelInput:'3843885',checkIn:'2026-11-01',checkOut:'2026-11-02',adults:2,rooms:1};
+  const rooms=await scraper(input);
+  const result=buildComparison({...input,roomName:'غرفة ستاندرد'},rooms);
+  assert.equal(result.data.length,3);
+  assert.equal(result.summary.almosaferRoom,'غرفة ستاندرد');
+  assert.equal(result.summary.dailyBreakdown[0].almosaferRoomOnly,548.06);
+  assert.equal(result.summary.dailyBreakdown[0].almosaferBreakfast,717.92);
+  assert.equal(result.summary.dailyBreakdown[0].almosaferHalfBoard,841.77);
+  assert.equal(rooms.find(r=>r.roomName==='غرفة ستاندرد من ثلاثية').halfBoardTotalPrice,928.67);
+  assert.equal(rooms.find(r=>r.roomName==='غرفة ستاندرد من رباعية').halfBoardTotalPrice,1015.59);
+});
+
+test('A shared template cannot combine rooms with conflicting matching codes, views or bedding labels',()=>{
+  const make=(basis,detail={})=>{
+    const pkg=offer(basis,100);
+    pkg.rooms[0]={...pkg.rooms[0],templateId:11,originalRoomName:basis==='RO'?'Double':'Double Room',
+      rmsDetail:{matchingCode:'DOUBLE',view:'',locale:{ar:{bedding:''}},...detail}};
+    return pkg;
+  };
+  for(const detail of [{matchingCode:'TWIN'},{view:'city'},{locale:{ar:{bedding:'يحدد عند الوصول'}}}]){
+    const packet=poll([make('RO'),make('BB',detail)]);
+    packet.packagesGroups[0].templates={11:{id:11,templateTitle:'Double Room'}};
+    assert.equal(Object.keys(parsePackages(packet,2,1)).length,2);
+  }
+  const unconfirmed=poll([make('RO'),make('BB')]);
+  unconfirmed.packagesGroups[0].templates={11:{id:12}};
+  assert.equal(Object.keys(parsePackages(unconfirmed,2,1)).length,2,'A mismatched template is not proof of room identity');
 });
 test('Unbookable offers and packages for a different room count cannot become a price',()=>{
   const soldOut={...offer('BB',1),bookable:false};

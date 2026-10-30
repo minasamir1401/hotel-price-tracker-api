@@ -34,7 +34,16 @@ export function parsePackages(poll, adults, roomsCount) {
         const bed=beds[i];
         const known=bed.options.length>0&&bed.options.every(o=>o.count&&o.type);
         // Supplier/template ids may change between nights for the same explicitly described beds.
-        return known?JSON.stringify({beds:bed.options,view:r.rmsDetail?.view || ''}):[r.rmsDetail?.matchingCode || r.rmsDetail?.hashCode || '',r.originalRoomName || '',r.templateId || '',bed.label || '',r.rmsDetail?.view || ''].join(':');
+        if(known)return JSON.stringify({beds:bed.options,view:r.rmsDetail?.view || ''});
+        const template=group.templates?.[r.templateId];
+        const matchingCode=r.rmsDetail?.matchingCode;
+        // The source assigns supplier aliases (e.g. Double / Double Room) to
+        // one canonical template. Meal plans must share that room's identity,
+        // while different templates, matching codes, views and beds stay apart.
+        if(template && r.templateId!=null && String(template.id)===String(r.templateId) && matchingCode) {
+          return JSON.stringify({templateId:String(r.templateId),matchingCode,bedding:bed.label || '',view:r.rmsDetail?.view || ''});
+        }
+        return [matchingCode || r.rmsDetail?.hashCode || '',r.originalRoomName || '',r.templateId || '',bed.label || '',r.rmsDetail?.view || ''].join(':');
       }).join('/');
       const name = names.join(' / ');
       const key = identity.replace(/[:/]/g,'') ? `${name}::${identity}` : name;

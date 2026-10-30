@@ -1,0 +1,405 @@
+{
+  "hotelId": 3843885,
+  "currencyCode": "SAR",
+  "numberOfNights": 1,
+  "pollingStatus": "COMPLETED_SUCCESSFULLY",
+  "packagesGroups": [
+    {
+      "title": {
+        "en": "Standard Room",
+        "ar": "غرفة ستاندرد"
+      },
+      "templates": {
+        "84643064": {
+          "id": 84643064,
+          "templateTitle": "Double Room",
+          "templateNameForCode": "Double Room",
+          "templateHashCode": "731217ce",
+          "templateCode": "731217ce",
+          "roomSize": 30
+        }
+      },
+      "packages": [
+        {
+          "packageId": "03e88a43-262d-4828-9192-b396a8970094",
+          "bookable": true,
+          "vendorSupplierId": 100004,
+          "contractId": 10438,
+          "packageRateInfo": {
+            "total": 548.06,
+            "currency": "SAR"
+          },
+          "cancellationPolicy": {
+            "hasFreeCancellation": false
+          },
+          "rooms": [
+            {
+              "roomName": {
+                "en": "Standard Room",
+                "ar": "غرفة ستاندرد"
+              },
+              "originalRoomName": "Double",
+              "templateId": 84643064,
+              "roomBasis": "RO",
+              "rmsDetail": {
+                "matchingCode": "---:STD:ROM:---:---:---:4KU:---",
+                "hashCode": "bdb36bb2-2deb-5692-b5b3-094ba9005a29",
+                "view": "",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "",
+                    "class": "ستاندرد"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "packageId": "698a455b-9dee-47a9-8c05-59374f768668",
+          "bookable": true,
+          "vendorSupplierId": 100067,
+          "contractId": 10391,
+          "packageRateInfo": {
+            "total": 717.92,
+            "currency": "SAR"
+          },
+          "cancellationPolicy": {
+            "hasFreeCancellation": false
+          },
+          "rooms": [
+            {
+              "roomName": {
+                "en": "Standard Room",
+                "ar": "غرفة ستاندرد"
+              },
+              "originalRoomName": "Double Room",
+              "templateId": 84643064,
+              "roomBasis": "BB",
+              "rmsDetail": {
+                "matchingCode": "---:STD:ROM:---:---:---:4KU:---",
+                "hashCode": "aad06904-1b54-5b49-a951-e22a42b99774",
+                "view": "",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "",
+                    "class": "ستاندرد"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "packageId": "e6e04190-04f7-452c-ac7d-e7a9cb17da4a",
+          "bookable": true,
+          "vendorSupplierId": 100067,
+          "contractId": 10391,
+          "packageRateInfo": {
+            "total": 841.77,
+            "currency": "SAR"
+          },
+          "cancellationPolicy": {
+            "hasFreeCancellation": false
+          },
+          "rooms": [
+            {
+              "roomName": {
+                "en": "Standard Room",
+                "ar": "غرفة ستاندرد"
+              },
+              "originalRoomName": "Double Room",
+              "templateId": 84643064,
+              "roomBasis": "HB",
+              "rmsDetail": {
+                "matchingCode": "---:STD:ROM:---:---:---:4KU:---",
+                "hashCode": "aad06904-1b54-5b49-a951-e22a42b99774",
+                "view": "",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "",
+                    "class": "ستاندرد"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Standard Quadruple Room",
+        "ar": "غرفة ستاندرد من رباعية"
+      },
+      "templates": {
+        "84643065": {
+          "id": 84643065,
+          "templateTitle": "Quadruple Room",
+          "templateNameForCode": "Quadruple Room",
+          "templateHashCode": "fecc25f1",
+          "templateCode": "fecc25f1",
+          "roomSize": 30
+        }
+      },
+      "packages": [
+        {
+          "packageId": "c39d6cb4-55b0-41b5-b518-1737e59c4aae",
+          "bookable": true,
+          "vendorSupplierId": 100004,
+          "contractId": 10438,
+          "packageRateInfo": {
+            "total": 548.06,
+            "currency": "SAR"
+          },
+          "cancellationPolicy": {
+            "hasFreeCancellation": false
+          },
+          "rooms": [
+            {
+              "roomName": {
+                "en": "Standard Quadruple Room",
+                "ar": "غرفة ستاندرد من رباعية"
+              },
+              "originalRoomName": "Quadruple",
+              "templateId": 84643065,
+              "roomBasis": "RO",
+              "rmsDetail": {
+                "matchingCode": "---:STD:ROM:X27:---:---:---:---",
+                "hashCode": "a128bb18-4c62-55f4-b1f1-aad548aa3180",
+                "view": "",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "رباعية",
+                    "class": "ستاندرد"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "packageId": "8b444dc3-92e4-4288-a339-1534ca643f63",
+          "bookable": true,
+          "vendorSupplierId": 100067,
+          "contractId": 10391,
+          "packageRateInfo": {
+            "total": 717.92,
+            "currency": "SAR"
+          },
+          "cancellationPolicy": {
+            "hasFreeCancellation": false
+          },
+          "rooms": [
+            {
+              "roomName": {
+                "en": "Standard Quadruple Room",
+                "ar": "غرفة ستاندرد من رباعية"
+              },
+              "originalRoomName": "Quadruple Room",
+              "templateId": 84643065,
+              "roomBasis": "BB",
+              "rmsDetail": {
+                "matchingCode": "---:STD:ROM:X27:---:---:---:---",
+                "hashCode": "f02b4dbb-1279-56a6-ab66-422c09717689",
+                "view": "",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "رباعية",
+                    "class": "ستاندرد"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "packageId": "71fef50b-19a1-4314-b22b-29b940285091",
+          "bookable": true,
+          "vendorSupplierId": 100067,
+          "contractId": 10391,
+          "packageRateInfo": {
+            "total": 1015.59,
+            "currency": "SAR"
+          },
+          "cancellationPolicy": {
+            "hasFreeCancellation": false
+          },
+          "rooms": [
+            {
+              "roomName": {
+                "en": "Standard Quadruple Room",
+                "ar": "غرفة ستاندرد من رباعية"
+              },
+              "originalRoomName": "Quadruple Room",
+              "templateId": 84643065,
+              "roomBasis": "HB",
+              "rmsDetail": {
+                "matchingCode": "---:STD:ROM:X27:---:---:---:---",
+                "hashCode": "f02b4dbb-1279-56a6-ab66-422c09717689",
+                "view": "",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "رباعية",
+                    "class": "ستاندرد"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Standard Triple Room",
+        "ar": "غرفة ستاندرد من ثلاثية"
+      },
+      "templates": {
+        "84643063": {
+          "id": 84643063,
+          "templateTitle": "Triple Room",
+          "templateNameForCode": "Triple Room",
+          "templateHashCode": "ef398499",
+          "templateCode": "ef398499",
+          "roomSize": 30
+        }
+      },
+      "packages": [
+        {
+          "packageId": "0f77bada-5cfd-4116-a9b9-08c37a1daf16",
+          "bookable": true,
+          "vendorSupplierId": 100004,
+          "contractId": 10438,
+          "packageRateInfo": {
+            "total": 548.06,
+            "currency": "SAR"
+          },
+          "cancellationPolicy": {
+            "hasFreeCancellation": false
+          },
+          "rooms": [
+            {
+              "roomName": {
+                "en": "Standard Triple Room",
+                "ar": "غرفة ستاندرد من ثلاثية"
+              },
+              "originalRoomName": "Triple",
+              "templateId": 84643063,
+              "roomBasis": "RO",
+              "rmsDetail": {
+                "matchingCode": "---:STD:ROM:TR3:---:---:---:---",
+                "hashCode": "5a99906e-eaa8-51eb-b3f1-29f25a3adbb4",
+                "view": "",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "ثلاثية",
+                    "class": "ستاندرد"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "packageId": "03818c26-6f72-44c8-a382-a3776251482f",
+          "bookable": true,
+          "vendorSupplierId": 100067,
+          "contractId": 10391,
+          "packageRateInfo": {
+            "total": 717.92,
+            "currency": "SAR"
+          },
+          "cancellationPolicy": {
+            "hasFreeCancellation": false
+          },
+          "rooms": [
+            {
+              "roomName": {
+                "en": "Standard Triple Room",
+                "ar": "غرفة ستاندرد من ثلاثية"
+              },
+              "originalRoomName": "Triple Room",
+              "templateId": 84643063,
+              "roomBasis": "BB",
+              "rmsDetail": {
+                "matchingCode": "---:STD:ROM:TR3:---:---:---:---",
+                "hashCode": "772d6b51-5cf8-5a2b-8f75-69cbc17e9330",
+                "view": "",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "ثلاثية",
+                    "class": "ستاندرد"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "packageId": "77727312-ac85-47f3-afd7-e8ac7089722b",
+          "bookable": true,
+          "vendorSupplierId": 100067,
+          "contractId": 10391,
+          "packageRateInfo": {
+            "total": 928.67,
+            "currency": "SAR"
+          },
+          "cancellationPolicy": {
+            "hasFreeCancellation": false
+          },
+          "rooms": [
+            {
+              "roomName": {
+                "en": "Standard Triple Room",
+                "ar": "غرفة ستاندرد من ثلاثية"
+              },
+              "originalRoomName": "Triple Room",
+              "templateId": 84643063,
+              "roomBasis": "HB",
+              "rmsDetail": {
+                "matchingCode": "---:STD:ROM:TR3:---:---:---:---",
+                "hashCode": "772d6b51-5cf8-5a2b-8f75-69cbc17e9330",
+                "view": "",
+                "locale": {
+                  "ar": {
+                    "type": "غرفة",
+                    "bedding": "",
+                    "view": "",
+                    "room": "ثلاثية",
+                    "class": "ستاندرد"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "numberOfPackages": 9
+}
