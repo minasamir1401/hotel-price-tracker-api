@@ -9,6 +9,7 @@ services:
     environment:
       - PORT=5000
       - NODE_ENV=production
+      - SEARCH_MAX_ACTIVE_JOBS=${SEARCH_MAX_ACTIVE_JOBS:-10}
       - ALMOSAFER_API_TOKEN=${ALMOSAFER_API_TOKEN:-}
       - ALMOSAFER_ORIGIN=${ALMOSAFER_ORIGIN:-https://www.almosafer.com}
       - ALMOSAFER_HTTP_TRANSPORT=${ALMOSAFER_HTTP_TRANSPORT:-scrapingant}

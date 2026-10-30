@@ -37,6 +37,49 @@ test('Jobs reject invalid inputs before paid execution and enforce the active jo
   await flush();assert.equal(calls,1);
 });
 
+test('Ten distinct searches and room-list jobs run together with isolated progress and results',async()=>{
+  const active=new Map();
+  const jobs=createSearchJobs({env:{},execute:input=>new Promise((resolve,reject)=>{
+    active.set(input.hotelInput,{resolve,reject,progress:input.onProgress});
+  })});
+  const inputs=Array.from({length:10},(_,i)=>({...month,hotelInput:`hotel-${i}`,kind:i%2?'hotel-rooms':'search'}));
+  const started=inputs.map(input=>jobs.start(input));
+  await flush();
+  assert.equal(active.size,10);
+  assert.equal(new Set(started.map(job=>job.id)).size,10);
+  assert.ok(started.every(job=>jobs.get(job.id).status==='running'));
+  assert.equal(jobs.start(inputs[0]).id,started[0].id,'Duplicate work can still join at capacity');
+  assert.throws(()=>jobs.start({...month,hotelInput:'eleventh hotel'}),error=>error.status===429 && error.code==='SEARCH_JOB_LIMIT' && error.message.includes('(10)'));
+  active.get('hotel-3').progress({completed:15,total:30});
+  assert.equal(jobs.get(started[3].id).progress.percent,50);
+  assert.equal(jobs.get(started[0].id).progress.completed,0);
+  active.get('hotel-3').resolve({success:true,hotel:'hotel-3'});
+  active.get('hotel-4').reject(new Error('One source failed'));
+  await flush();
+  assert.deepEqual(jobs.get(started[3].id).result,{success:true,hotel:'hotel-3'});
+  assert.equal(jobs.get(started[4].id).status,'failed');
+  assert.equal(jobs.get(started[0].id).status,'running');
+  const replacement=jobs.start({...month,hotelInput:'replacement hotel'});
+  await flush();
+  assert.equal(jobs.get(replacement.id).status,'running');
+  for(const [hotel,task] of active) task.resolve({success:true,hotel});
+  await flush();
+  assert.equal(jobs.get(started[0].id).result.hotel,'hotel-0');
+  assert.equal(jobs.get(replacement.id).result.hotel,'replacement hotel');
+});
+
+test('The background job limit follows server configuration and rejects invalid limits',async()=>{
+  const jobs=createSearchJobs({env:{SEARCH_MAX_ACTIVE_JOBS:'3'},execute:async()=>({success:true})});
+  for(let i=0;i<3;i++)jobs.start({...month,hotelInput:`hotel-${i}`});
+  assert.throws(()=>jobs.start({...month,hotelInput:'fourth hotel'}),error=>error.code==='SEARCH_JOB_LIMIT' && error.message.includes('(3)'));
+  await flush();
+  assert.equal(jobs.start({...month,hotelInput:'fourth hotel'}).status,'running');
+  await flush();
+  for(const value of ['0','-1','1.5','invalid','Infinity']) {
+    assert.throws(()=>createSearchJobs({env:{SEARCH_MAX_ACTIVE_JOBS:value}}),/SEARCH_MAX_ACTIVE_JOBS/);
+  }
+});
+
 test('Failure diagnostics survive polling and completed jobs expire without running work being cancelled',async()=>{
   let time=0;
   const jobs=createSearchJobs({now:()=>time,ttlMs:100,execute:async()=>{

@@ -3,7 +3,9 @@ import {datePairs} from './scrapers/almosafer-live.js';
 
 // A browser disconnect cannot cancel a paid month-long search. Completed jobs
 // remain available briefly; server restarts intentionally do not claim success.
-export function createSearchJobs({execute,now=Date.now,maxActive=2,ttlMs=1800000,cacheScope=()=>null}={}) {
+export function createSearchJobs({execute,now=Date.now,env=process.env,maxActive=env.SEARCH_MAX_ACTIVE_JOBS || 10,ttlMs=1800000,cacheScope=()=>null}={}) {
+  maxActive=Number(maxActive);
+  if(!Number.isSafeInteger(maxActive) || maxActive<1) throw new Error('إعداد SEARCH_MAX_ACTIVE_JOBS يجب أن يكون عددًا صحيحًا أكبر من صفر');
   const jobs=new Map();
   function prune() {
     for(const [id,j] of jobs) if(j.status!=='running' && now()-j.updatedAt>ttlMs) jobs.delete(id);
@@ -23,7 +25,7 @@ export function createSearchJobs({execute,now=Date.now,maxActive=2,ttlMs=1800000
       const existing=[...jobs.values()].find(j=>j.key===key && (j.status==='running'||(j.status==='completed' &&
         (requestId!==undefined ? j.requestIds.has(requestId) : now()-j.updatedAt<120000))));
       if(existing){existing.requestIds.add(requestId);return snapshot(existing);}
-      if([...jobs.values()].filter(j=>j.status==='running').length>=maxActive) throw Object.assign(new Error('هناك مهمتان قيد التنفيذ؛ انتظر انتهاء إحداهما لتقليل تكلفة الاتصال'),{status:429});
+      if([...jobs.values()].filter(j=>j.status==='running').length>=maxActive) throw Object.assign(new Error(`وصل عدد المهام المتزامنة إلى الحد المهيأ (${maxActive})؛ انتظر اكتمال مهمة أو ارفع إعداد SEARCH_MAX_ACTIVE_JOBS على الخادم`),{status:429,code:'SEARCH_JOB_LIMIT'});
       if(jobs.size>=100) {
         const oldest=[...jobs.values()].find(j=>j.status!=='running');
         if(oldest)jobs.delete(oldest.id);
