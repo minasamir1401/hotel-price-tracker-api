@@ -3,6 +3,7 @@
 import { defaultKeyPool } from './scrapingant-keys.js';
 import { UpstreamError } from './upstream-error.js';
 import { randomUUID } from 'node:crypto';
+import { setTimeout as sleep } from 'node:timers/promises';
 
 const SCRAPINGANT_API_ENDPOINT = 'https://api.scrapingant.com/v2/general';
 
@@ -81,6 +82,9 @@ export function createScrapingAntFetch({
   keyPool = defaultKeyPool,
   fetchImpl = fetch,
   endpoint = SCRAPINGANT_API_ENDPOINT,
+  sleepImpl = sleep,
+  random = Math.random,
+  logger = console.warn,
 } = {}) {
   async function scrapingAntFetch(targetUrl, options = {}) {
     options.signal?.throwIfAborted();
@@ -91,6 +95,8 @@ export function createScrapingAntFetch({
     const maxRetries = Math.max(availableKeys.length * 3, 6);
 
     let lastError = null;
+    let detectedResponses = 0;
+    let diagnosticId;
 
     for (let attempt = 0; attempt < maxRetries; attempt++) {
       options.signal?.throwIfAborted();
@@ -154,8 +160,33 @@ export function createScrapingAntFetch({
       // Non-2xx is a provider failure, not the target site's HTTP status.
       // Target statuses arrive on successful responses in Ant-page-status-code.
       if (!res.ok) {
-        const diagnosticId = randomUUID();
+        diagnosticId ||= randomUUID();
         const detected = res.status === 423;
+        if (detected) detectedResponses++;
+        // Only repeat safe reads. Package PUTs and other forwarded mutations
+        // need their own outcome/idempotency policy before they can be replayed.
+        const willRetry = detected && ['GET', 'HEAD'].includes(method)
+          && detectedResponses < 3 && attempt + 1 < maxRetries;
+        const target = new URL(targetUrl);
+        logger('[SCRAPINGANT FAILURE]', JSON.stringify({
+          diagnosticId, timestamp: new Date().toISOString(), source: 'almosafer',
+          stage: isHtml ? 'session-bootstrap' : 'api', status: res.status,
+          upstreamHost: new URL(endpoint).hostname, host: target.hostname,
+          path: target.pathname, method, browser: isHtml, attempt: attempt + 1,
+          detectedResponses, willRetry,
+        }));
+        // Provider error bodies are never hotel content or diagnostic output.
+        await res.body?.cancel().catch(() => {});
+        if (willRetry) {
+          try {
+            await sleepImpl(1000 * 2 ** (detectedResponses - 1) + random() * 250,
+              undefined, { signal: options.signal });
+          } catch (error) {
+            options.signal?.throwIfAborted();
+            throw error;
+          }
+          continue;
+        }
         const error = new UpstreamError(`ScrapingAnt HTTP ${res.status}: ${detected
           ? 'تعذر الوصول للمسافر لأن المصدر رفض جلسة الاتصال'
           : 'خدمة الاتصال لم تُكمل الطلب'}؛ مرجع التشخيص ${diagnosticId}`, {

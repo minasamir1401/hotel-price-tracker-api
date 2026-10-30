@@ -161,22 +161,76 @@ test('almosaferConnection correctly recognizes scrapingant transport', () => {
   assert.equal(autoConfig.transport, 'scrapingant');
 });
 
-test('Provider 423 is identified as a bounded session rejection without returning provider JSON as hotel content', async () => {
+test('Persistent provider 423 stops after three safe attempts and logs private correlated diagnostics', async () => {
   const pool = createKeyPool({ keys: ['fixture-provider-key-123456'] });
   let calls = 0;
-  const client = createScrapingAntFetch({ keyPool: pool, fetchImpl: async () => {
+  const delays = [], logs = [];
+  const client = createScrapingAntFetch({ keyPool: pool,
+    sleepImpl: async delay => delays.push(delay), random: () => 0,
+    logger: (...args) => logs.push(JSON.parse(args[1])), fetchImpl: async () => {
     calls++;
     return new Response(JSON.stringify({ detail: 'Our browser was detected by target site. fixture-provider-key-123456' }), { status: 423 });
   } });
-  await assert.rejects(client('https://www.almosafer.com/ar/hotels-home'), error => {
+  await assert.rejects(client('https://www.almosafer.com/ar/hotels-home?token=private-query'), error => {
     assert.equal(error.code, 'SCRAPINGANT_TARGET_DETECTED');
     assert.equal(error.upstreamStatus, 423);
     assert.equal(error.upstreamHost, 'api.scrapingant.com');
     assert.equal(error.responseKind, 'challenge');
     assert.ok(error.diagnosticId);
     assert.ok(!error.message.includes('fixture-provider-key-123456'));
+    assert.ok(logs.every(log => log.diagnosticId === error.diagnosticId));
     return true;
   });
+  assert.equal(calls, 3);
+  assert.deepEqual(delays, [1000, 2000]);
+  assert.deepEqual(logs.map(log => log.willRetry), [true, true, false]);
+  assert.ok(!JSON.stringify(logs).includes('private-query'));
+  assert.ok(!JSON.stringify(logs).includes('fixture-provider-key-123456'));
+  assert.equal(pool.isHealthy('fixture-provider-key-123456'), true);
+});
+
+test('A temporary provider 423 recovers with the same target, headers and browser settings', async () => {
+  const calls = [], failures = [];
+  const client = createScrapingAntFetch({ keyPool: createKeyPool({ keys: ['key-one', 'key-two'] }),
+    sleepImpl: async () => {}, logger: (...args) => failures.push(JSON.parse(args[1])),
+    fetchImpl: async (url, options) => {
+      calls.push({ url, options });
+      return calls.length === 1 ? new Response('detected', { status: 423 })
+        : new Response('<script id="__NEXT_DATA__">{}</script>', { headers: { 'ant-page-status-code': '200' } });
+    } });
+  const response = await client('https://www.almosafer.com/ar/hotels-home', { headers: { Accept: 'text/html', Cookie: 'session=private' } });
+  assert.equal(response.status, 200);
+  assert.ok((await response.text()).includes('__NEXT_DATA__'));
+  assert.equal(calls.length, 2);
+  assert.equal(calls[0].url, calls[1].url);
+  assert.equal(calls[1].options.headers['ant-Cookie'], 'session=private');
+  assert.deepEqual(calls.map(call => call.options.headers['x-api-key']), ['key-one', 'key-two']);
+  assert.equal(failures.length, 1);
+});
+
+test('Provider 423 never replays forwarded PUT or POST operations', async () => {
+  for (const method of ['PUT', 'POST', 'PATCH', 'DELETE']) {
+    let calls = 0;
+    const client = createScrapingAntFetch({ keyPool: createKeyPool({ keys: ['fixture-key'] }), logger: () => {},
+      sleepImpl: async () => assert.fail('Must not wait to replay a mutation'),
+      fetchImpl: async () => { calls++; return new Response('detected', { status: 423 }); } });
+    await assert.rejects(client('https://www.almosafer.com/api/enigma/v7/packages', { method, body: '{}' }),
+      error => error.code === 'SCRAPINGANT_TARGET_DETECTED');
+    assert.equal(calls, 1);
+  }
+});
+
+test('Aborting provider 423 backoff cancels immediately without another request', async () => {
+  const controller = new AbortController();
+  let calls = 0;
+  const client = createScrapingAntFetch({ keyPool: createKeyPool({ keys: ['fixture-key'] }), logger: () => {},
+    fetchImpl: async () => {
+      calls++;
+      setImmediate(() => controller.abort());
+      return new Response('detected', { status: 423 });
+    } });
+  await assert.rejects(client('https://www.almosafer.com/ar/hotels-home', { signal: controller.signal }),
+    error => error === controller.signal.reason);
   assert.equal(calls, 1);
 });
 
