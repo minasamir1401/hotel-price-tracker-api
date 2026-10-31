@@ -73,7 +73,7 @@ test('Inventory reuse rejects a different hotel, dates or occupancy, expires, an
   assert.ok(results.filterWarnings.length);
 });
 
-test('A failed date stays unverified on reuse, while partial catalogs are not cached as complete', async () => {
+test('A persistently failed date is retried on reuse and stays unverified; partial catalogs are not cached as complete', async () => {
   const calls = [], progress = [], inventoryStore = createRoomInventoryStore();
   const service = createHotelRoomsService({ resolveAlmosafer: async () => details, enigmaClient: async p => {
     calls.push(p.checkIn);
@@ -87,13 +87,82 @@ test('A failed date stays unverified on reuse, while partial catalogs are not ca
   assert.deepEqual(result.roomAvailability[0].availableDates, ['2027-02-01', '2027-02-03']);
   assert.ok(!progress.some(p => p.phase === 'repairing'), 'Discovery must not wait on a second monthly pass');
   assert.equal(progress.at(-1).phase, 'completed');
-  const scrape = createLiveScraper(async () => assert.fail('No repeated month lookup'), async () => assert.fail('Successful and repaired nights are reused'), { inventoryStore });
+  const repairs = [];
+  const scrape = createLiveScraper(async () => assert.fail('No repeated month lookup'), async (p, options) => {
+    repairs.push(p.checkIn);
+    assert.equal(options.freshSession, true);
+    throw new Error('Incomplete poll');
+  }, { inventoryStore });
   const reused = await scrape({ ...params, roomInventoryId: result.roomInventoryId });
   assert.equal(reused[0].dailyRates[1].availability, 'error');
   assert.match(reused[0].dailyRates[1].error, /Incomplete poll/);
   assert.equal(reused[0].dailyRates[1].roomOnlyPrice, null);
+  assert.deepEqual(repairs, ['2027-02-02']);
   await service(params);
   assert.equal(calls.length, 6, 'Each discovery fetches three nights without waiting on automatic retries');
+});
+
+test('A price search repairs only failed discovery dates and rebuilds prices, totals and newly discovered rooms', async () => {
+  const inventoryStore = createRoomInventoryStore(), progress = [], repairs = [];
+  const params = { ...input, checkOut: '2027-02-05', rooms: 2, children: 1, childAges: [7] };
+  const service = createHotelRoomsService({ resolveAlmosafer: async () => details, enigmaClient: async p => {
+    if (p.checkIn === '2027-02-02') throw new Error('Temporary network failure');
+    if (p.checkIn === '2027-02-04') return {};
+    return { classic: room('كلاسيك', p.checkIn, 100) };
+  }, inventoryStore });
+  const catalog = await service(params);
+  const scrape = createLiveScraper(async () => assert.fail('Hotel already resolved'), async (p, options) => {
+    repairs.push(p);
+    assert.equal(options.freshSession, true);
+    assert.equal(options.refresh, true);
+    assert.equal(options.maxAttempts, 1);
+    return { classic: room('كلاسيك', p.checkIn, 200), new: room('جديدة', p.checkIn, 300) };
+  }, { inventoryStore });
+  const results = await scrape({ ...params, roomInventoryId: catalog.roomInventoryId, onProgress: p => progress.push(p) });
+  assert.equal(repairs.length, 1);
+  assert.equal(repairs[0].checkIn, '2027-02-02'); assert.equal(repairs[0].checkOut, '2027-02-03');
+  assert.equal(repairs[0].hotelId, details.hotelId);
+  assert.deepEqual(repairs[0].roomsInfo, [{ adultsCount: 2, kidsAges: [7] }, { adultsCount: 2, kidsAges: [7] }]);
+  const classic = results.find(r => r.roomIdentity === 'classic');
+  assert.deepEqual(classic.dailyRates.map(d => d.roomOnlyPrice), [100, 200, 100, null]);
+  assert.deepEqual(classic.warnings, []);
+  assert.equal(classic.roomOnlyTotalPrice, null, 'The verified sold-out date must remain sold out');
+  assert.ok(results.some(r => r.roomName === 'جديدة'));
+  assert.equal(progress[0].phase, 'repairing'); assert.equal(progress[0].repairTotal, 1);
+  assert.equal(progress.at(-1).phase, 'completed'); assert.equal(progress.at(-1).unverifiedNights, 0);
+});
+
+test('Repair of reused quotes updates the full-stay total and keeps the successful package untouched', async () => {
+  const inventoryStore = createRoomInventoryStore();
+  const params = { ...input, checkOut: '2027-02-03' };
+  const service = createHotelRoomsService({ resolveAlmosafer: async () => details, enigmaClient: async p => {
+    if (p.checkIn === '2027-02-02') throw new Error('Incomplete poll');
+    return { classic: room('كلاسيك', p.checkIn, 100) };
+  }, inventoryStore });
+  const catalog = await service(params);
+  const scrape = createLiveScraper(async () => assert.fail('No repeated resolution'), async () => ({ classic: room('كلاسيك', '2027-02-02', 200) }), { inventoryStore });
+  const [result] = await scrape({ ...params, roomInventoryId: catalog.roomInventoryId });
+  assert.equal(result.roomOnlyTotalPrice, 300);
+  assert.equal(result.dailyRates[0].offers.roomOnly.packageId, 'كلاسيك-2027-02-01');
+  assert.equal(result.dailyRates[1].availability, 'available');
+  assert.deepEqual(result.warnings, []);
+});
+
+test('Refusals preserved in discovery context do not trigger automatic repair of a challenge', async () => {
+  const inventoryStore = createRoomInventoryStore();
+  const params = { ...input, checkOut: '2027-02-03' };
+  const service = createHotelRoomsService({ resolveAlmosafer: async () => details, enigmaClient: async p => {
+    if (p.checkIn === '2027-02-02') throw Object.assign(new Error('Source verification required'), {
+      stage: 'api', code: 'SCRAPINGANT_TARGET_DETECTED', responseKind: 'challenge', upstreamStatus: 423,
+    });
+    return { classic: room('كلاسيك', p.checkIn) };
+  }, inventoryStore });
+  const catalog = await service(params);
+  const scrape = createLiveScraper(async () => assert.fail('No repeated resolution'), async () => assert.fail('Do not retry a challenge'), { inventoryStore });
+  const [result] = await scrape({ ...params, roomInventoryId: catalog.roomInventoryId });
+  assert.equal(result.dailyRates[1].availability, 'error');
+  assert.equal(result.dailyRates[1].error, 'Source verification required');
+  assert.equal(result.dailyRates[1].roomOnlyPrice, null);
 });
 
 test('A direct price scan repairs a failed night once and reports a separate repair phase', async () => {

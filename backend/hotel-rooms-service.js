@@ -61,17 +61,37 @@ export function createHotelRoomsService({ resolveAlmosafer, enigmaClient, resolv
         // Use the same scan as the price table, so a later room is discoverable
         // and successful quotes can be reused by the following search.
         // Discovery returns its first pass promptly. Unverified dates are shown
-        // explicitly and can be retried from the daily table on demand.
-        const scan = createLiveScraper(async () => details, enigmaClient, { inventoryStore, repairFailedNights: false });
+        // explicitly; the price search repairs only retryable failed dates.
+        const quotes = {}, failures = {};
+        const scan = createLiveScraper(async () => details, async (payload, options) => {
+          try {
+            const value = await enigmaClient(payload, options);
+            quotes[payload.checkIn] = value;
+            return value;
+          } catch (error) {
+            // Preserve refusal metadata as plain data; structuredClone(Error)
+            // drops the custom fields needed to decide whether retry is safe.
+            failures[payload.checkIn] = { ...error, message: error.message };
+            throw error;
+          }
+        }, { inventoryStore, repairFailedNights: false });
         const inventory = await scan({ hotelInput, ...params, refresh: Boolean(body.refresh), onProgress: body.onProgress });
         for (const room of inventory) for (const day of room.dailyRates) {
           if (day.availability === 'available') addRoom(room.roomName, day.date);
         }
         const uniqueWarnings = new Map(inventory.flatMap(room => room.warnings || []).map(w => [w.date, w]));
         warnings.push(...uniqueWarnings.values());
-        // The next search keeps unverified nights and their errors too. It must
-        // not scrape successful dates again just because another date failed.
-        roomInventoryId = inventoryStore.put({ hotelInput, ...params }, inventory);
+        // Retain original day maps, including verified empty days. The price
+        // search can repair failed dates without repeating successful quotes or
+        // reconstructing room identity from same-name/alternative display rows.
+        for (const warning of warnings) {
+          // A fatal refusal may stop the scan before every date is attempted.
+          // Carry its metadata to skipped dates too, so reuse does not retry a
+          // challenge as though it were an ordinary network failure.
+          failures[warning.date] ||= Object.values(failures).find(error => error.message === warning.message)
+            || { message: warning.message };
+        }
+        roomInventoryId = inventoryStore.put({ hotelInput, ...params }, inventory, warnings.length ? { details, quotes, failures } : null);
       } else {
         details = source === 'almatar' ? await resolveAlmatar(hotelInput)
           : source === 'nusuk' ? await resolveNusuk(hotelInput, params)

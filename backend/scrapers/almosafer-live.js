@@ -33,14 +33,26 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
     if (!Number.isInteger(children) || children < 0 || !Array.isArray(childAges) || childAges.length !== children || childAges.some(age => !Number.isInteger(age) || age < 0 || age > 17)) throw new Error('يلزم تحديد أعمار الأطفال للحصول على سعر صحيح');
     const pairs = datePairs(checkIn, checkOut);
     const bedFilter=validateBedFilter(params);
-    const inventory = source === 'Almosafer' && params.roomInventoryId && inventoryStore.take(params.roomInventoryId, params);
-    if (inventory) {
+    const reused = source === 'Almosafer' && params.roomInventoryId && inventoryStore.take(params.roomInventoryId, params, { withContext: true });
+    const inventory = reused?.data;
+    const resume = inventory && repairFailedNights && reused.context && Object.keys(reused.context.failures || {}).length > 0;
+    if (inventory && !resume) {
       params.onProgress?.({ completed: pairs.length, total: pairs.length, percent: 100, source: sourceArabic });
       return filterRooms(inventory, bedFilter);
     }
-    const details = await resolveDetails(hotelInput, params);
+    const details = resume ? reused.context.details : await resolveDetails(hotelInput, params);
     if (!details.hotelId) throw new Error(`يرجى إدخال رابط الفندق من ${sourceArabic} لتحديد الفندق بدقة`);
     const maps = [], errors = [], failures = new Map();
+    if (resume) {
+      for (const dp of pairs) {
+        maps.push(reused.context.quotes[dp.date] ?? null);
+        const failure = reused.context.failures[dp.date];
+        if (failure) {
+          errors.push({ date: dp.date, message: failure.message });
+          failures.set(dp.date, Object.assign(new Error(failure.message), failure));
+        }
+      }
+    }
     let phase = 'collecting', repairTotal = 0, repairCompleted = 0;
     const fetchNight = async (dp, force, repair = false) => {
       try {
@@ -80,14 +92,14 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
         });
       }
     };
-    reportProgress(pairs[0]?.date);
+    if (!resume) reportProgress(pairs[0]?.date);
     const isAlmosafer = source === 'Almosafer';
     const connection = isAlmosafer ? almosaferConnection() : null;
     const isScrapingAnt = connection?.transport === 'scrapingant';
     const remoteBrowser = isAlmosafer && Boolean(connection?.browserEndpoint);
     const concurrency = connection?.concurrency || 8;
     let fatal;
-    await forEachNight(pairs, concurrency, async (dp, index) => {
+    if (!resume) await forEachNight(pairs, concurrency, async (dp, index) => {
       maps[index] = await fetchNight(dp, refresh);
       fatal ||= [...failures.values()].find(fatalInventoryError);
       reportProgress(dp.date);
