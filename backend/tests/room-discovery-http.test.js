@@ -6,7 +6,7 @@ test('The HTTP room catalog discovers later dates and the following price job re
   const nativeFetch = globalThis.fetch;
   const savedEnv = Object.fromEntries(['PORT', 'ALMOSAFER_HTTP_TRANSPORT', 'ALMOSAFER_API_TOKEN'].map(key => [key, process.env[key]]));
   const searches = new Map();
-  let server, starts = 0, polls = 0;
+  let server, starts = 0, polls = 0, recoverFirstNight = false;
   process.env.PORT = '0';
   process.env.ALMOSAFER_HTTP_TRANSPORT = 'native';
   process.env.ALMOSAFER_API_TOKEN = 'test-public-web-token';
@@ -24,7 +24,7 @@ test('The HTTP room catalog discovers later dates and the following price job re
     const date = String(url).split('/').at(-1), payload = searches.get(date);
     assert.ok(payload);
     polls++;
-    const name = date === '2027-02-01' ? 'غرفة كلاسيك' : 'غرفة ثلاثية';
+    const name = date === '2027-02-01' && !recoverFirstNight ? 'غرفة كلاسيك' : 'غرفة ثلاثية';
     return Response.json({ hotelId: payload.hotelId, currencyCode: 'SAR', numberOfNights: 1,
       pollingStatus: 'COMPLETED_SUCCESSFULLY', packagesGroups: [{ title: { ar: name }, packages: [{
         bookable: true, packageId: `real-quote-${date}`, packageRateInfo: { total: 159, currency: 'SAR' },
@@ -71,9 +71,25 @@ test('The HTTP room catalog discovers later dates and the following price job re
     assert.equal(selected.dailyRates[1].offers.roomOnly.packageId, 'real-quote-2027-02-02');
     assert.equal(selected.dailyRates.length, 31);
     assert.equal(starts, 31, 'Price job uses the same source quotes rather than scraping the month again');
+    assert.ok(state.result.retryInventoryId, 'The month snapshot survives JSON serialization');
+    recoverFirstNight = true;
+    const retryJob = await post('search-hotel-prices', { ...input, retryInventoryId: state.result.retryInventoryId,
+      retryRoomIdentity: selected.roomIdentity, roomName: selected.roomName });
+    const repaired = (await finish(retryJob.jobId)).result;
+    const recoveredRoom = repaired.data.find(r=>r.roomName==='غرفة ثلاثية');
+    assert.equal(recoveredRoom.roomOnlyAvailableNights,31);
+    assert.equal(recoveredRoom.roomOnlyTotalPrice,4929);
+    assert.equal(recoveredRoom.dailyRates[1].offers.roomOnly.packageId,'real-quote-2027-02-02');
+    assert.equal(starts,32,'Bulk recheck fetches only the missing first night');
+    assert.ok(repaired.retryInventoryId);
+    const singleJob=await post('search-hotel-prices',{...input,retryInventoryId:repaired.retryInventoryId,
+      retryDates:['2027-02-03'],retryRoomIdentity:recoveredRoom.roomIdentity});
+    const single=(await finish(singleJob.jobId)).result;
+    assert.equal(single.data[0].roomOnlyTotalPrice,4929);
+    assert.equal(starts,33,'A single-night retry keeps the original month and updates its snapshot');
     const invalid = await nativeFetch(`${api}/hotel-rooms-list`, { method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...input, checkOut: '2027-04-10' }) });
-    assert.equal(invalid.status, 400); assert.equal(starts, 31);
+    assert.equal(invalid.status, 400); assert.equal(starts, 33);
   } finally {
     globalThis.fetch = nativeFetch;
     for (const [key, value] of Object.entries(savedEnv)) if (value === undefined) delete process.env[key]; else process.env[key] = value;

@@ -24,7 +24,7 @@ export function datePairs(checkIn, checkOut) {
   return Array.from({length:nights}, (_, i) => ({ date: new Date(start + i * 86400000).toISOString().slice(0,10), nextDate: new Date(start + (i+1) * 86400000).toISOString().slice(0,10), day: new Date(start + i * 86400000).getUTCDay() }));
 }
 
-export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',sourceArabic='المسافر',bookingURL,allowSameNameFallback=true,allowAlternativeFallback=true,repairFailedNights=true,inventoryStore=roomInventoryStore}={}) {
+export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',sourceArabic='المسافر',bookingURL,allowSameNameFallback=true,allowAlternativeFallback=true,repairFailedNights=true,inventoryStore=roomInventoryStore,sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms))}={}) {
   return async function scrape(params) {
     const { hotelInput, checkIn, checkOut, roomNotes = '', refresh = false } = params;
     const adults = Number(params.adults ?? 2), rooms = Number(params.rooms ?? 1), children = Number(params.children ?? 0);
@@ -32,10 +32,17 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
     const childAges = params.childAges || [];
     if (!Number.isInteger(children) || children < 0 || !Array.isArray(childAges) || childAges.length !== children || childAges.some(age => !Number.isInteger(age) || age < 0 || age > 17)) throw new Error('يلزم تحديد أعمار الأطفال للحصول على سعر صحيح');
     const pairs = datePairs(checkIn, checkOut);
+    if (params.retryDates !== undefined && (!Array.isArray(params.retryDates) || !params.retryDates.length ||
+      params.retryDates.length > pairs.length || params.retryDates.some(date=>!pairs.some(dp=>dp.date===date)))) {
+      throw Object.assign(new Error('تواريخ إعادة التحقق يجب أن تكون ضمن فترة البحث الأصلية'), { status: 400 });
+    }
     const bedFilter=validateBedFilter(params);
-    const reused = source === 'Almosafer' && params.roomInventoryId && inventoryStore.take(params.roomInventoryId, params, { withContext: true });
+    const manualRetry = source === 'Almosafer' && Boolean(params.retryInventoryId);
+    const inventoryId = manualRetry ? params.retryInventoryId : params.roomInventoryId;
+    const reused = source === 'Almosafer' && inventoryId && inventoryStore.take(inventoryId, params, { withContext: true, consume: !manualRetry });
+    if (manualRetry && !reused?.context) throw Object.assign(new Error('انتهت صلاحية نتائج إعادة التحقق أو تغيرت بيانات البحث؛ حدّث كل الأسعار من المصدر'), { status: 409 });
     const inventory = reused?.data;
-    const resume = inventory && repairFailedNights && reused.context && Object.keys(reused.context.failures || {}).length > 0;
+    const resume = Boolean(reused?.context);
     if (inventory && !resume) {
       params.onProgress?.({ completed: pairs.length, total: pairs.length, percent: 100, source: sourceArabic });
       return filterRooms(inventory, bedFilter);
@@ -53,7 +60,7 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
         }
       }
     }
-    let phase = 'collecting', repairTotal = 0, repairCompleted = 0;
+    let phase = 'collecting', repairTotal = 0, repairCompleted = 0, repairRound = 0;
     const fetchNight = async (dp, force, repair = false) => {
       try {
         const value = await fetchDay({
@@ -88,7 +95,7 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
           currentDay: currentDate,
           percent,
           source: sourceArabic,
-          phase, repairCompleted, repairTotal, unverifiedNights: errors.length,
+          phase, repairCompleted, repairTotal, repairRound, unverifiedNights: errors.length,
         });
       }
     };
@@ -110,20 +117,33 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
       }
       reportProgress(pairs.at(-1).date);
     }
-    // Recheck failed nights with fresh searches; confirmed empty nights are final.
-    const repair = pairs.map((dp, i) => ({ dp, i })).filter(({ dp, i }) => {
-      if (!repairFailedNights) return false;
-      const failure=failures.get(dp.date);
-      if (failure?.responseKind === 'challenge' || failure?.stage === 'browser-connect' || [400,401,403,404].includes(failure?.upstreamStatus)) return false;
-      // Completed, validated empty inventory is final for every transport.
-      return maps[i] === null;
-    });
-    if (repair.length > 0) {
-      phase = 'repairing'; repairTotal = repair.length;
+    // Automatic rounds only retry unverified nights. A manual request can also
+    // recheck confirmed missing dates of the selected room, once, as availability
+    // may have changed. Keep every successful day's original source packages.
+    const canRetry = failure => !fatalInventoryError(failure) && failure?.responseKind !== 'challenge' &&
+      ![400,401,403,404].includes(failure?.upstreamStatus);
+    const retrySample = maps.find(map=>map?.[params.retryRoomIdentity])?.[params.retryRoomIdentity];
+    const rounds = isAlmosafer ? 3 : 1;
+    for (let round = 1; round <= rounds; round++) {
+      const repair = pairs.map((dp, i) => ({ dp, i })).filter(({ dp, i }) => {
+        if (!repairFailedNights) return false;
+        if (manualRetry && params.retryDates && !params.retryDates.includes(dp.date)) return false;
+        if (manualRetry && round === 1) {
+          const hasRoom = maps[i]?.[params.retryRoomIdentity] || (allowSameNameFallback && findSameNameRoom(maps[i],retrySample));
+          return Boolean(params.retryDates) || failures.has(dp.date) || Boolean(params.retryRoomIdentity && !hasRoom);
+        }
+        return failures.has(dp.date) && canRetry(failures.get(dp.date));
+      });
+      if (!repair.length) break;
+      repairRound = round;
+      phase = 'repairing'; repairTotal = repair.length; repairCompleted = 0;
       reportProgress(repair[0].dp.date);
+      if (repairRound > 1) await sleep(1000 * 2 ** (repairRound - 2));
       const REPAIR_BATCH = remoteBrowser ? 1 : (isScrapingAnt ? 2 : 4);
-      await forEachNight(repair, REPAIR_BATCH, async ({ dp, i }) => {
-        maps[i] = await fetchNight(dp, true, true);
+      await forEachNight(repair, Math.max(1, Math.floor(REPAIR_BATCH / 2 ** (repairRound - 1))), async ({ dp, i }) => {
+        const previous = maps[i];
+        const updated = await fetchNight(dp, true, true);
+        maps[i] = updated ?? previous;
         repairCompleted++;
         reportProgress(dp.date);
       });
@@ -200,7 +220,7 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
           nextDate:dp.nextDate,
           dayOfWeek:dayNames[dp.day],
           isWeekend:dp.day===5||dp.day===6,
-          availability:maps[i]===null?'error':room?'available':alt?'available_alternative':'unavailable',
+          availability:room?'available':failures.has(dp.date)?'error':alt?'available_alternative':'unavailable',
           error:errors.find(e=>e.date===dp.date)?.message || null,
           offers:room?.offers || alt?.offers || {},
           isAlternative:Boolean(!room && alt),
@@ -280,6 +300,15 @@ export function createLiveScraper(resolveDetails, fetchDay, {source='Almosafer',
 
     // Empty availability and connection failures must be distinguishable.
     if (!result.length && errors.length) throw failures.get(errors[0].date) || new Error(errors[0].message);
-    return filterRooms(result, bedFilter);
+    const filtered = filterRooms(result, bedFilter);
+    if (isAlmosafer && repairFailedNights) {
+      // Immutable, reusable snapshots let a later retry survive a failed request
+      // without silently falling back to scraping every successful night again.
+      filtered.retryInventoryId = inventoryStore.put(params, null, { details,
+        quotes: Object.fromEntries(pairs.map((dp,i)=>[dp.date,maps[i]])),
+        failures: Object.fromEntries([...failures].map(([date,error])=>[date,{...error,message:error.message}]))
+      }, { ttlMs: 1800000 });
+    }
+    return filtered;
   };
 }

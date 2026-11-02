@@ -91,13 +91,14 @@ export function buildComparison(searchParams, allRooms, warnings = []) {
 export async function executeHotelComparison(searchParams, engines={almosafer:scrapeAlmosafer,almatar:scrapeAlmatar,booking:scrapeBooking,nusuk:scrapeNusuk}) {
   const sources=searchParams.sources || ['almosafer'];
   const warnings=[];
+  let retryInventoryId;
   let allRooms=[];
   const selected=sources.filter(source=>engines[source]);
   if (!selected.length || selected.length !== sources.length) { const error = new Error('مصادر البحث غير صالحة'); error.status = 400; throw error; }
   const outcomes=await Promise.allSettled(selected.map(source=>engines[source](searchParams)));
   for(let i=0;i<outcomes.length;i++) {
     const outcome=outcomes[i];
-    if(outcome.status==='fulfilled'){recordSourceSuccess(selected[i]);allRooms.push(...outcome.value);warnings.push(...(outcome.value.filterWarnings || []));}
+    if(outcome.status==='fulfilled'){recordSourceSuccess(selected[i]);allRooms.push(...outcome.value);warnings.push(...(outcome.value.filterWarnings || []));if(selected[i]==='almosafer')retryInventoryId=outcome.value.retryInventoryId;}
     else { recordSourceFailure(selected[i], outcome.reason); warnings.push(`${({almatar:'المطار',almosafer:'المسافر',booking:'بوكينج',nusuk:'نسك'})[selected[i]] || selected[i]}: ${outcome.reason.message}`); }
   }
   if(outcomes.length&&outcomes.every(x=>x.status==='rejected')) { const error = outcomes[0].reason; error.message = warnings.join(' • '); throw error; }
@@ -105,6 +106,6 @@ export async function executeHotelComparison(searchParams, engines={almosafer:sc
     const text=`${warning.date}: ${warning.message}`;
     if(!warnings.includes(text)) warnings.push(text);
   }
-  return buildComparison(searchParams,allRooms,warnings);
+  return { ...buildComparison(searchParams,allRooms,warnings), ...(retryInventoryId ? { retryInventoryId } : {}) };
 }
 

@@ -51,7 +51,10 @@ test('Source coupon is already included: round finalPrice up once', () => {
 test('Incomplete packages with no polling session cannot be reported as verified prices', async () => {
   const payload = { ...details, ...params, roomsInfo: [{ adultsCount: 2, kidsAges: [] }] };
   const client = createAlmatarClient({ sleep: async () => {}, fetchImpl: async () => ({ ok: true, json: async () => ({ data: {
-    req: toAlmatarPayload(payload).req, searchRoomsResults: [], isSearchCompleted: false,
+    // Source replies use epoch seconds. Local parsing of the outgoing MM/DD
+    // strings shifts midnight to the previous UTC day on Windows in Cairo.
+    req: { ...toAlmatarPayload(payload).req, fd: Date.parse(`${payload.checkIn}T12:00:00Z`)/1000,
+      td: Date.parse(`${payload.checkOut}T12:00:00Z`)/1000 }, searchRoomsResults: [], isSearchCompleted: false,
   } }) }) });
   await assert.rejects(client(payload, { maxAttempts: 1 }), /لم يكتمل/);
 });

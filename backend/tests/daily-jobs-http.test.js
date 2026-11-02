@@ -18,8 +18,9 @@ test('The daily HTTP route acknowledges early, survives a lost response and reta
     await pendingSource;
     const quoted = structuredClone(fixture);
     const request = JSON.parse(options.body);
-    quoted.data.req.fd = request.req.fd;
-    quoted.data.req.td = request.req.td;
+    const epochDate = date => { const [month,day,year]=date.split('/');return Date.parse(`${year}-${month}-${day}T12:00:00Z`)/1000; };
+    quoted.data.req.fd = epochDate(request.req.fd);
+    quoted.data.req.td = epochDate(request.req.td);
     return Response.json(quoted);
   };
   try {

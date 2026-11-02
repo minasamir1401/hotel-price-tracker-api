@@ -11,6 +11,7 @@ import './booking-access.test.js';
 import './nusuk.test.js';
 import './connection.test.js';
 import './room-discovery.test.js';
+import './night-recovery.test.js';
 import './http-transport.test.js';
 import './remote-browser.test.js';
 import './search-jobs.test.js';

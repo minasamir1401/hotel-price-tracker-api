@@ -91,7 +91,7 @@ export function createHotelRoomsService({ resolveAlmosafer, enigmaClient, resolv
           failures[warning.date] ||= Object.values(failures).find(error => error.message === warning.message)
             || { message: warning.message };
         }
-        roomInventoryId = inventoryStore.put({ hotelInput, ...params }, inventory, warnings.length ? { details, quotes, failures } : null);
+        roomInventoryId = inventoryStore.put({ hotelInput, ...params }, inventory, { details, quotes, failures });
       } else {
         details = source === 'almatar' ? await resolveAlmatar(hotelInput)
           : source === 'nusuk' ? await resolveNusuk(hotelInput, params)

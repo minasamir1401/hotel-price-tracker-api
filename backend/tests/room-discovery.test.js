@@ -92,12 +92,12 @@ test('A persistently failed date is retried on reuse and stays unverified; parti
     repairs.push(p.checkIn);
     assert.equal(options.freshSession, true);
     throw new Error('Incomplete poll');
-  }, { inventoryStore });
+  }, { inventoryStore, sleep: async()=>{} });
   const reused = await scrape({ ...params, roomInventoryId: result.roomInventoryId });
   assert.equal(reused[0].dailyRates[1].availability, 'error');
   assert.match(reused[0].dailyRates[1].error, /Incomplete poll/);
   assert.equal(reused[0].dailyRates[1].roomOnlyPrice, null);
-  assert.deepEqual(repairs, ['2027-02-02']);
+  assert.deepEqual(repairs, ['2027-02-02','2027-02-02','2027-02-02']);
   await service(params);
   assert.equal(calls.length, 6, 'Each discovery fetches three nights without waiting on automatic retries');
 });
